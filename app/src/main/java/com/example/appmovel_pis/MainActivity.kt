@@ -30,22 +30,27 @@ class MainActivity : AppCompatActivity() {
             if (emailText.isEmpty() || passwordText.isEmpty()) {
                 Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
             } else {
-                Thread {
-                    val dbManager = BaseDadosManager()
-                    val utilizador = dbManager.getUtilizador(emailText, passwordText)
-
-                    runOnUiThread {
-                        if (utilizador != null) {
-                            // Login bem-sucedido
-                            Toast.makeText(this, "Login bem-sucedido! Bem-vindo, ${utilizador.nome}.", Toast.LENGTH_SHORT).show()
-                            // Navegue para outra Activity ou continue o fluxo do aplicativo
-                        } else {
-                            // Login falhou
-                            Toast.makeText(this, "Credenciais inválidas. Tente novamente.", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }.start()
+                autenticarUtilizador(emailText, passwordText)
             }
         }
+    }
+
+
+    private fun autenticarUtilizador(email: String, senha: String) {
+        val dbManager = BaseDadosManager()
+
+        // Use uma thread separada para evitar bloquear a UI
+        Thread {
+            val utilizador = dbManager.getUtilizador(email, senha)
+
+            runOnUiThread {
+                if (utilizador != null) {
+                    Toast.makeText(this, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
+                    // Aqui você pode navegar para outra atividade ou iniciar a sessão
+                } else {
+                    Toast.makeText(this, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.start()
     }
 }
