@@ -38,19 +38,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun autenticarUtilizador(email: String, senha: String) {
         val dbManager = BaseDadosManager()
+        val utilizador = dbManager.getUtilizador(email, senha)
 
-        // Use uma thread separada para evitar bloquear a UI
-        Thread {
-            val utilizador = dbManager.getUtilizador(email, senha)
-
-            runOnUiThread {
-                if (utilizador != null) {
-                    Toast.makeText(this, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
-                    // Aqui você pode navegar para outra atividade ou iniciar a sessão
-                } else {
-                    Toast.makeText(this, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
-                }
+        runOnUiThread {
+            if (utilizador != null) {
+                Toast.makeText(this, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
             }
-        }.start()
+        }
     }
 }

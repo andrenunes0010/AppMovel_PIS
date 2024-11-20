@@ -15,7 +15,7 @@ class BaseDadosManager  {
 
     fun getUtilizador(email: String, senha: String): Utilizador? {
         val utilizadores = mutableListOf<Utilizador>()
-        val query = "SELECT * FROM utilizador WHERE email = ? AND password = ?"
+        val query = "SELECT * FROM utilizador WHERE email = " + email + "AND password = " + senha
         val conexao = getConexao()
 
         try {
