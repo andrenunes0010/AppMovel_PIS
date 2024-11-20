@@ -19,20 +19,20 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-    }
-    val email = findViewById<EditText>(R.id.etEmail)
-    val password = findViewById<EditText>(R.id.etPassword)
-    val loginButton = findViewById<Button>(R.id.btnLogin)
+        val email = findViewById<EditText>(R.id.etEmail)
+        val password = findViewById<EditText>(R.id.etPassword)
+        val loginButton = findViewById<Button>(R.id.btnLogin)
 
-    loginButton.setOnClickListener {
-        val emailText = email.text.toString()
-        val passwordText = password.text.toString()
+        loginButton.setOnClickListener {
+            val emailText = email.text.toString()
+            val passwordText = password.text.toString()
 
-        if (emailText.isEmpty() || passwordText.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
-            autenticarUtilizador(email, password)
+            if (emailText.isEmpty() || passwordText.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show()
+                autenticarUtilizador(emailText, passwordText)
+            }
         }
     }
 
