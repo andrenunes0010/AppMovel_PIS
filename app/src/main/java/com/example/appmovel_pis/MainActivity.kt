@@ -1,5 +1,6 @@
 package com.example.appmovel_pis
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -8,6 +9,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +45,9 @@ class MainActivity : AppCompatActivity() {
 
         runOnUiThread {
             if (utilizador != null) {
+                val intent = Intent(this, teste::class.java)
                 Toast.makeText(this, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
             }
