@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun realizarLogin(email: String, senha: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            val authManager = AuthManager()
+            val authManager = BaseDadosManager()
             val utilizador = authManager.autenticar(email, senha)
 
             withContext(Dispatchers.Main) {

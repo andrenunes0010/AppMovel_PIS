@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://promac.servehttp.com:3000/" // Substitua pelo URL do seu servidor
+    private const val BASE_URL = ""
 
     val apiService: ApiService by lazy {
         Retrofit.Builder()

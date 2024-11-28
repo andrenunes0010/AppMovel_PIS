@@ -3,7 +3,7 @@ package com.example.appmovel_pis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AuthManager {
+class BaseDadosManager {
     suspend fun autenticar(email: String, senha: String): Utilizador? {
         return withContext(Dispatchers.IO) {
             try {
