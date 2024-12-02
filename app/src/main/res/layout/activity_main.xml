@@ -8,6 +8,7 @@
     android:background="@color/verde1"
     tools:context=".MainActivity">
 
+<<<<<<< Updated upstream
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -60,5 +61,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+=======
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Sylvanus Inc."
+    android:textSize="40dp"
+    android:textColor="@color/black"
+    android:marginTop="30dp"
+    android:textStyle="bold"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
+>>>>>>> Stashed changes
 
 </androidx.constraintlayout.widget.ConstraintLayout>
