@@ -11,6 +11,6 @@ data class LoginRequest(val email: String, val senha: String)
 data class LoginResponse(val id: Int, val nome: String, val email: String)
 
 interface ApiService {
-    @POST("login")
+    @POST("AppLogin")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 }
