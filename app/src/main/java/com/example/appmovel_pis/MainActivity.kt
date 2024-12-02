@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 if (utilizador != null) {
-                    Toast.makeText(this@MainActivity, "Bem-vindo, ${ utilizador.nome}!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.id} ${ utilizador.email}! ${ utilizador.nome}!", Toast.LENGTH_SHORT).show()
                     // Redirecione para outra tela
                 } else {
                     Toast.makeText(this@MainActivity, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
