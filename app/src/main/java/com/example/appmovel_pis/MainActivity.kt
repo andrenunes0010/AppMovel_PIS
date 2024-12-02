@@ -4,47 +4,45 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        val email = findViewById<EditText>(R.id.etEmail)
-        val password = findViewById<EditText>(R.id.etPassword)
+
+        val emailEditText = findViewById<EditText>(R.id.etEmail)
+        val passwordEditText = findViewById<EditText>(R.id.etPassword)
         val loginButton = findViewById<Button>(R.id.btnLogin)
 
         loginButton.setOnClickListener {
-            val emailText = email.text.toString()
-            val passwordText = password.text.toString()
+            val email = emailEditText.text.toString()
+            val senha = passwordEditText.text.toString()
 
-            if (emailText.isEmpty() || passwordText.isEmpty()) {
+            if (email.isEmpty() || senha.isEmpty()) {
                 Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
             } else {
-                autenticarUtilizador(emailText, passwordText)
+                realizarLogin(email, senha)
             }
         }
     }
 
+    private fun realizarLogin(email: String, senha: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val authManager = BaseDadosManager()
+            val utilizador = authManager.autenticar(email, senha)
 
-    private fun autenticarUtilizador(email: String, senha: String) {
-        val dbManager = BaseDadosManager()
-        val utilizador = dbManager.getUtilizador(email, senha)
-
-        runOnUiThread {
-            if (utilizador != null) {
-                Toast.makeText(this, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
+            withContext(Dispatchers.Main) {
+                if (utilizador != null) {
+                    Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
+                    // Redirecione para outra tela
+                } else {
+                    Toast.makeText(this@MainActivity, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

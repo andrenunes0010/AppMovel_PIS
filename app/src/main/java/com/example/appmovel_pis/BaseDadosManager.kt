@@ -1,45 +1,29 @@
 package com.example.appmovel_pis
 
-import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.ResultSet
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class BaseDadosManager  {
-    private val url = "jdbc:mysql://promac.servehttp.com:1111/ips"
-    private val user = "guga"
-    private val password = "RuNO9pCT"
-
-    private fun getConexao(): Connection {
-        return DriverManager.getConnection(url, user, password)
-    }
-
-    fun getUtilizador(email: String, senha: String): Utilizador? {
-        val utilizadores = mutableListOf<Utilizador>()
-        val query = "SELECT * FROM utilizador WHERE email = " + email + "AND password = " + senha
-        val conexao = getConexao()
-
-        try {
-            val statement = conexao.createStatement()
-            val resultSet: ResultSet = statement.executeQuery(query)
-
-            if (resultSet != null) {
-                val idUtilizador = resultSet.getInt("id")
-                val nomeUtilizador = resultSet.getString("nome")
-                val emailUtilizador = resultSet.getString("email")
-
-                val utilizador = Utilizador(idUtilizador, nomeUtilizador, emailUtilizador)
-                utilizadores.add(utilizador)
+class BaseDadosManager {
+    suspend fun autenticar(email: String, senha: String): Utilizador? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.apiService.login(LoginRequest(email, senha))
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
+                        Utilizador(body.id, body.nome, body.email)
+                    } else {
+                        null
+                    }
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
             }
         }
-        catch (e: Exception) {
-            e.printStackTrace()
-        }
-        finally {
-            conexao.close()
-        }
-        return null
     }
 }
 
-//Classe Utilizador
 data class Utilizador(val id: Int, val nome: String, val email: String)
