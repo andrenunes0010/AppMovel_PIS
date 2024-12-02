@@ -9,6 +9,7 @@ data class LoginRequest(val email: String, val senha: String)
 
 // Modelo para a resposta do login
 data class LoginResponse(val id: Int, val nome: String, val email: String)
+data class LoginErrorResponse(val message: String)
 
 interface ApiService {
     @POST("AppLogin")
