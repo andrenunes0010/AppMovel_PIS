@@ -68,7 +68,6 @@
     android:text="Sylvanus Inc."
     android:textSize="40dp"
     android:textColor="@color/black"
-    android:marginTop="30dp"
     android:textStyle="bold"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
