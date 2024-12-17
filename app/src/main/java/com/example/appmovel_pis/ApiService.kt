@@ -12,6 +12,6 @@ data class LoginResponse(val id: Int, val nome: String, val email: String)
 data class LoginErrorResponse(val message: String)
 
 interface ApiService {
-    @POST("AppLogin")
+    @POST("/api/v1/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 }

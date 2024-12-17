@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun realizarLogin(email: String, senha: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            val authManager = BaseDadosManager()
+            val authManager = BaseDadosManager(this@MainActivity)
             val utilizador = authManager.autenticar(email, senha)
 
             withContext(Dispatchers.Main) {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.id} ${ utilizador.email}! ${ utilizador.nome}!", Toast.LENGTH_SHORT).show()
                     // Redirecione para outra tela
                 } else {
-                    Toast.makeText(this@MainActivity, "Credenciais inválidas!", Toast.LENGTH_SHORT).show()
+                    null
                 }
             }
         }
