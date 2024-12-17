@@ -13,20 +13,20 @@
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:gravity="center"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-        <View
-            android:id="@+id/progress_background"
-            android:layout_width="50dp"
-            android:layout_height="8dp"
-            android:background="@drawable/rounded_view_black" />
-
-
-        <View
-            android:id="@+id/progress_foreground"
-            android:layout_width="25dp"
-            android:layout_height="8dp"
-            android:background="@drawable/rounded_view_grey" />
+        <SeekBar
+            android:id="@+id/sliding_bar"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/rounded_view_black"
+            android:thumb="@drawable/rounded_view_black"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginBottom="32dp" />
 
     </LinearLayout>
 
@@ -47,7 +47,7 @@
         android:textSize="30dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:fontFamily=""
+        android:fontFamily="@font/poppins_medium"
         android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
