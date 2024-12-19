@@ -17,19 +17,19 @@
         android:theme="@style/Theme.AppMovel_PIS"
         tools:targetApi="31">
         <activity
-            android:name=".SensorInfoPage"
+            android:name=".ui.sensors.SensorInfoPage"
             android:exported="false" />
         <activity
-            android:name=".SensorsPage"
+            android:name=".ui.sensors.SensorsPage"
             android:exported="false" />
         <activity
-            android:name=".MenuPage"
+            android:name=".ui.menu.MenuPage"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomePage"
+            android:name=".ui.main.WelcomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

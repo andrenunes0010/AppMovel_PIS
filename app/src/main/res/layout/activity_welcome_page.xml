@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomePage">
+    tools:context=".ui.main.WelcomePage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +22,8 @@
             android:id="@+id/sliding_bar"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/rounded_view_black"
-            android:thumb="@drawable/rounded_view_black"
+            android:progressDrawable="@drawable/rounded_button_verde3"
+            android:thumb="@drawable/rounded_button_verde3"
             android:max="100"
             android:progress="0"
             android:layout_marginBottom="32dp" />

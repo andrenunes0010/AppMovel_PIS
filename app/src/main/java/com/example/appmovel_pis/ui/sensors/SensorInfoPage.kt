@@ -1,10 +1,11 @@
-package com.example.appmovel_pis
+package com.example.appmovel_pis.ui.sensors
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.appmovel_pis.R
 
 class SensorInfoPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

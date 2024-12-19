@@ -1,5 +1,7 @@
-package com.example.appmovel_pis
+package com.example.appmovel_pis.data.network
 
+import com.example.appmovel_pis.data.model.ApiResponse
+import com.example.appmovel_pis.data.model.UserData
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -13,5 +15,5 @@ data class LoginErrorResponse(val message: String)
 
 interface ApiService {
     @POST("/api/v1/login")
-    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+    suspend fun login(@Body request: LoginRequest): Response<ApiResponse<UserData>>
 }

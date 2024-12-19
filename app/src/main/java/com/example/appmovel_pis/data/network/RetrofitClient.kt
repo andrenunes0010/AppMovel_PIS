@@ -1,10 +1,11 @@
-package com.example.appmovel_pis
+package com.example.appmovel_pis.data.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.139.151:3333"
+    private const val BASE_URL = "https://api.sylvanus.website"
+    //private const val BASE_URL = "http://192.168.139.151:5000"
 
     val apiService: ApiService by lazy {
         Retrofit.Builder()

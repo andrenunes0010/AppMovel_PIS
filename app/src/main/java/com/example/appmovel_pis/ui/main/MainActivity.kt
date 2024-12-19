@@ -1,10 +1,12 @@
-package com.example.appmovel_pis
+package com.example.appmovel_pis.ui.main
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.appmovel_pis.R
+import com.example.appmovel_pis.repository.BaseDadosManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
