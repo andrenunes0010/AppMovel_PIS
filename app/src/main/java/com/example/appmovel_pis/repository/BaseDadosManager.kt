@@ -2,13 +2,14 @@ package com.example.appmovel_pis.repository
 
 import android.content.Context
 import android.widget.Toast
+import com.example.appmovel_pis.data.model.UserData
 import com.example.appmovel_pis.data.network.LoginRequest
 import com.example.appmovel_pis.data.network.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class BaseDadosManager(private var context: Context) {
-    suspend fun autenticar(email: String, senha: String): Utilizador? {
+    suspend fun autenticar(email: String, senha: String): UserData? {
         return withContext(Dispatchers.IO) {
             try {
                 val response = RetrofitClient.apiService.login(LoginRequest(email, senha))
@@ -18,7 +19,7 @@ class BaseDadosManager(private var context: Context) {
                         // Login bem-sucedido
                         val data = apiResponse.data
                         if (data != null) {
-                            Utilizador(data.id, data.nome, data.email)
+                            UserData(data.id, data.nome, data.email, data.token)
                         } else {
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(context, "Erro: dados ausentes na resposta.", Toast.LENGTH_SHORT).show()
@@ -56,7 +57,3 @@ class BaseDadosManager(private var context: Context) {
         }
     }
 }
-
-
-// Classe para representar o usuário
-data class Utilizador(val id: Int, val nome: String, val email: String)

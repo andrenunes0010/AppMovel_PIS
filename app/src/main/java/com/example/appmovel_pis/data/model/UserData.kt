@@ -4,5 +4,6 @@ package com.example.appmovel_pis.data.model
 data class UserData(
     val id: Int,
     val nome: String,
-    val email: String
+    val email: String,
+    val token: String
 )

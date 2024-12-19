@@ -1,5 +1,6 @@
 package com.example.appmovel_pis.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.repository.BaseDadosManager
+import com.example.appmovel_pis.ui.menu.MenuPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,8 +42,9 @@ class MainActivity : AppCompatActivity() {
 
             withContext(Dispatchers.Main) {
                 if (utilizador != null) {
-                    Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.id} ${ utilizador.email}! ${ utilizador.nome}!", Toast.LENGTH_SHORT).show()
-                    // Redirecione para outra tela
+                    Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@MainActivity, MenuPage::class.java)
+                    startActivity(intent)
                 } else {
                     null
                 }
