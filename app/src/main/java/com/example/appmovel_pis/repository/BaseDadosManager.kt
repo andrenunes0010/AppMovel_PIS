@@ -32,9 +32,17 @@ class BaseDadosManager(private var context: Context) {
                         null
                     }
                 } else {
-                    val errorBody = response.errorBody()?.string()
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "Erro no servidor: $errorBody", Toast.LENGTH_SHORT).show()
+                    // Aqui lidamos com o erro HTTP 401
+                    if (response.code() == 401) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Credenciais inválidas. Por favor, tente novamente.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        // Outros erros do servidor
+                        val errorBody = response.errorBody()?.string()
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Erro no servidor: $errorBody", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     null
                 }
@@ -48,6 +56,7 @@ class BaseDadosManager(private var context: Context) {
         }
     }
 }
+
 
 // Classe para representar o usuário
 data class Utilizador(val id: Int, val nome: String, val email: String)
