@@ -71,6 +71,7 @@
 
         <!-- First Button: Sensores -->
         <LinearLayout
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="16dp"
@@ -97,6 +98,7 @@
 
         <!-- Second Button: Manual de Uso -->
         <LinearLayout
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="16dp"
@@ -123,6 +125,7 @@
 
         <!-- Third Button: Definições -->
         <LinearLayout
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="16dp"
@@ -149,6 +152,7 @@
 
         <!-- Fourth Button: Sistema -->
         <LinearLayout
+            android:clickable="true"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_margin="16dp"
@@ -157,6 +161,7 @@
             android:gravity="center">
 
             <ImageView
+                android:clickable="true"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_system"
@@ -199,6 +204,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
+            android:clickable="true"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginEnd="30dp"
@@ -207,6 +213,7 @@
             android:contentDescription="Home" />
 
         <ImageView
+            android:clickable="true"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_icons"
@@ -216,6 +223,7 @@
             android:contentDescription="Grid" />
 
         <ImageView
+            android:clickable="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/ic_profile"
@@ -225,6 +233,7 @@
             android:contentDescription="User" />
 
         <ImageView
+            android:clickable="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/ic_help"
