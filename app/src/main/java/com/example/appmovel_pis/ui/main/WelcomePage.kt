@@ -2,7 +2,6 @@ package com.example.appmovel_pis.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,14 +24,12 @@ class WelcomePage : AppCompatActivity() {
 
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
 
-
         windowInsetsController.isAppearanceLightStatusBars = true
         windowInsetsController.isAppearanceLightNavigationBars = true
 
         // Set the desired background color for the system bars
         window.statusBarColor = ContextCompat.getColor(this, R.color.white)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.black)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.verde3)
 
         val getStartedButton = findViewById<Button>(R.id.GetStartedBtn)
         getStartedButton.setOnClickListener {
