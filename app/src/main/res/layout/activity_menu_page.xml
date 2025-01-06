@@ -45,148 +45,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Image Section -->
-    <ImageView
-        android:id="@+id/headerImage"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/menuFragmentContainer"
         android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:scaleType="centerCrop"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/headerDivider"
+        app:layout_constraintBottom_toTopOf="@id/footerDivider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Grid of Buttons -->
-    <GridLayout
-
-        android:id="@+id/gridLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/headerImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- First Button: Sensores -->
-        <LinearLayout
-            android:clickable="true"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_button_verde3"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_sensor"
-                android:contentDescription="Sensors" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sensores"
-                android:textSize="17dp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <!-- Second Button: Manual de Uso -->
-        <LinearLayout
-            android:clickable="true"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_button_verde3"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_manual"
-                android:contentDescription="Manual de Uso" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Manual"
-                android:textSize="17dp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <!-- Third Button: Definições -->
-        <LinearLayout
-            android:clickable="true"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_button_verde3"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_settings"
-                android:contentDescription="Definições" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Definições"
-                android:textSize="17dp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <!-- Fourth Button: Sistema -->
-        <LinearLayout
-            android:clickable="true"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_button_verde3"
-            android:gravity="center">
-
-            <ImageView
-                android:clickable="true"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_system"
-                android:contentDescription="Sistema" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sistema"
-                android:textSize="17dp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:gravity="center" />
-        </LinearLayout>
-
-    </GridLayout>
+        android:layout_marginBottom="16dp" />
 
     <View
         android:id="@+id/footerDivider"
         android:layout_width="0dp"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         android:background="@color/black"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -205,14 +80,15 @@
 
         <ImageView
             android:clickable="true"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="5dp"
-            android:src="@drawable/ic_home"
+            android:src="@drawable/ic_leave"
             android:contentDescription="Home" />
 
         <ImageView
+            android:id="@+id/iconMenubtn"
             android:clickable="true"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -236,7 +112,7 @@
             android:clickable="true"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ic_help"
+            android:src="@drawable/ic_system"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="5dp"
             android:contentDescription="Menu" />
