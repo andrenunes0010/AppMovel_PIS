@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.btnLogin)
 
         loginButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, MenuPage::class.java)
+            startActivity(intent)
             val email = emailEditText.text.toString()
             val senha = passwordEditText.text.toString()
 

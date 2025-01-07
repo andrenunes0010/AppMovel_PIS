@@ -13,7 +13,6 @@
         android:layout_width="0dp"
         android:layout_height="140dp"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toBottomOf="@id/headerDivider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>

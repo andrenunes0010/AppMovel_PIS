@@ -15,20 +15,16 @@ class MenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_menu, container, false)
-
-        // Reference the ImageView for Sensores
-        val sensoresImageView = view.findViewById<ImageView>(R.id.SensoresBTN)
-
-        // Set the click listener
-        sensoresImageView.setOnClickListener {
-            // Replace with SensoresFragment
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.menuFragmentContainer, SensorFragment())
-            transaction.addToBackStack(null) // Allow back navigation
-            transaction.commit()
-        }
-
-        return view
+        return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 }
+//<androidx.fragment.app.FragmentContainerView
+//        android:id="@+id/menuFragmentContainer"
+//        android:layout_width="0dp"
+//        android:layout_height="wrap_content"
+//        app:layout_constraintTop_toBottomOf="@id/headerDivider"
+//        app:layout_constraintBottom_toTopOf="@id/footerDivider"
+//        app:layout_constraintStart_toStartOf="parent"
+//        app:layout_constraintEnd_toEndOf="parent"
+//        android:layout_marginTop="16dp"
+//        android:layout_marginBottom="16dp" />
