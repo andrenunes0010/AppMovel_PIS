@@ -2,11 +2,14 @@ package com.example.appmovel_pis.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmovel_pis.R
+import com.example.appmovel_pis.data.network.LoginRequest
+import com.example.appmovel_pis.data.network.RetrofitClient
 import com.example.appmovel_pis.repository.BaseDadosManager
 import com.example.appmovel_pis.ui.menu.MenuPage
 import kotlinx.coroutines.CoroutineScope
@@ -24,8 +27,6 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.btnLogin)
 
         loginButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, MenuPage::class.java)
-            startActivity(intent)
             val email = emailEditText.text.toString()
             val senha = passwordEditText.text.toString()
 

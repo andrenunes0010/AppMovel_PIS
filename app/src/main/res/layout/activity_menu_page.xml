@@ -46,89 +46,16 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Drone Content Section -->
-    <ScrollView
-        android:id="@+id/droneScrollView"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/menuFragmentContainer"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/headerDivider"
         app:layout_constraintBottom_toTopOf="@id/footerDivider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Drone Header -->
-            <TextView
-                android:id="@+id/droneHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sensor Sylvanus"
-                android:textColor="@android:color/black"
-                android:textSize="22sp"
-                android:fontFamily="@font/poppins_medium"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Drone Image -->
-            <ImageView
-                android:id="@+id/droneImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/forest"
-                android:scaleType="centerCrop" />
-
-            <!-- Drone Title -->
-            <TextView
-                android:id="@+id/droneTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fauget T40X"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp" />
-
-            <!-- Drone Description -->
-            <TextView
-                android:id="@+id/droneDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:layout_marginTop="8dp" />
-
-            <!-- Thumbnails -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="16dp">
-
-                <ImageView
-                    android:id="@+id/thumbImage1"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/teste2"
-                    android:scaleType="centerCrop"
-                    android:layout_marginEnd="60dp" />
-
-                <ImageView
-                    android:id="@+id/thumbImage2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/teste3"
-                    android:scaleType="centerCrop" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
     <!-- Footer Divider -->
     <View

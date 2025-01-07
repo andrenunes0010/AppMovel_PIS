@@ -18,13 +18,3 @@ class MenuFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 }
-//<androidx.fragment.app.FragmentContainerView
-//        android:id="@+id/menuFragmentContainer"
-//        android:layout_width="0dp"
-//        android:layout_height="wrap_content"
-//        app:layout_constraintTop_toBottomOf="@id/headerDivider"
-//        app:layout_constraintBottom_toTopOf="@id/footerDivider"
-//        app:layout_constraintStart_toStartOf="parent"
-//        app:layout_constraintEnd_toEndOf="parent"
-//        android:layout_marginTop="16dp"
-//        android:layout_marginBottom="16dp" />

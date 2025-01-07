@@ -7,8 +7,11 @@ import com.example.appmovel_pis.data.network.LoginRequest
 import com.example.appmovel_pis.data.network.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import android.util.Log
 
 class BaseDadosManager(private var context: Context) {
+
+    // Função para autenticar o usuário
     suspend fun autenticar(email: String, senha: String): UserData? {
         return withContext(Dispatchers.IO) {
             try {
@@ -19,6 +22,7 @@ class BaseDadosManager(private var context: Context) {
                         // Login bem-sucedido
                         val data = apiResponse.data
                         if (data != null) {
+                            Log.d("BaseDadosManager", "Token: ${data.token}")
                             UserData(data.id, data.nome, data.email, data.token)
                         } else {
                             withContext(Dispatchers.Main) {
@@ -56,4 +60,5 @@ class BaseDadosManager(private var context: Context) {
             }
         }
     }
+
 }
