@@ -9,7 +9,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.fragments.MenuFragment
+import com.example.appmovel_pis.ui.fragments.ProfileFragment
 import com.example.appmovel_pis.ui.fragments.SensorFragment
+import com.example.appmovel_pis.ui.fragments.SystemFragment
 import com.example.appmovel_pis.ui.main.MainActivity
 
 class MenuPage : AppCompatActivity() {
@@ -41,7 +43,7 @@ class MenuPage : AppCompatActivity() {
 
         iconProfileImageView.setOnClickListener {
             // Load the ProfileFragment
-            val profileFragment = MenuFragment()
+            val profileFragment = ProfileFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.menuFragmentContainer, profileFragment) // Replace the container with MenuFragment
                 .addToBackStack(null) // Add to back stack for navigation
@@ -50,7 +52,7 @@ class MenuPage : AppCompatActivity() {
 
         iconSystemImageView.setOnClickListener {
             // Load the SystemFragment
-            val systemFragment = MenuFragment()
+            val systemFragment = SystemFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.menuFragmentContainer, systemFragment) // Replace the container with MenuFragment
                 .addToBackStack(null) // Add to back stack for navigation
