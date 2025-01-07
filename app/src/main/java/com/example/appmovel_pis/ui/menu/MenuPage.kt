@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.ui.fragments.MenuFragment
+import com.example.appmovel_pis.ui.fragments.InformationFragment
+import com.example.appmovel_pis.ui.fragments.InstallFragment
 import com.example.appmovel_pis.ui.fragments.ProfileFragment
 import com.example.appmovel_pis.ui.fragments.SensorFragment
-import com.example.appmovel_pis.ui.fragments.SystemFragment
 import com.example.appmovel_pis.ui.main.MainActivity
 
 class MenuPage : AppCompatActivity() {
@@ -20,25 +20,35 @@ class MenuPage : AppCompatActivity() {
         setContentView(R.layout.activity_menu_page)
 
         // Get a reference to the ImageView
-        val iconMenuImageView = findViewById<ImageView>(R.id.iconMenubtn)
-        val iconLogOutImageView = findViewById<ImageView>(R.id.iconLogOutbtn)
+        val iconSensorImageView = findViewById<ImageView>(R.id.iconSensorbtn)
+        val iconInstallImageView = findViewById<ImageView>(R.id.iconMenubtn)
         val iconProfileImageView = findViewById<ImageView>(R.id.iconProfilebtn)
-        val iconSystemImageView = findViewById<ImageView>(R.id.iconSystembtn)
+        val iconInformationImageView = findViewById<ImageView>(R.id.iconSystembtn)
 
-        // Set a click listener
-        iconMenuImageView.setOnClickListener {
-            // Load the MenuFragment
-            val menuFragment = MenuFragment()
+        // Check if the fragment is already added (e.g., after a configuration change)
+        if (savedInstanceState == null) {
+            val sensorFragment = SensorFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, menuFragment) // Replace the container with MenuFragment
+                .replace(R.id.menuFragmentContainer, sensorFragment) // Use replace or add
+                .commit()
+        }
+
+        iconSensorImageView.setOnClickListener {
+            // Load the SensorFragment
+            val sensorFragment = SensorFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.menuFragmentContainer, sensorFragment) // Replace the container with SensorFragment
                 .addToBackStack(null) // Add to back stack for navigation
                 .commit()
         }
 
-        iconLogOutImageView.setOnClickListener {
-            // Log Out
-            val intent = Intent(this@MenuPage, MainActivity::class.java)
-            startActivity(intent)
+        iconInstallImageView.setOnClickListener {
+            // Load the InstallFragment
+            val installFragment = InstallFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.menuFragmentContainer, installFragment) // Replace the container with MenuFragment
+                .addToBackStack(null) // Add to back stack for navigation
+                .commit()
         }
 
         iconProfileImageView.setOnClickListener {
@@ -50,11 +60,11 @@ class MenuPage : AppCompatActivity() {
                 .commit()
         }
 
-        iconSystemImageView.setOnClickListener {
-            // Load the SystemFragment
-            val systemFragment = SystemFragment()
+        iconInformationImageView.setOnClickListener {
+            // Load the InfoFragment
+            val informationFragment = InformationFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, systemFragment) // Replace the container with MenuFragment
+                .replace(R.id.menuFragmentContainer, informationFragment) // Replace the container with MenuFragment
                 .addToBackStack(null) // Add to back stack for navigation
                 .commit()
         }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-    <shape xmlns:android="http://schemas.android.com/apk/res/android">
-        <size android:width="16dp" android:height="16dp" />
-        <solid android:color="#1A5319" /> <!-- Thumb color (verde3) -->
-        <corners android:radius="8dp" />
-    </shape>

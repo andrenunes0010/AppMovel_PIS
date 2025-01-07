@@ -57,7 +57,7 @@
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:layout_marginTop="50dp"
-        android:backgroundTint="@color/verde3"
+        android:backgroundTint="@color/green_background"
         app:layout_constraintTop_toBottomOf="@+id/appName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/DescriptionText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/verde3"/>
+        app:tint="@color/green_background"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
