@@ -2,21 +2,17 @@ package com.example.appmovel_pis.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.data.network.LoginRequest
-import com.example.appmovel_pis.data.network.RetrofitClient
 import com.example.appmovel_pis.repository.BaseDadosManager
 import com.example.appmovel_pis.ui.menu.MenuPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.example.appmovel_pis.data.model.UserData
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -30,7 +30,6 @@ class BaseDadosManager(private var context: Context) {
                             if (encryptionUtils.validateToken(token)) {
                                 val payload = encryptionUtils.extractPayload(token)
                                 val userTipo = payload["tipo"]
-                                Log.d("BaseDadosManager", "Tipo do usuário: $payload")
 
                                 // Retorna os dados do usuário
                                 return@withContext UserData(data.id, data.nome, data.email, token, tipo = userTipo ?: "Desconhecido")
