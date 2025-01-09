@@ -47,6 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Logo -->
+    <!--esta contraint esta a dar erro - app:layout_constraintMarginTop="80dp"-->
     <LinearLayout
         android:id="@+id/logo_container"
         android:layout_width="wrap_content"
@@ -56,8 +57,7 @@
         android:layout_marginTop="50dp"
         app:layout_constraintTop_toBottomOf="@id/headerDivider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="80dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:layout_width="100dp"
@@ -77,6 +77,7 @@
     </LinearLayout>
 
     <!-- Email field -->
+    <!--esta contraint esta a dar erro - app:layout_constraintMarginTop="32dp"-->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="0dp"
@@ -93,10 +94,10 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintTop_toBottomOf="@id/logo_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="32dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Password field -->
+    <!--esta contraint esta a dar erro - app:layout_constraintMarginTop="16dp" -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="0dp"
@@ -113,10 +114,10 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintTop_toBottomOf="@id/etEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Sign-in button -->
+    <!--esta contraint esta a dar erro - app:layout_constraintMarginTop="32dp"-->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
@@ -131,10 +132,10 @@
         android:layout_marginStart="100dp"
         app:layout_constraintTop_toBottomOf="@id/etPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="32dp" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Forgot password -->
+    <!--esta contraint esta a dar erro - app:layout_constraintMarginTop="16dp"-->
     <TextView
         android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
@@ -147,6 +148,5 @@
         app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintMarginTop="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
