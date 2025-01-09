@@ -5,11 +5,15 @@ import android.widget.Toast
 import com.example.appmovel_pis.data.model.UserData
 import com.example.appmovel_pis.data.network.LoginRequest
 import com.example.appmovel_pis.data.network.RetrofitClient
+import com.example.appmovel_pis.utils.EncryptionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.util.Log
 
 class BaseDadosManager(private var context: Context) {
+
+    // Chave secreta usada para validar o token (a mesma do servidor)
+    private val encryptionUtils = EncryptionUtils("sua_chave_secreta")
 
     // Função para autenticar o usuário
     suspend fun autenticar(email: String, senha: String): UserData? {
@@ -23,7 +27,25 @@ class BaseDadosManager(private var context: Context) {
                         val data = apiResponse.data
                         if (data != null) {
                             Log.d("BaseDadosManager", "Token: ${data.token}")
-                            UserData(data.id, data.nome, data.email, data.token)
+
+                            // Validação e decodificação do token
+                            val validToken = encryptionUtils.validateToken(data.token)
+                            if (validToken != null) {
+                                val payload = encryptionUtils.extractPayload(data.token)
+
+                                // Você pode usar os dados do payload conforme necessário
+                                val userId = payload["userId"]
+                                val role = payload["role"]
+                                Log.d("BaseDadosManager", "UserId: $userId, Role: $role")
+
+                                // Retornar os dados do usuário
+                                UserData(data.id, data.nome, data.email, data.token)
+                            } else {
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(context, "Token inválido ou expirado.", Toast.LENGTH_SHORT).show()
+                                }
+                                null
+                            }
                         } else {
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(context, "Erro: dados ausentes na resposta.", Toast.LENGTH_SHORT).show()
@@ -60,5 +82,4 @@ class BaseDadosManager(private var context: Context) {
             }
         }
     }
-
 }

@@ -1,30 +1,38 @@
 package com.example.appmovel_pis.utils
 
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.security.Keys
-class EncryptionUtils() {
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.interfaces.DecodedJWT
+import com.auth0.jwt.interfaces.JWTVerifier
 
-    fun desencriptarToken() {
-        val token = "seu_token_jwt_aqui"
-        val secretKey = "minha_chave_secreta"
+class EncryptionUtils(private val secret: String) {
 
-        try {
-            // Converter a chave secreta para bytes
-            val keyBytes = secretKey.toByteArray()
-            val key = Keys.hmacShaKeyFor(keyBytes)
+    // Decodifica o token JWT sem validar a assinatura
+    fun decodeToken(token: String): DecodedJWT {
+        return JWT.decode(token)
+    }
 
-            // Verificar e desencriptar o token
-            val claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .body
-
-            println("ID do Usuário: ${claims["userId"]}")
-            println("Role: ${claims["role"]}")
-            println("Token Expira em: ${claims.expiration}")
+    // Valida a assinatura do token JWT
+    fun validateToken(token: String): DecodedJWT? {
+        return try {
+            val algorithm = Algorithm.HMAC256(secret)
+            val verifier: JWTVerifier = JWT.require(algorithm).build()
+            verifier.verify(token) // Lança uma exceção se o token for inválido
         } catch (e: Exception) {
-            println("Token inválido ou erro ao verificar: ${e.message}")
+            e.printStackTrace()
+            null // Retorna null se o token for inválido ou a assinatura estiver incorreta
         }
+    }
+
+    // Extrai dados do payload do token
+    fun extractPayload(token: String): Map<String, String> {
+        val decodedJWT = decodeToken(token)
+        val claims = mutableMapOf<String, String>()
+
+        decodedJWT.claims.forEach { (key, value) ->
+            claims[key] = value.asString()
+        }
+
+        return claims
     }
 }
