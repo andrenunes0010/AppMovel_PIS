@@ -12,10 +12,8 @@ import android.util.Log
 
 class BaseDadosManager(private var context: Context) {
 
-    // Chave secreta usada para validar o token (a mesma do servidor)
-    private val encryptionUtils = EncryptionUtils("sua_chave_secreta")
+    private val encryptionUtils = EncryptionUtils("jwt_secret")
 
-    // Função para autenticar o usuário
     suspend fun autenticar(email: String, senha: String): UserData? {
         return withContext(Dispatchers.IO) {
             try {
@@ -23,23 +21,19 @@ class BaseDadosManager(private var context: Context) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if (apiResponse != null && apiResponse.success) {
-                        // Login bem-sucedido
                         val data = apiResponse.data
                         if (data != null) {
-                            Log.d("BaseDadosManager", "Token: ${data.token}")
+                            val token = data.token
+                            Log.d("BaseDadosManager", "Token recebido: $token")
 
-                            // Validação e decodificação do token
-                            val validToken = encryptionUtils.validateToken(data.token)
-                            if (validToken != null) {
-                                val payload = encryptionUtils.extractPayload(data.token)
+                            // Valida o token
+                            if (encryptionUtils.validateToken(token)) {
+                                val payload = encryptionUtils.extractPayload(token)
+                                val userTipo = payload["tipo"]
+                                Log.d("BaseDadosManager", "Tipo do usuário: $payload")
 
-                                // Você pode usar os dados do payload conforme necessário
-                                val userId = payload["userId"]
-                                val role = payload["role"]
-                                Log.d("BaseDadosManager", "UserId: $userId, Role: $role")
-
-                                // Retornar os dados do usuário
-                                UserData(data.id, data.nome, data.email, data.token)
+                                // Retorna os dados do usuário
+                                return@withContext UserData(data.id, data.nome, data.email, token, tipo = userTipo ?: "Desconhecido")
                             } else {
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(context, "Token inválido ou expirado.", Toast.LENGTH_SHORT).show()
@@ -48,7 +42,7 @@ class BaseDadosManager(private var context: Context) {
                             }
                         } else {
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(context, "Erro: dados ausentes na resposta.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Erro: Dados ausentes na resposta.", Toast.LENGTH_SHORT).show()
                             }
                             null
                         }
@@ -59,17 +53,13 @@ class BaseDadosManager(private var context: Context) {
                         null
                     }
                 } else {
-                    // Aqui lidamos com o erro HTTP 401
-                    if (response.code() == 401) {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(context, "Credenciais inválidas. Por favor, tente novamente.", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        // Outros erros do servidor
-                        val errorBody = response.errorBody()?.string()
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(context, "Erro no servidor: $errorBody", Toast.LENGTH_SHORT).show()
-                        }
+                    // Lida com erros HTTP
+                    val errorMessage = when (response.code()) {
+                        401 -> "Credenciais inválidas. Por favor, tente novamente."
+                        else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
+                    }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                     null
                 }

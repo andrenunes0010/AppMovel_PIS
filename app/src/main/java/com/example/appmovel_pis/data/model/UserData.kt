@@ -5,5 +5,6 @@ data class UserData(
     val id: Int,
     val nome: String,
     val email: String,
-    val token: String
+    val token: String,
+    val tipo: String
 )

@@ -3,36 +3,33 @@ package com.example.appmovel_pis.utils
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.auth0.jwt.interfaces.JWTVerifier
 
-class EncryptionUtils(private val secret: String) {
+class EncryptionUtils(private val secretKey: String) {
 
-    // Decodifica o token JWT sem validar a assinatura
-    fun decodeToken(token: String): DecodedJWT {
-        return JWT.decode(token)
-    }
-
-    // Valida a assinatura do token JWT
-    fun validateToken(token: String): DecodedJWT? {
+    // Valida o token JWT
+    fun validateToken(token: String): Boolean {
         return try {
-            val algorithm = Algorithm.HMAC256(secret)
-            val verifier: JWTVerifier = JWT.require(algorithm).build()
-            verifier.verify(token) // Lança uma exceção se o token for inválido
+            val algorithm = Algorithm.HMAC256(secretKey)
+            val verifier = JWT.require(algorithm).build()
+            verifier.verify(token) // Verifica a assinatura e a expiração
+            true
         } catch (e: Exception) {
             e.printStackTrace()
-            null // Retorna null se o token for inválido ou a assinatura estiver incorreta
+            false
         }
     }
 
-    // Extrai dados do payload do token
-    fun extractPayload(token: String): Map<String, String> {
-        val decodedJWT = decodeToken(token)
-        val claims = mutableMapOf<String, String>()
+    // Extrai o payload do token JWT
+    fun extractPayload(token: String): Map<String, String?> {
+        return try {
+            val algorithm = Algorithm.HMAC256(secretKey)
+            val jwt: DecodedJWT = JWT.require(algorithm).build().verify(token)
 
-        decodedJWT.claims.forEach { (key, value) ->
-            claims[key] = value.asString()
+            // Cria um mapa com os dados do payload
+            jwt.claims.mapValues { it.value.asString() }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyMap() // Retorna um mapa vazio em caso de erro
         }
-
-        return claims
     }
 }
