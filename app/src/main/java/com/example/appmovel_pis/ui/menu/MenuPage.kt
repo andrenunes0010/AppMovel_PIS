@@ -1,9 +1,7 @@
 package com.example.appmovel_pis.ui.menu
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -12,9 +10,9 @@ import com.example.appmovel_pis.ui.fragments.InformationFragment
 import com.example.appmovel_pis.ui.fragments.InstallFragment
 import com.example.appmovel_pis.ui.fragments.ProfileFragment
 import com.example.appmovel_pis.ui.fragments.SensorFragment
-import com.example.appmovel_pis.ui.main.MainActivity
+import com.example.appmovel_pis.ui.interfaces.IMenu
 
-class MenuPage : AppCompatActivity() {
+class MenuPage : AppCompatActivity(), IMenu {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_page)
@@ -76,4 +74,19 @@ class MenuPage : AppCompatActivity() {
         }
     }
 
+    override fun opcao1() {
+        // trocar o fragmebnto pretendido
+    }
+
+    override fun opcao2() {
+        // trocar o fragmebnto pretendido
+    }
+
+    override fun opcao3() {
+        // trocar o fragmebnto pretendido
+    }
+
+    override fun opcao4() {
+        // trocar o fragmebnto pretendido
+    }
 }
