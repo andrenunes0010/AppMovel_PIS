@@ -77,10 +77,13 @@
                     android:text="🟢"
                     android:gravity="center"
                     android:padding="8dp" />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_location"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lisboa"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:padding="8dp" />
 
 
             </TableRow>
@@ -99,11 +102,13 @@
                     android:text="🔴"
                     android:gravity="center"
                     android:padding="8dp" />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_location"/>
-                <TextView/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Setúbal"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:padding="8dp" />
             </TableRow>
 
             <!-- Repeat for other features -->

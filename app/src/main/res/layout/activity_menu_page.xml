@@ -46,8 +46,9 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/headerDivider"
         app:layout_constraintBottom_toTopOf="@id/footerDivider"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,12 +58,14 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:elevation="10dp"
+        android:padding="8dp"
         android:background="@drawable/fragment_background">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/menuFragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </ScrollView>
 
     <!-- Footer Divider -->
@@ -89,7 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/iconSensorbtn"
+            android:id="@+id/iconSensorImageView"
             android:clickable="true"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -98,8 +101,9 @@
             android:src="@drawable/ic_sensor"
             android:contentDescription="Home" />
 
+
         <ImageView
-            android:id="@+id/iconMenubtn"
+            android:id="@+id/iconInstallImageView"
             android:clickable="true"
             android:layout_width="33dp"
             android:layout_height="33dp"
@@ -110,7 +114,12 @@
             android:contentDescription="Grid" />
 
         <ImageView
-            android:id="@+id/iconProfilebtn"
+            android:id="@+id/sizeChecker"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <ImageView
+            android:id="@+id/iconProfileImageView"
             android:clickable="true"
             android:layout_width="33dp"
             android:layout_height="33dp"
@@ -121,7 +130,7 @@
             android:contentDescription="User" />
 
         <ImageView
-            android:id="@+id/iconSystembtn"
+            android:id="@+id/iconInformationImageView"
             android:clickable="true"
             android:layout_width="33dp"
             android:layout_height="33dp"

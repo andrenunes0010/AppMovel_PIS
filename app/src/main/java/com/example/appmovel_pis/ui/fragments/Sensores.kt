@@ -15,8 +15,6 @@ class SensorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        (activity as IMenu).opcao1()
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sensores, container, false)
 

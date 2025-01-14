@@ -1,10 +1,19 @@
 package com.example.appmovel_pis.ui.menu
 
+import android.media.Image
 import android.os.Bundle
+import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.fragments.InformationFragment
 import com.example.appmovel_pis.ui.fragments.InstallFragment
@@ -17,53 +26,96 @@ class MenuPage : AppCompatActivity(), IMenu {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_page)
 
-        // Get a reference to the ImageView
-        val iconSensorImageView = findViewById<ImageView>(R.id.iconSensorbtn)
-        val iconInstallImageView = findViewById<ImageView>(R.id.iconMenubtn)
-        val iconProfileImageView = findViewById<ImageView>(R.id.iconProfilebtn)
-        val iconInformationImageView = findViewById<ImageView>(R.id.iconSystembtn)
+        fun setupImageViewClickListener(
+            imageView: ImageView,
+            fragment: Fragment,
+            scrollView: View,
+            sizeChecker: View,
+            fragmentContainerId: Int,
+            fragmentManager: FragmentManager
+        ) {
+            imageView.setOnClickListener {
+                // Load the Fragment
+                fragmentManager.beginTransaction()
+                    .replace(fragmentContainerId, fragment)
+                    .addToBackStack(null)
+                    .commit()
+
+                // Adjust ScrollView height dynamically
+                scrollView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        val footerDividerLocation = IntArray(2)
+                        sizeChecker.getLocationOnScreen(footerDividerLocation)
+                        val scrollViewLocation = IntArray(2)
+                        scrollView.getLocationOnScreen(scrollViewLocation)
+
+                        // Calculate visibility of footerDivider
+                        val isFooterDividerVisible = footerDividerLocation[1] > scrollViewLocation[1] + scrollView.height
+
+                        if (!isFooterDividerVisible) {
+                            // Adjust ScrollView height to 0dp (MATCH_CONSTRAINT)
+                            scrollView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                height = 0
+                            }
+                        } else {
+                            // Reset ScrollView height to wrap_content
+                            scrollView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                            }
+                        }
+
+                        // Remove listener to avoid repeated adjustments
+                        scrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                })
+            }
+        }
+
+        val scrollView = findViewById<View>(R.id.scrollView)
+        val sizeChecker = findViewById<ImageView>(R.id.sizeChecker)
+        val fragmentManager = supportFragmentManager
+
+        setupImageViewClickListener(
+            imageView = findViewById(R.id.iconInformationImageView),
+            fragment = InformationFragment(),
+            scrollView = scrollView,
+            sizeChecker = sizeChecker,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
+
+        setupImageViewClickListener(
+            imageView = findViewById(R.id.iconProfileImageView),
+            fragment = ProfileFragment(),
+            scrollView = scrollView,
+            sizeChecker = sizeChecker,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
+
+        setupImageViewClickListener(
+            imageView = findViewById(R.id.iconSensorImageView),
+            fragment = SensorFragment(),
+            scrollView = scrollView,
+            sizeChecker = sizeChecker,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
+
+        setupImageViewClickListener(
+            imageView = findViewById(R.id.iconInstallImageView),
+            fragment = InstallFragment(),
+            scrollView = scrollView,
+            sizeChecker = sizeChecker,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
 
         // Check if the fragment is already added (e.g., after a configuration change)
         if (savedInstanceState == null) {
             val sensorFragment = SensorFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.menuFragmentContainer, sensorFragment) // Use replace or add
-                .commit()
-        }
-
-        iconSensorImageView.setOnClickListener {
-            // Load the SensorFragment
-            val sensorFragment = SensorFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, sensorFragment) // Replace the container with SensorFragment
-                .addToBackStack(null) // Add to back stack for navigation
-                .commit()
-        }
-
-        iconInstallImageView.setOnClickListener {
-            // Load the InstallFragment
-            val installFragment = InstallFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, installFragment) // Replace the container with MenuFragment
-                .addToBackStack(null) // Add to back stack for navigation
-                .commit()
-        }
-
-        iconProfileImageView.setOnClickListener {
-            // Load the ProfileFragment
-            val profileFragment = ProfileFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, profileFragment) // Replace the container with MenuFragment
-                .addToBackStack(null) // Add to back stack for navigation
-                .commit()
-        }
-
-        iconInformationImageView.setOnClickListener {
-            // Load the InfoFragment
-            val informationFragment = InformationFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, informationFragment) // Replace the container with MenuFragment
-                .addToBackStack(null) // Add to back stack for navigation
                 .commit()
         }
 
@@ -75,7 +127,7 @@ class MenuPage : AppCompatActivity(), IMenu {
     }
 
     override fun opcao1() {
-        // trocar o fragmebnto pretendido
+
     }
 
     override fun opcao2() {

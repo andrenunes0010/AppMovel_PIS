@@ -170,6 +170,7 @@
                 android:textColor="#000000" />
 
             <ImageView
+                android:id="@+id/settingsClicker"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_arrow_right" />
