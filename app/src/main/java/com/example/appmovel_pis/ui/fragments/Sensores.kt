@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.ui.interfaces.IMenu
 
 class SensorFragment : Fragment() {
 
