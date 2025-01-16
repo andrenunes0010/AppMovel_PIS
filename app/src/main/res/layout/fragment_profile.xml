@@ -22,7 +22,7 @@
         <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <!-- Name -->
@@ -34,16 +34,14 @@
             android:fontFamily="@font/poppins_medium"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="4dp" />
+            android:textColor="@color/black" />
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:src="@drawable/ic_install"
-            android:tint="@color/green_welcome"
-            android:layout_marginStart="3dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="3dp"
+            android:tint="@color/green_welcome" />
 
         </LinearLayout>
 
@@ -75,6 +73,7 @@
 
         <!-- Username Option -->
         <LinearLayout
+            android:id="@+id/LayoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -109,6 +108,7 @@
 
         <!-- Notifications Option -->
         <LinearLayout
+            android:id="@+id/LayoutNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -143,7 +143,7 @@
 
         <!-- Settings Option -->
         <LinearLayout
-            android:id="@+id/settingsBTN"
+            android:id="@+id/LayoutSettings"
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

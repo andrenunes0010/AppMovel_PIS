@@ -58,7 +58,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:elevation="10dp"
-        android:padding="8dp"
+        android:padding="10dp"
         android:background="@drawable/fragment_background">
 
         <androidx.fragment.app.FragmentContainerView
@@ -67,6 +67,15 @@
             android:layout_height="wrap_content" />
 
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/sizeChecker"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/footerDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Footer Divider -->
     <View
@@ -112,11 +121,6 @@
             android:layout_marginStart="35dp"
             android:layout_marginBottom="5dp"
             android:contentDescription="Grid" />
-
-        <ImageView
-            android:id="@+id/sizeChecker"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
 
         <ImageView
             android:id="@+id/iconProfileImageView"

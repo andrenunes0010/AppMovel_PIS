@@ -18,10 +18,12 @@ class MenuPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_page)
 
+        // Procura os componentes pelo seu ID
         val scrollView = findViewById<View>(R.id.scrollView)
         val sizeChecker = findViewById<ImageView>(R.id.sizeChecker)
         val fragmentManager = supportFragmentManager
 
+        // Define a função do ScrollView para a aba de Informação
         ScrollViewFuntion.setupImageViewClickListener(
             view = findViewById(R.id.iconInformationImageView),
             fragment = InformationFragment(),
@@ -31,6 +33,7 @@ class MenuPage : AppCompatActivity() {
             fragmentManager = fragmentManager
         )
 
+        // Define a função do ScrollView para a aba de Perfil
         ScrollViewFuntion.setupImageViewClickListener(
             view = findViewById(R.id.iconProfileImageView),
             fragment = ProfileFragment(),
@@ -40,6 +43,7 @@ class MenuPage : AppCompatActivity() {
             fragmentManager = fragmentManager
         )
 
+        // Define a função do ScrollView para a aba de Sensores
         ScrollViewFuntion.setupImageViewClickListener(
             view = findViewById(R.id.iconSensorImageView),
             fragment = SensorFragment(),
@@ -49,6 +53,7 @@ class MenuPage : AppCompatActivity() {
             fragmentManager = fragmentManager
         )
 
+        // Define a função do ScrollView para a aba de Instalações
         ScrollViewFuntion.setupImageViewClickListener(
             view = findViewById(R.id.iconInstallImageView),
             fragment = InstallFragment(),
@@ -58,7 +63,7 @@ class MenuPage : AppCompatActivity() {
             fragmentManager = fragmentManager
         )
 
-        // Check if the fragment is already added (e.g., after a configuration change)
+        // Verifica se o FragmentManager está vazio
         if (savedInstanceState == null) {
             val sensorFragment = SensorFragment()
             supportFragmentManager.beginTransaction()
@@ -66,6 +71,7 @@ class MenuPage : AppCompatActivity() {
                 .commit()
         }
 
+        // ????
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

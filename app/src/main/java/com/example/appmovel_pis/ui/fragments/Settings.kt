@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
+import com.example.appmovel_pis.ui.objects.ClickAnimation
 import com.example.appmovel_pis.ui.objects.ScrollViewFuntion
 
 class SettingsFragment : Fragment() {
@@ -19,23 +21,31 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    // executa este código apenas quando acaba de criar a View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Get the LinearLayout from the fragment's root view (after the view is inflated)
+        // Pega os componentes desejados pelo seus IDS
+        val LayoutUno = view.findViewById<LinearLayout>(R.id.LayoutUno)
+        val LayoutDos = view.findViewById<LinearLayout>(R.id.LayoutDos)
+        val LayoutTres = view.findViewById<LinearLayout>(R.id.LayoutTres)
         val goBackButton: View = view.findViewById(R.id.goBackBTN)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val sizeChecker = requireActivity().findViewById<ImageView>(R.id.sizeChecker)
         val fragmentManager = requireActivity().supportFragmentManager
 
-        // Now use the settingsButton from the fragment's layout
+        // Define a função do ScrollView para a aba de voltar para o Perfil
         ScrollViewFuntion.setupImageViewClickListener(
-            view = goBackButton,  // Use the LinearLayout from the fragment
+            view = goBackButton,
             fragment = ProfileFragment(),
             scrollView = scrollView,
             sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
+
+        ClickAnimation.applyTouchAnimation(LayoutUno, requireContext())
+        ClickAnimation.applyTouchAnimation(LayoutDos, requireContext())
+        ClickAnimation.applyTouchAnimation(LayoutTres, requireContext())
     }
 }

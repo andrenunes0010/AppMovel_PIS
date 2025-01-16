@@ -18,36 +18,36 @@ object ScrollViewFuntion {
         fragmentManager: FragmentManager
     ) {
         view.setOnClickListener {
-            // Load the Fragment
+            // Começa o Fragmento
             fragmentManager.beginTransaction()
                 .replace(fragmentContainerId, fragment)
                 .addToBackStack(null)
                 .commit()
 
-            // Adjust ScrollView height dynamically
+            // Ajusta o tamanho da ScrollView dependendo se a informação dentro do fragmento é ultrapassa o tamanho desejável
             scrollView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    val footerDividerLocation = IntArray(2)
-                    sizeChecker.getLocationOnScreen(footerDividerLocation)
+                    val sizeCheckerLocation = IntArray(2)
+                    sizeChecker.getLocationOnScreen(sizeCheckerLocation)
                     val scrollViewLocation = IntArray(2)
                     scrollView.getLocationOnScreen(scrollViewLocation)
 
-                    // Calculate visibility of footerDivider
-                    val isFooterDividerVisible = footerDividerLocation[1] > scrollViewLocation[1] + scrollView.height
+                    // Calcula se o sizeChecker está visivel na tela ou não
+                    val isSizeCheckerVisible = sizeCheckerLocation[1] > scrollViewLocation[1] + scrollView.height
 
-                    if (!isFooterDividerVisible) {
-                        // Adjust ScrollView height to 0dp (MATCH_CONSTRAINT)
+                    if (!isSizeCheckerVisible) {
+                        // Ajusta o tamanho do ScrollView para 0
                         scrollView.updateLayoutParams<ConstraintLayout.LayoutParams> {
                             height = 0
                         }
                     } else {
-                        // Reset ScrollView height to wrap_content
+                        // Ajusta o tamanho do ScrollView para "wrap_content"
                         scrollView.updateLayoutParams<ConstraintLayout.LayoutParams> {
                             height = ConstraintLayout.LayoutParams.WRAP_CONTENT
                         }
                     }
 
-                    // Remove listener to avoid repeated adjustments
+                    // Remove o "Listener" para evitar repetições de ajustamentos
                     scrollView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
             })

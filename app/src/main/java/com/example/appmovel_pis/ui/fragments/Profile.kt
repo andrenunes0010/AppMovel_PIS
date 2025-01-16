@@ -1,14 +1,19 @@
 package com.example.appmovel_pis.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.objects.ScrollViewFuntion
-import com.example.appmovel_pis.ui.menu.MenuPage
+import com.example.appmovel_pis.ui.objects.ClickAnimation
 
 class ProfileFragment : Fragment() {
 
@@ -20,23 +25,32 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    // executa este código apenas quando acaba de criar a View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Get the LinearLayout from the fragment's root view (after the view is inflated)
-        val settingsButton: View = view.findViewById(R.id.settingsBTN)
+        // Pega os componentes desejados pelo seus IDS
+        val LayoutPassword = view.findViewById<LinearLayout>(R.id.LayoutPassword)
+        val LayoutNotifications = view.findViewById<LinearLayout>(R.id.LayoutNotifications)
+        val LayoutSettings = view.findViewById<LinearLayout>(R.id.LayoutSettings)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val sizeChecker = requireActivity().findViewById<ImageView>(R.id.sizeChecker)
         val fragmentManager = requireActivity().supportFragmentManager
 
-        // Now use the settingsButton from the fragment's layout
+        // Define a função do ScrollView para a aba de Definições
         ScrollViewFuntion.setupImageViewClickListener(
-            view = settingsButton,  // Use the LinearLayout from the fragment
+            view = LayoutSettings,
             fragment = SettingsFragment(),
             scrollView = scrollView,
             sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
+
+        ClickAnimation.applyTouchAnimation(LayoutPassword, requireContext())
+        ClickAnimation.applyTouchAnimation(LayoutNotifications, requireContext())
+        ClickAnimation.applyTouchAnimation(LayoutSettings, requireContext())
+
     }
 }

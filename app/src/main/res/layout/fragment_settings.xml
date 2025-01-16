@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -13,28 +12,28 @@
         android:paddingEnd="15dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/goBackBTN"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="20dp">
+            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/goBackBTN"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
-                android:src="@drawable/ic_arrow_right"
+                android:layout_marginEnd="7dp"
                 android:scaleX="-1"
-                android:layout_marginEnd="7dp" />
+                android:src="@drawable/ic_arrow_right" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
                 android:text="Voltar"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/poppins_medium" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Header Divider -->
@@ -52,9 +51,9 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="80dp">
 
-        <!-- Username Option -->
         <!-- Settings Option -->
         <LinearLayout
+            android:id="@+id/LayoutUno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -69,14 +68,14 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_settings"
+                android:src="@drawable/ic_info"
                 android:layout_marginEnd="16dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Definições"
+                android:text="Uno"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
                 android:textColor="#000000" />
@@ -89,6 +88,7 @@
 
         <!-- Settings Option -->
         <LinearLayout
+            android:id="@+id/LayoutDos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -103,14 +103,14 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_settings"
+                android:src="@drawable/ic_sensor"
                 android:layout_marginEnd="16dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Definições"
+                android:text="Dos"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
                 android:textColor="#000000" />
@@ -123,6 +123,7 @@
 
         <!-- Settings Option -->
         <LinearLayout
+            android:id="@+id/LayoutTres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -137,82 +138,14 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_settings"
+                android:src="@drawable/ic_password"
                 android:layout_marginEnd="16dp" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Definições"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="#000000" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
-        </LinearLayout>
-
-        <!-- Settings Option -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/fragment_background_thin"
-            android:elevation="4dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="15dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_settings"
-                android:layout_marginEnd="16dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Definições"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="#000000" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
-        </LinearLayout>
-
-        <!-- Settings Option -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/fragment_background_thin"
-            android:elevation="4dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="15dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_settings"
-                android:layout_marginEnd="16dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Definições"
+                android:text="Tres"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
                 android:textColor="#000000" />
