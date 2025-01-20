@@ -86,13 +86,13 @@ class BaseDadosManager(private var context: Context) {
 
 
     suspend fun instal(
-        context: String,
         email: String,
         Latitude: String,
         Longitude: String,
         DataInstalacao: String,
         Status: String,
-        NomeSensor: String
+        NomeSensor: String,
+        token: String
     ): SensorData? {
         val sessionManager = SessionManager(context)
 

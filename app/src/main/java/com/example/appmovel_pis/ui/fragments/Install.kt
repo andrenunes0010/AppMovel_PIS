@@ -2,6 +2,7 @@ package com.example.appmovel_pis.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
