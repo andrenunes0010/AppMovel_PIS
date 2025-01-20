@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmovel_pis.R
+import com.example.appmovel_pis.data.SessionManager
 import com.example.appmovel_pis.repository.BaseDadosManager
 import com.example.appmovel_pis.ui.menu.MenuPage
 import kotlinx.coroutines.CoroutineScope
@@ -38,19 +39,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun realizarLogin(email: String, senha: String) {
         CoroutineScope(Dispatchers.Main).launch {
+            // Crie a instância de SessionManager aqui
+            val sessionManager = SessionManager(this@MainActivity)
             val authManager = BaseDadosManager(this@MainActivity)
-            val utilizador = authManager.autenticar(email, senha)
+
+            // Chame a função autenticar para autenticar o usuário
+            val utilizador = authManager.autenticar(email, senha, this@MainActivity)
 
             withContext(Dispatchers.Main) {
                 if (utilizador != null) {
+                    // Salva o usuário no SessionManager
+                    sessionManager.saveUser(utilizador)
+
                     Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
+
+                    // Navega para a próxima tela
                     val intent = Intent(this@MainActivity, MenuPage::class.java)
                     startActivity(intent)
                 } else {
-                    null
+                    Toast.makeText(this@MainActivity, "Erro ao realizar login", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
-
 }
