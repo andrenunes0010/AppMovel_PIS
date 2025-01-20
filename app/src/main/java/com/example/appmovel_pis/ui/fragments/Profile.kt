@@ -31,7 +31,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Pega os componentes desejados pelo seus IDS
-        val LayoutPassword = view.findViewById<LinearLayout>(R.id.LayoutPassword)
+        val LayoutChangePassword = view.findViewById<LinearLayout>(R.id.LayoutPassword)
         val LayoutNotifications = view.findViewById<LinearLayout>(R.id.LayoutNotifications)
         val LayoutSettings = view.findViewById<LinearLayout>(R.id.LayoutSettings)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
@@ -48,7 +48,25 @@ class ProfileFragment : Fragment() {
             fragmentManager = fragmentManager
         )
 
-        ClickAnimation.applyTouchAnimation(LayoutPassword, requireContext())
+        ScrollViewFuntion.setupImageViewClickListener(
+            view = LayoutNotifications,
+            fragment = NotificationsFragment(),
+            scrollView = scrollView,
+            sizeChecker = sizeChecker,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
+
+        ScrollViewFuntion.setupImageViewClickListener(
+            view = LayoutChangePassword,
+            fragment = ChangePasswordFragment(),
+            scrollView = scrollView,
+            sizeChecker = sizeChecker,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
+
+        ClickAnimation.applyTouchAnimation(LayoutChangePassword, requireContext())
         ClickAnimation.applyTouchAnimation(LayoutNotifications, requireContext())
         ClickAnimation.applyTouchAnimation(LayoutSettings, requireContext())
 

@@ -52,18 +52,7 @@
             android:layout_height="wrap_content"
             android:text="Longitude: "/>
 
-        <EditText
-            android:id="@+id/et_area_size"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/login_background"
-            android:hint="Tamanho da Área"
-            android:paddingHorizontal="16dp"
-            android:textColor="@android:color/black"
-            android:textColorHint="#686767"
-            android:inputType="textEmailAddress"
-            android:fontFamily="@font/poppins_medium"
-            android:layout_marginTop="10dp" />
+
 
         <EditText
             android:id="@+id/et_owner_phone"
