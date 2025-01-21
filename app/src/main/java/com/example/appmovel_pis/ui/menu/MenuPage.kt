@@ -20,7 +20,6 @@ class MenuPage : AppCompatActivity() {
 
         // Procura os componentes pelo seu ID
         val scrollView = findViewById<View>(R.id.scrollView)
-        val sizeChecker = findViewById<ImageView>(R.id.sizeChecker)
         val fragmentManager = supportFragmentManager
 
         // Define a função do ScrollView para a aba de Informação
@@ -28,7 +27,6 @@ class MenuPage : AppCompatActivity() {
             view = findViewById(R.id.iconInformationImageView),
             fragment = InformationFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
@@ -38,7 +36,6 @@ class MenuPage : AppCompatActivity() {
             view = findViewById(R.id.iconProfileImageView),
             fragment = ProfileFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
@@ -48,7 +45,6 @@ class MenuPage : AppCompatActivity() {
             view = findViewById(R.id.iconSensorImageView),
             fragment = SensorFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
@@ -58,7 +54,6 @@ class MenuPage : AppCompatActivity() {
             view = findViewById(R.id.iconInstallImageView),
             fragment = InstallFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )

@@ -25,7 +25,7 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     // executa este código apenas quando acaba de criar a View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,6 @@ class ProfileFragment : Fragment() {
         val LayoutNotifications = view.findViewById<LinearLayout>(R.id.LayoutNotifications)
         val LayoutSettings = view.findViewById<LinearLayout>(R.id.LayoutSettings)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
-        val sizeChecker = requireActivity().findViewById<ImageView>(R.id.sizeChecker)
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de Definições
@@ -43,7 +42,6 @@ class ProfileFragment : Fragment() {
             view = LayoutSettings,
             fragment = SettingsFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
@@ -52,7 +50,6 @@ class ProfileFragment : Fragment() {
             view = LayoutNotifications,
             fragment = NotificationsFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
@@ -61,7 +58,6 @@ class ProfileFragment : Fragment() {
             view = LayoutChangePassword,
             fragment = ChangePasswordFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )

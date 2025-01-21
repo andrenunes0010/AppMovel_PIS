@@ -1,65 +1,21 @@
 package com.example.appmovel_pis.ui.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.data.SessionManager
-import com.example.appmovel_pis.repository.BaseDadosManager
-import com.example.appmovel_pis.ui.menu.MenuPage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.appmovel_pis.ui.fragments.WelcomePageFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val emailEditText = findViewById<EditText>(R.id.etEmail)
-        val passwordEditText = findViewById<EditText>(R.id.etPassword)
-        val loginButton = findViewById<Button>(R.id.btnLogin)
-
-        loginButton.setOnClickListener {
-
-            val email = emailEditText.text.toString()
-            val senha = passwordEditText.text.toString()
-
-            if (email.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
-            } else {
-                realizarLogin(email, senha)
-            }
-        }
-    }
-
-    private fun realizarLogin(email: String, senha: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            // Crie a instância de SessionManager aqui
-            val sessionManager = SessionManager(this@MainActivity)
-            val authManager = BaseDadosManager(this@MainActivity)
-
-            // Chame a função autenticar para autenticar o usuário
-            val utilizador = authManager.autenticar(email, senha, this@MainActivity)
-
-            withContext(Dispatchers.Main) {
-                if (utilizador != null) {
-                    // Salva o usuário no SessionManager
-                    sessionManager.saveUser(utilizador)
-
-                    Toast.makeText(this@MainActivity, "Bem-vindo, ${utilizador.nome}!", Toast.LENGTH_SHORT).show()
-
-                    // Navega para a próxima tela
-                    val intent = Intent(this@MainActivity, MenuPage::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this@MainActivity, "Erro ao realizar login", Toast.LENGTH_SHORT).show()
-                }
-            }
+        // Verifica se o FragmentManager está vazio
+        if (savedInstanceState == null) {
+            val welcomePageFragment = WelcomePageFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.menuFragmentContainer, welcomePageFragment) // Use replace or add
+                .commit()
         }
     }
 }

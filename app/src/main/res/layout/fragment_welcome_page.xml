@@ -80,16 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
-    <ImageView
-        android:src="@drawable/welcome_page_img"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="1.00"
-        app:layout_constraintWidth_percent="1.50"
-        app:layout_constraintTop_toBottomOf="@+id/DescriptionText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/green_background"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

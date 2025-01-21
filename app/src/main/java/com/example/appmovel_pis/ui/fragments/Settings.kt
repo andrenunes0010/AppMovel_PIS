@@ -31,7 +31,6 @@ class SettingsFragment : Fragment() {
         val LayoutTres = view.findViewById<LinearLayout>(R.id.LayoutTres)
         val goBackButton: View = view.findViewById(R.id.goBackBTN)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
-        val sizeChecker = requireActivity().findViewById<ImageView>(R.id.sizeChecker)
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de voltar para o Perfil
@@ -39,7 +38,6 @@ class SettingsFragment : Fragment() {
             view = goBackButton,
             fragment = ProfileFragment(),
             scrollView = scrollView,
-            sizeChecker = sizeChecker,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
