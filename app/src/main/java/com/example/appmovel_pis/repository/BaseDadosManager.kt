@@ -10,7 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.appmovel_pis.data.SessionManager
 import com.example.appmovel_pis.data.model.SensorData
+import com.example.appmovel_pis.data.network.EncryptedRequest
 import com.example.appmovel_pis.data.network.InstallRequest
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 
 class BaseDadosManager(private var context: Context) {
 
@@ -21,43 +25,25 @@ class BaseDadosManager(private var context: Context) {
 
         return withContext(Dispatchers.IO) {
             try {
-                val response = RetrofitClient.apiService.login(LoginRequest(email, senha))
+                // Encriptar os dados de login
+                val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(LoginRequest(email, senha)))
+                val encryptedRequest = EncryptedRequest(encryptedData)
+
+                // Enviar a requisição com dados encriptados
+                val response = RetrofitClient.apiService.login(encryptedRequest)
+
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
+
                     if (apiResponse != null && apiResponse.success) {
-                        val data = apiResponse.data
-                        if (data != null) {
-                            val token = data.token
+                        // Desencriptar os dados da resposta
+                        val decryptedData = encryptionUtils.decryptAES((apiResponse.data ?: "").toString())
+                        val userData = Json.decodeFromString<UserData>(decryptedData)
 
-                            // Valida o token
-                            if (encryptionUtils.validateToken(token)) {
-                                val payload = encryptionUtils.extractPayload(token)
-                                val userTipo = payload["tipo"]
+                        // Salvar usuário na sessão
+                        sessionManager.saveUser(userData)
 
-                                val user = UserData(
-                                    id = data.id,
-                                    nome = data.nome,
-                                    email = data.email,
-                                    token = token,
-                                    tipo = userTipo ?: "Desconhecido"
-                                )
-
-                                // Salva o usuário na sessão
-                                sessionManager.saveUser(user)
-
-                                return@withContext user
-                            } else {
-                                withContext(Dispatchers.Main) {
-                                    Toast.makeText(context, "Token inválido ou expirado.", Toast.LENGTH_SHORT).show()
-                                }
-                                null
-                            }
-                        } else {
-                            withContext(Dispatchers.Main) {
-                                Toast.makeText(context, "Erro: Dados ausentes na resposta.", Toast.LENGTH_SHORT).show()
-                            }
-                            null
-                        }
+                        return@withContext userData
                     } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, apiResponse?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
@@ -83,7 +69,6 @@ class BaseDadosManager(private var context: Context) {
             }
         }
     }
-
 
     suspend fun instal(
         email: String,
