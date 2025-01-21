@@ -2,6 +2,7 @@ package com.example.appmovel_pis.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -25,6 +26,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.content.Intent
+import android.content.IntentSender
+import com.google.android.gms.location.LocationRequest
 
 class InstallFragment : Fragment() {
 
@@ -35,6 +38,9 @@ class InstallFragment : Fragment() {
     private lateinit var dataIntalacaoTextView: TextView
     private lateinit var statusSensorTextView: TextView
     private lateinit var nomeSensorTextView: TextView
+    companion object {
+        private const val REQUEST_CHECK_SETTINGS = 1001
+    }
 
 
     override fun onCreateView(
@@ -114,7 +120,7 @@ class InstallFragment : Fragment() {
                     latitudeTextView.text = "Latitude: $latitude"
                     longitudeTextView.text = "Longitude: $longitude"
                 } else {
-                    Toast.makeText(requireContext(), "Localização não disponível", Toast.LENGTH_SHORT).show()
+                    verificarLocalizacaoAtiva()
                 }
             }.addOnFailureListener {
                 Toast.makeText(requireContext(), "Falha ao obter localização: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -137,6 +143,54 @@ class InstallFragment : Fragment() {
                 getLocation()
             } else {
                 Toast.makeText(requireContext(), "Permissão negada", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun verificarLocalizacaoAtiva() {
+        val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
+            priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val builder = com.google.android.gms.location.LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        val client = com.google.android.gms.location.LocationServices.getSettingsClient(requireContext())
+        val task = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener { response ->
+            // Localização já está ativada
+            Toast.makeText(requireContext(), "Localização está ativada!", Toast.LENGTH_SHORT).show()
+        }
+
+        task.addOnFailureListener { exception ->
+            if (exception is com.google.android.gms.common.api.ResolvableApiException) {
+                // Localização não está ativada, mas pode ser resolvida
+                try {
+                    exception.startResolutionForResult(requireActivity(), REQUEST_CHECK_SETTINGS)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Erro ao tentar resolver
+                    sendEx.printStackTrace()
+                }
+            } else {
+                // Localização não pode ser ativada automaticamente
+                Toast.makeText(requireContext(), "Ative a localização manualmente.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    // O usuário ativou a localização
+                    Toast.makeText(requireContext(), "Localização ativada com sucesso!", Toast.LENGTH_SHORT).show()
+                }
+                Activity.RESULT_CANCELED -> {
+                    // O usuário cancelou a ativação
+                    Toast.makeText(requireContext(), "Você precisa ativar a localização.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
