@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
@@ -50,6 +51,21 @@ class LoginFragment : Fragment() {
                 realizarLogin(email, senha)
             }
         }
+
+        val goBackBTN = view.findViewById<LinearLayout>(R.id.goBackBTN)
+        val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
+        val fragmentManager = requireActivity().supportFragmentManager
+
+        // Define a função do ScrollView para a aba de Definições
+        ScrollViewFuntion.setupImageViewClickListener(
+            view = goBackBTN,
+            fragment = SettingsFragment(),
+            scrollView = scrollView,
+            fragmentContainerId = R.id.menuFragmentContainer,
+            fragmentManager = fragmentManager
+        )
+
+        ClickAnimation.applyTouchAnimation(goBackBTN, requireContext())
 
         return view
     }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,25 +35,46 @@
             android:textColorHint="#686767"
             android:inputType="textEmailAddress"
             android:fontFamily="@font/poppins_medium"/>
-        <Button
-            android:id="@+id/btnObterMorada"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Obter morada"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/login_background"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/tvLatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Latitude: "/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="start"
+                android:background="@drawable/login_background">
 
-        <TextView
-            android:id="@+id/tvLongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Longitude: "/>
+                <TextView
+                    android:id="@+id/tvLatitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Latitude: "
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
+                <TextView
+                    android:id="@+id/tvLongitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Longitude: "
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
+            </LinearLayout>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/et_owner_phone"
@@ -144,6 +166,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="100dp"
             android:layout_marginStart="100dp"/>
+
 
     </LinearLayout>
 
