@@ -1,11 +1,8 @@
 package com.example.appmovel_pis.ui.objects
 
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import android.view.ViewTreeObserver
-import androidx.core.view.updateLayoutParams
 
 object ScrollViewFuntion {
 
