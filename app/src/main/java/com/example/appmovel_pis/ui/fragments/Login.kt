@@ -20,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.example.appmovel_pis.ui.objects.ScrollViewFuntion
+import com.example.appmovel_pis.ui.objects.ChangeFragment
 import com.example.appmovel_pis.ui.objects.ClickAnimation
 
 class LoginFragment : Fragment() {
@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de Definições
-        ScrollViewFuntion.setupImageViewClickListener(
+        ChangeFragment.setupImageViewClickListener(
             view = goBackBTN,
             fragment = SettingsFragment(),
             scrollView = scrollView,

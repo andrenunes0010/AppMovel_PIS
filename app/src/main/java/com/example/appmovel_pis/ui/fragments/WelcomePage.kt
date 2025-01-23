@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.objects.WelcomePageAnimations
-import com.example.appmovel_pis.ui.objects.ScrollViewFuntion
+import com.example.appmovel_pis.ui.objects.ChangeFragment
 import com.example.appmovel_pis.ui.objects.ClickAnimation
 
 class WelcomePageFragment : Fragment() {
@@ -41,7 +41,7 @@ class WelcomePageFragment : Fragment() {
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de Definições
-        ScrollViewFuntion.setupImageViewClickListener(
+        ChangeFragment.setupImageViewClickListener(
             view = getStartedBtn,
             fragment = LoginFragment(),
             scrollView = scrollView,
