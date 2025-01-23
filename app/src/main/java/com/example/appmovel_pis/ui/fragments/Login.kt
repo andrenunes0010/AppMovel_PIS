@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
         // Define a função do ScrollView para a aba de Definições
         ChangeFragment.setupImageViewClickListener(
             view = goBackBTN,
-            fragment = SettingsFragment(),
+            fragment = WelcomePageFragment(),
             scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager

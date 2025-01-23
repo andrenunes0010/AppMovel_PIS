@@ -20,38 +20,6 @@ class MenuPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_page)
 
-        var remainingSensors: Int = 0
-
-        // Function to load DadosSensorFragment
-        fun showDadosSensorFragment() {
-            val fragment = DadosSensorFragment.newInstance()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-        // Called by DadosAreaFragment when "Adicionar Area" is clicked
-        fun onAdicionarAreaClicked(sensorCount: Int) {
-            // Set the number of sensors to create
-            remainingSensors = sensorCount
-
-            // Load the first DadosSensorFragment
-            showDadosSensorFragment()
-        }
-
-        // Called by DadosSensorFragment when "Adicionar Sensor" is clicked
-        fun onAdicionarSensorClicked() {
-            remainingSensors--
-            if (remainingSensors > 0) {
-                // Show the next DadosSensorFragment
-                showDadosSensorFragment()
-            } else {
-                // All sensors added, go back or show a confirmation
-                Toast.makeText(this, "All sensors added!", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         // Procura os componentes pelo seu ID
         val scrollView = findViewById<View>(R.id.scrollView)
         val fragmentManager = supportFragmentManager
@@ -105,6 +73,44 @@ class MenuPage : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+    }
+
+    var remainingSensors: Int = 0
+
+    // Function to load DadosSensorFragment
+    fun showDadosSensorFragment() {
+        val fragment = DadosSensorFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.menuFragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    // Called by DadosAreaFragment when "Adicionar Area" is clicked
+    fun onAdicionarAreaClicked(sensorCount: Int) {
+        // Set the number of sensors to create
+        remainingSensors = sensorCount
+
+        // Load the first DadosSensorFragment
+        showDadosSensorFragment()
+    }
+
+    // Called by DadosSensorFragment when "Adicionar Sensor" is clicked
+    fun onAdicionarSensorClicked() {
+
+        remainingSensors--
+        if (remainingSensors > 0) {
+            // Show the next DadosSensorFragment
+            showDadosSensorFragment()
+        } else {
+            // All sensors added, go back or show a confirmation
+            Toast.makeText(this, "All sensors added!", Toast.LENGTH_SHORT).show()
+            val dadosAreaFragmentFragment = DadosAreaFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.menuFragmentContainer, dadosAreaFragmentFragment) // Use replace or add
+                .commit()
         }
     }
 }
