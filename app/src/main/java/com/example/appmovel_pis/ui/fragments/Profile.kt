@@ -1,18 +1,13 @@
 package com.example.appmovel_pis.ui.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.ui.objects.ScrollViewFuntion
+import com.example.appmovel_pis.ui.objects.ChangeFragment
 import com.example.appmovel_pis.ui.objects.ClickAnimation
 
 class ProfileFragment : Fragment() {
@@ -38,7 +33,7 @@ class ProfileFragment : Fragment() {
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de Definições
-        ScrollViewFuntion.setupImageViewClickListener(
+        ChangeFragment.setupImageViewClickListener(
             view = LayoutSettings,
             fragment = SettingsFragment(),
             scrollView = scrollView,
@@ -46,7 +41,7 @@ class ProfileFragment : Fragment() {
             fragmentManager = fragmentManager
         )
 
-        ScrollViewFuntion.setupImageViewClickListener(
+        ChangeFragment.setupImageViewClickListener(
             view = LayoutNotifications,
             fragment = NotificationsFragment(),
             scrollView = scrollView,
@@ -54,7 +49,7 @@ class ProfileFragment : Fragment() {
             fragmentManager = fragmentManager
         )
 
-        ScrollViewFuntion.setupImageViewClickListener(
+        ChangeFragment.setupImageViewClickListener(
             view = LayoutChangePassword,
             fragment = ChangePasswordFragment(),
             scrollView = scrollView,

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.criar_utilizador"
+    android:background="@color/white">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <!-- Dados do Sensor -->
+        <TextView
+            android:id="@+id/tvUtilizadorDados"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Dados do Sensor"
+            android:fontFamily="@font/poppins_medium"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvTipoUtilizador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Tipo Utilizador"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="10dp"/>
+
+            <Spinner
+                android:id="@+id/mySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                android:paddingStart="10dp"
+                android:background="@drawable/login_background"
+                android:fontFamily="@font/poppins_medium"/>
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etDataInstalação"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/login_background"
+            android:hint="Nome"
+            android:paddingHorizontal="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#686767"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="10dp" />
+
+        <EditText
+            android:id="@+id/etStatus"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/login_background"
+            android:hint="Email"
+            android:paddingHorizontal="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#686767"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/login_background"
+            android:hint="Password"
+            android:paddingHorizontal="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#686767"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/etConfirmarPassword"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/login_background"
+            android:hint="Confirmar Password"
+            android:paddingHorizontal="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#686767"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Botão de Submissão -->
+        <Button
+            android:id="@+id/btnSubmeter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green_background"
+            android:text="ADICIONAR UTILIZADOR"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginStart="80dp"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>

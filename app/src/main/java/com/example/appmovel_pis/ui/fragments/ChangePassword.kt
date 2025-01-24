@@ -5,11 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.ui.objects.ClickAnimation
-import com.example.appmovel_pis.ui.objects.ScrollViewFuntion
+import com.example.appmovel_pis.ui.objects.ChangeFragment
 
 class ChangePasswordFragment : Fragment() {
 
@@ -36,7 +33,7 @@ class ChangePasswordFragment : Fragment() {
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de voltar para o Perfil
-        ScrollViewFuntion.setupImageViewClickListener(
+        ChangeFragment.setupImageViewClickListener(
             view = goBackButton,
             fragment = ProfileFragment(),
             scrollView = scrollView,

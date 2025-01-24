@@ -4,7 +4,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
-object ScrollViewFuntion {
+object ChangeFragment {
 
     fun setupImageViewClickListener(
         view: View,
