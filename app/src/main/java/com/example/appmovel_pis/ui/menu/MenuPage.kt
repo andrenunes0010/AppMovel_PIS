@@ -3,9 +3,11 @@ package com.example.appmovel_pis.ui.menu
 import DadosSensorFragment
 import android.os.Bundle
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -27,48 +29,15 @@ class MenuPage : AppCompatActivity() {
         val iconInstall = findViewById<ImageView>(R.id.iconInstallImageView)
         val iconProfile = findViewById<ImageView>(R.id.iconProfileImageView)
         val iconInformation = findViewById<ImageView>(R.id.iconInformationImageView)
-        val scrollView = findViewById<View>(R.id.scrollView)
-        val fragmentManager = supportFragmentManager
-        val tipo = 1
 
-        // Define a função do ScrollView para a aba de Informação
-        ChangeFragment.setupImageViewClickListener(
-            view = findViewById(R.id.iconInformationImageView),
-            fragment = InformationFragment(),
-            scrollView = scrollView,
-            fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
-        )
 
-        // Define a função do ScrollView para a aba de Perfil
-        ChangeFragment.setupImageViewClickListener(
-            view = findViewById(R.id.iconProfileImageView),
-            fragment = ProfileFragment(),
-            scrollView = scrollView,
-            fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
-        )
-
-        RoleChecker.setupRoleCheckerClickListener(
-            view = findViewById(R.id.iconSensorImageView), // Replace with your actual button or clickable view
-            tipo = tipo,
-            scrollView = scrollView,
-            fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = supportFragmentManager
-        )
-
-        // Define a função do ScrollView para a aba de Instalações
-        ChangeFragment.setupImageViewClickListener(
-            view = findViewById(R.id.iconInstallImageView),
-            fragment = DadosAreaFragment(),
-            scrollView = scrollView,
-            fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
-        )
 
         // Verifica se o FragmentManager está vazio
         if (savedInstanceState == null) {
             val sensorFragment = SensorFragment()
+            iconSensor.animate()
+                .scaleX(1.2f)
+                .scaleY(1.2f)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.menuFragmentContainer, sensorFragment) // Use replace or add
                 .commit()
@@ -77,21 +46,25 @@ class MenuPage : AppCompatActivity() {
         iconSensor.setOnClickListener {
             animateIcon(iconSensor) // Animate the clicked icon
             switchFragment(SensorFragment()) // Switch to SensorFragment
+            highlightSelectedIcon(iconSensor)
         }
 
         iconInstall.setOnClickListener {
             animateIcon(iconInstall)
             switchFragment(DadosAreaFragment())
+            highlightSelectedIcon(iconInstall)
         }
 
         iconProfile.setOnClickListener {
             animateIcon(iconProfile)
             switchFragment(ProfileFragment())
+            highlightSelectedIcon(iconProfile)
         }
 
         iconInformation.setOnClickListener {
             animateIcon(iconInformation)
             switchFragment(InformationFragment())
+            highlightSelectedIcon(iconInformation)
         }
 
         // ????
@@ -101,6 +74,33 @@ class MenuPage : AppCompatActivity() {
             insets
         }
 
+    }
+
+    private fun highlightSelectedIcon(selectedIcon: ImageView) {
+        val iconSensor = findViewById<ImageView>(R.id.iconSensorImageView)
+        val iconInstall = findViewById<ImageView>(R.id.iconInstallImageView)
+        val iconProfile = findViewById<ImageView>(R.id.iconProfileImageView)
+        val iconInformation = findViewById<ImageView>(R.id.iconInformationImageView)
+
+        val icons = listOf(iconSensor, iconInstall, iconProfile, iconInformation)
+        icons.forEach { icon ->
+            if (icon == selectedIcon) {
+                icon.setBackgroundResource(R.drawable.circule_background) // Use a drawable
+                icon.animate()
+                    .scaleX(1.2f)
+                    .scaleY(1.2f)
+                    .setInterpolator(DecelerateInterpolator())
+                    .setDuration(200) // Animation duration in milliseconds
+                    .start()
+            } else {
+                icon.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setInterpolator(DecelerateInterpolator())
+                    .setDuration(200) // Animation duration in milliseconds
+                    .start()
+            }
+        }
     }
 
     private fun animateIcon(icon: ImageView) {
