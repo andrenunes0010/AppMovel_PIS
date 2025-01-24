@@ -7,10 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.appmovel_pis.R
+import com.example.appmovel_pis.data.SessionManager
 import com.example.appmovel_pis.ui.objects.ChangeFragment
+import com.example.appmovel_pis.utils.EncryptionUtils
+import com.example.appmovel_pis.repository.BaseDadosManager
+
+import kotlinx.coroutines.launch
+
 
 class ChangePasswordFragment : Fragment() {
 
@@ -41,12 +47,10 @@ class ChangePasswordFragment : Fragment() {
         etNewPassword = view.findViewById(R.id.et_new_password)
         etConfirmPassword = view.findViewById(R.id.et_confirm_password)
 
-        // Pega os componentes desejados pelo seus IDS
         val goBackButton: View = view.findViewById(R.id.goBackBTN)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
 
-        // Define a função do ScrollView para a aba de voltar para o Perfil
         ChangeFragment.setupImageViewClickListener(
             view = goBackButton,
             fragment = ProfileFragment(),
@@ -55,11 +59,23 @@ class ChangePasswordFragment : Fragment() {
             fragmentManager = fragmentManager
         )
 
+        val baseDadosManager = BaseDadosManager(requireContext())
+
         btnSubmeter.setOnClickListener {
-            if(etCurrentPassword.text.toString().isEmpty() || etNewPassword.text.toString().isEmpty() || etConfirmPassword.text.toString().isEmpty()){
+            if (etCurrentPassword.text.toString().isEmpty() || etNewPassword.text.toString().isEmpty() || etConfirmPassword.text.toString().isEmpty()) {
                 Toast.makeText(requireContext(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
             } else if (etNewPassword.text.toString() == etConfirmPassword.text.toString()) {
-                Toast.makeText(requireContext(), "Password alterada com sucesso!", Toast.LENGTH_SHORT).show()
+                // Lançar a coroutine
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val success = baseDadosManager.alterarPassword(
+                        currentPassword = etCurrentPassword.text.toString(),
+                        newPassword = etNewPassword.text.toString()
+                    )
+
+                    if (!success) {
+                        // Mensagens de erro já são tratadas no BaseDadosManager
+                    }
+                }
             } else {
                 Toast.makeText(requireContext(), "As passwords não coincidem!", Toast.LENGTH_SHORT).show()
             }

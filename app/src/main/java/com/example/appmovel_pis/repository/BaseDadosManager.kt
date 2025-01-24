@@ -16,6 +16,7 @@ import com.example.appmovel_pis.data.network.InstallRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import android.util.Base64
+import com.example.appmovel_pis.data.network.mudarPassword
 
 class BaseDadosManager(private var context: Context) {
 
@@ -102,6 +103,68 @@ class BaseDadosManager(private var context: Context) {
             true
         } catch (e: IllegalArgumentException) {
             false
+        }
+    }
+
+    suspend fun alterarPassword(currentPassword: String, newPassword: String): Boolean {
+        val sessionManager = SessionManager(context)
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val user = sessionManager.getUser() // Recupera os dados do usuário logado
+                val token = user?.token
+
+                if (token == null) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Erro: Token não encontrado.", Toast.LENGTH_SHORT).show()
+                    }
+                    return@withContext false
+                }
+
+                // Encriptar os dados para a API
+                val encryptedData = encryptionUtils.encryptAES(
+                    Json.encodeToString(mudarPassword(token, currentPassword, newPassword))
+                )
+                val encryptedRequest = EncryptedRequest(encryptedData)
+
+                // Fazer a chamada à API
+                val response = RetrofitClient.apiService.mudarPassword(encryptedRequest)
+
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse != null && apiResponse.success) {
+                        // Password alterada com sucesso
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Password alterada com sucesso!", Toast.LENGTH_SHORT).show()
+                        }
+                        return@withContext true
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                context,
+                                apiResponse?.message ?: "Erro ao alterar a password.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        return@withContext false
+                    }
+                } else {
+                    val errorMessage = when (response.code()) {
+                        401 -> "Token inválido ou sessão expirada."
+                        else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
+                    }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                    return@withContext false
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                }
+                return@withContext false
+            }
         }
     }
 
