@@ -15,27 +15,11 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
-<<<<<<< Updated upstream
-import com.example.appmovel_pis.data.SessionManager
-import com.example.appmovel_pis.repository.BaseDadosManager
-import com.example.appmovel_pis.ui.menu.MenuPage
-import com.example.appmovel_pis.ui.objects.ClickAnimation
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import android.content.Intent
-import android.content.IntentSender
-import com.google.android.gms.location.LocationRequest
-=======
 import com.example.appmovel_pis.ui.fragments.InstallFragment
 import com.example.appmovel_pis.ui.fragments.InstallFragment.Companion
 import com.google.android.gms.location.*
 import com.google.android.gms.common.api.ResolvableApiException
 
->>>>>>> Stashed changes
 
 class DadosSensorFragment : Fragment() {
 
