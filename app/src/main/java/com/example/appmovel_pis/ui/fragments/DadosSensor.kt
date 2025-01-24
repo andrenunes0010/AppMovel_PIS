@@ -1,11 +1,8 @@
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +12,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.ui.fragments.InstallFragment
-import com.example.appmovel_pis.ui.fragments.InstallFragment.Companion
 import com.google.android.gms.location.*
-import com.google.android.gms.common.api.ResolvableApiException
 
 
 class DadosSensorFragment : Fragment() {
