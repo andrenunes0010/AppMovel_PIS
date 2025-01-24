@@ -81,7 +81,7 @@ class InstallFragment : Fragment() {
             val DataInstalacao = dataIntalacaoTextView.text.toString()
             val Status = statusSensorTextView.text.toString()
             val NomeSensor = nomeSensorTextView.text.toString()
-            realizarInstalacaoSensor(email, Latitude, Longitude, DataInstalacao, Status, NomeSensor)
+            //realizarInstalacaoSensor(email, Latitude, Longitude, DataInstalacao, Status, NomeSensor)
         }
     }
 
@@ -195,7 +195,7 @@ class InstallFragment : Fragment() {
         }
     }
 
-    private fun realizarInstalacaoSensor(
+    /*private fun realizarInstalacaoSensor(
         email: String,
         Latitude: String,
         Longitude: String,
@@ -242,5 +242,5 @@ class InstallFragment : Fragment() {
                 Toast.makeText(requireContext(), "Usuário não autenticado. Realize o login novamente.", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 }

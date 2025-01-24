@@ -19,9 +19,9 @@ data class EncryptedRequest(val data: String)
 
 interface ApiService {
     @POST("/api/v1/login")
-    suspend fun login(@Body request: EncryptedRequest): Response<ApiResponse<UserData>>
+    suspend fun login(@Body request: EncryptedRequest): Response<ApiResponse>
     //suspend fun login(@Body request: LoginRequest): Response<ApiResponse<UserData>>
 
-    @POST("/api/v1/install")
-    suspend fun install(@Body request: InstallRequest): Response<ApiResponse<SensorData>>
+    //@POST("/api/v1/install")
+    //suspend fun install(@Body request: InstallRequest): Response<ApiResponse<SensorData>>
 }

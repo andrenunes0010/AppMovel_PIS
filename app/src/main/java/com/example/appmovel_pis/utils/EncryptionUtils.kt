@@ -10,11 +10,7 @@ import javax.crypto.spec.SecretKeySpec
 
 class EncryptionUtils(private val secretKey: String) {
 
-    // AES - Configurações
-    private val aesCipher: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-    private val aesIv = ByteArray(16) // Vetor de inicialização (IV) fixo para exemplo (não recomendado para produção)
 
-    private val secretKeyAES = "1234567890abcdef".toByteArray()
     // Valida o token JWT
     fun validateToken(token: String): Boolean {
         return try {
@@ -42,12 +38,24 @@ class EncryptionUtils(private val secretKey: String) {
         }
     }
 
+
+    // AES - Configurações
+    private val secretKeyAES = "1234567890abcdef".toByteArray()
+    private val aesIv = ByteArray(16) // Vetor de inicialização (IV) fixo para exemplo
+
+    // Obter nova instância de Cipher
+    private fun getCipherInstance(): Cipher {
+        return Cipher.getInstance("AES/CBC/PKCS5Padding")
+    }
+
+
     // AES - Criptografar mensagem
     fun encryptAES(message: String): String {
         return try {
+            val cipher = getCipherInstance()
             val secretKeySpec = SecretKeySpec(secretKeyAES, "AES")
-            aesCipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, IvParameterSpec(aesIv))
-            val encryptedBytes = aesCipher.doFinal(message.toByteArray(Charsets.UTF_8))
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, IvParameterSpec(aesIv))
+            val encryptedBytes = cipher.doFinal(message.toByteArray(Charsets.UTF_8))
             Base64.encodeToString(encryptedBytes, Base64.DEFAULT)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -58,10 +66,12 @@ class EncryptionUtils(private val secretKey: String) {
     // AES - Descriptografar mensagem
     fun decryptAES(encryptedMessage: String): String {
         return try {
+            if (encryptedMessage.isBlank()) throw IllegalArgumentException("Mensagem encriptada está vazia.")
+            val cipher = getCipherInstance()
             val secretKeySpec = SecretKeySpec(secretKeyAES, "AES")
-            aesCipher.init(Cipher.DECRYPT_MODE, secretKeySpec, IvParameterSpec(aesIv))
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, IvParameterSpec(aesIv))
             val decodedBytes = Base64.decode(encryptedMessage, Base64.DEFAULT)
-            String(aesCipher.doFinal(decodedBytes), Charsets.UTF_8)
+            String(cipher.doFinal(decodedBytes), Charsets.UTF_8)
         } catch (e: Exception) {
             e.printStackTrace()
             ""
