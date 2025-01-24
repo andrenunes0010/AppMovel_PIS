@@ -10,7 +10,7 @@ import kotlinx.coroutines.Delay
 object WelcomePageAnimations {
 
     // Button Slide-Up and Fade-In Animation
-    fun slideUpAndFadeIn(view: View, duration: Long = 1000, delay: Long = 1000) {
+    fun slideUpAndFadeIn(view: View, duration: Long = 1000, delay: Long = 1400) {
         view.translationY = 200f
         view.alpha = 0f
         view.animate()

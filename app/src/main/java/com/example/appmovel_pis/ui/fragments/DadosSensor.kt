@@ -28,6 +28,7 @@ import kotlinx.coroutines.withContext
 import android.content.Intent
 import android.content.IntentSender
 import com.google.android.gms.location.LocationRequest
+
 class DadosSensorFragment : Fragment() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient

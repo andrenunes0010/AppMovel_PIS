@@ -2,10 +2,12 @@ package com.example.appmovel_pis.ui.menu
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.fragments.DadosAreaFragment
 import com.example.appmovel_pis.ui.fragments.DadosSensorFragment
@@ -21,6 +23,10 @@ class MenuPage : AppCompatActivity() {
         setContentView(R.layout.activity_menu_page)
 
         // Procura os componentes pelo seu ID
+        val iconSensor = findViewById<ImageView>(R.id.iconSensorImageView)
+        val iconInstall = findViewById<ImageView>(R.id.iconInstallImageView)
+        val iconProfile = findViewById<ImageView>(R.id.iconProfileImageView)
+        val iconInformation = findViewById<ImageView>(R.id.iconInformationImageView)
         val scrollView = findViewById<View>(R.id.scrollView)
         val fragmentManager = supportFragmentManager
         val tipo = 1
@@ -68,6 +74,26 @@ class MenuPage : AppCompatActivity() {
                 .commit()
         }
 
+        iconSensor.setOnClickListener {
+            animateIcon(iconSensor) // Animate the clicked icon
+            switchFragment(SensorFragment()) // Switch to SensorFragment
+        }
+
+        iconInstall.setOnClickListener {
+            animateIcon(iconInstall)
+            switchFragment(DadosAreaFragment())
+        }
+
+        iconProfile.setOnClickListener {
+            animateIcon(iconProfile)
+            switchFragment(ProfileFragment())
+        }
+
+        iconInformation.setOnClickListener {
+            animateIcon(iconInformation)
+            switchFragment(InformationFragment())
+        }
+
         // ????
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -75,6 +101,30 @@ class MenuPage : AppCompatActivity() {
             insets
         }
 
+    }
+
+    private fun animateIcon(icon: ImageView) {
+        // Scale up and then back down
+        icon.animate()
+            .scaleX(1.2f)
+            .scaleY(1.2f)
+            .setDuration(200)
+            .withEndAction {
+                icon.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(200)
+                    .start()
+            }
+            .start()
+    }
+
+    // Function to switch fragments
+    private fun switchFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        transaction.replace(R.id.menuFragmentContainer, fragment) // Replace the container ID with your fragment holder ID
+        transaction.commit()
     }
 
     var remainingSensors: Int = 0
