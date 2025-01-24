@@ -9,5 +9,5 @@ data class UserData(
     val nome: String?,
     val email: String?,
     val token: String?,
-    val tipo: String?
+    var tipo: String? = null
 )

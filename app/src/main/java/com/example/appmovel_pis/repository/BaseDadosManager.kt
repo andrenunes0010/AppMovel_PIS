@@ -45,24 +45,27 @@ class BaseDadosManager(private var context: Context) {
                         val encryptedResponseData = apiResponse.data?.toString() ?: ""
                         Log.d("Autenticar", "Dados encriptados recebidos do servidor: $encryptedResponseData")
 
-                        if (encryptedResponseData.isBlank()) {
-                            Log.e("Autenticar", "Os dados recebidos estão em branco!")
+                        if (encryptedResponseData.isBlank() || !isBase64(encryptedResponseData)) {
+                            Log.e("Autenticar", "Os dados recebidos são inválidos para descriptografia!")
                             return@withContext null
                         }
 
-                        if (!isBase64(encryptedResponseData)) {
-                            Log.e("Autenticar", "Os dados recebidos não são válidos para descriptografia!")
-                            return@withContext null
-                        }
-
-                        // Se passou nos testes, tenta desencriptar
+                        // Descriptografar os dados recebidos
                         val decryptedData = encryptionUtils.decryptAES(encryptedResponseData)
                         Log.d("Autenticar", "Dados descriptografados: $decryptedData")
 
-                        // Deserializa os dados descriptografados
+                        // Criar objeto UserData
                         val userData = Json.decodeFromString<UserData>(decryptedData)
 
-                        // Salvar usuário na sessão
+                        // Validar e extrair o tipo do token JWT usando EncryptionUtils
+                        if (userData.token != null && encryptionUtils.validateToken(userData.token)) {
+                            val payload = encryptionUtils.extractPayload(userData.token)
+                            userData.tipo = payload["tipo"] // Atualiza o campo 'tipo' com o valor extraído do token
+                        } else {
+                            Log.e("Autenticar", "Token inválido ou nulo!")
+                        }
+
+                        // Salvar o usuário na sessão
                         sessionManager.saveUser(userData)
 
                         return@withContext userData
@@ -70,7 +73,7 @@ class BaseDadosManager(private var context: Context) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(context, apiResponse?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
                         }
-                        null
+                        return@withContext null
                     }
                 } else {
                     val errorMessage = when (response.code()) {
@@ -80,14 +83,14 @@ class BaseDadosManager(private var context: Context) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
-                    null
+                    return@withContext null
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
-                null
+                return@withContext null
             }
         }
     }

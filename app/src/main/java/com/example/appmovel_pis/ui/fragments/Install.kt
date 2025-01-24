@@ -43,34 +43,34 @@ class InstallFragment : Fragment() {
     }
 
 
-    override fun onCreateView(
+    /*override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_install, container, false)
-    }
+        //return inflater.inflate(R.layout.fragment_install, container, false)
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val btnSubmeter = view.findViewById<Button>(R.id.btnSubmeter)
+        /*val btnSubmeter = view.findViewById<Button>(R.id.btnSubmeter)
         val btnObterMorada = view.findViewById<Button>(R.id.btnObterMorada)
         latitudeTextView = view.findViewById(R.id.tvLatitude)
         longitudeTextView = view.findViewById(R.id.tvLongitude)
         emailTextView = view.findViewById(R.id.et_owner_email)
         dataIntalacaoTextView = view.findViewById(R.id.et_installation_date)
         statusSensorTextView = view.findViewById(R.id.et_sensor_status)
-        nomeSensorTextView = view.findViewById(R.id.et_sensor_name)
+        nomeSensorTextView = view.findViewById(R.id.et_sensor_name)*/
 
         // Inicializar o FusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // Aplicar animação no botão
-        ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
+        //ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
 
         // Configurar clique do botão para obter localização
-        btnObterMorada.setOnClickListener {
+        /*btnObterMorada.setOnClickListener {
             checkLocationPermissionAndGetLocation()
         }
 
@@ -82,7 +82,7 @@ class InstallFragment : Fragment() {
             val Status = statusSensorTextView.text.toString()
             val NomeSensor = nomeSensorTextView.text.toString()
             //realizarInstalacaoSensor(email, Latitude, Longitude, DataInstalacao, Status, NomeSensor)
-        }
+        }*/
     }
 
     private fun checkLocationPermissionAndGetLocation() {
