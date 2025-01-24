@@ -5,10 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.objects.ChangeFragment
 
 class ChangePasswordFragment : Fragment() {
+
+    private lateinit var btnSubmeter: Button
+    private lateinit var etCurrentPassword: EditText
+    private lateinit var etNewPassword: EditText
+    private lateinit var etConfirmPassword: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +36,11 @@ class ChangePasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btnSubmeter = view.findViewById(R.id.btnSubmeter)
+        etCurrentPassword = view.findViewById(R.id.et_current_password)
+        etNewPassword = view.findViewById(R.id.et_new_password)
+        etConfirmPassword = view.findViewById(R.id.et_confirm_password)
+
         // Pega os componentes desejados pelo seus IDS
         val goBackButton: View = view.findViewById(R.id.goBackBTN)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
@@ -40,5 +54,15 @@ class ChangePasswordFragment : Fragment() {
             fragmentContainerId = R.id.menuFragmentContainer,
             fragmentManager = fragmentManager
         )
+
+        btnSubmeter.setOnClickListener {
+            if(etCurrentPassword.text.toString().isEmpty() || etNewPassword.text.toString().isEmpty() || etConfirmPassword.text.toString().isEmpty()){
+                Toast.makeText(requireContext(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+            } else if (etNewPassword.text.toString() == etConfirmPassword.text.toString()) {
+                Toast.makeText(requireContext(), "Password alterada com sucesso!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "As passwords não coincidem!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

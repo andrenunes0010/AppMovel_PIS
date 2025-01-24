@@ -14,13 +14,34 @@ data class LoginRequest(
     val email: String,
     val senha: String
 )
-data class InstallRequest(val email: String, val Latitude: String, val Longitude: String, val DataInstalacao: String, val Status: String, val NomeSensor: String, val token: String)
-data class EncryptedRequest(val data: String)
+
+data class InstallRequest(
+    val email: String,
+    val Latitude: String,
+    val Longitude: String,
+    val DataInstalacao: String,
+    val Status: String,
+    val NomeSensor: String,
+    val token: String
+)
+
+data class EncryptedRequest(
+    val data: String
+)
+
+data class mudarPalavraPasseRequest(
+    val token: String,
+    val palavraPasseAntiga: String,
+    val palavraPasseNova: String
+)
 
 interface ApiService {
     @POST("/api/v1/login")
     suspend fun login(@Body request: EncryptedRequest): Response<ApiResponse>
     //suspend fun login(@Body request: LoginRequest): Response<ApiResponse<UserData>>
+
+    @POST("/api/v1/perfil/password")
+    suspend fun changePassword(@Body request: EncryptedRequest): Response<ApiResponse>
 
     //@POST("/api/v1/install")
     //suspend fun install(@Body request: InstallRequest): Response<ApiResponse<SensorData>>
