@@ -179,22 +179,6 @@ class InstallFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    // O usuário ativou a localização
-                    Toast.makeText(requireContext(), "Localização ativada com sucesso!", Toast.LENGTH_SHORT).show()
-                }
-                Activity.RESULT_CANCELED -> {
-                    // O usuário cancelou a ativação
-                    Toast.makeText(requireContext(), "Você precisa ativar a localização.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
     /*private fun realizarInstalacaoSensor(
         email: String,
         Latitude: String,

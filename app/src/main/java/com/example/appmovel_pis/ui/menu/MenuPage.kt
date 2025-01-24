@@ -1,5 +1,6 @@
 package com.example.appmovel_pis.ui.menu
 
+import DadosSensorFragment
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -10,7 +11,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.fragments.DadosAreaFragment
-import com.example.appmovel_pis.ui.fragments.DadosSensorFragment
 import com.example.appmovel_pis.ui.fragments.InformationFragment
 import com.example.appmovel_pis.ui.fragments.ProfileFragment
 import com.example.appmovel_pis.ui.fragments.SensorFragment
