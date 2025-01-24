@@ -3,29 +3,18 @@ package com.example.appmovel_pis.ui.objects
 import android.animation.ObjectAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
+import kotlinx.coroutines.Delay
 
 object WelcomePageAnimations {
 
-    // Logo Animation: Zoom-In
-    fun zoomIn(view: View, duration: Long = 500) {
-        view.scaleX = 0f
-        view.scaleY = 0f
-        view.animate()
-            .scaleX(1f)
-            .scaleY(1f)
-            .setDuration(duration)
-            .setInterpolator(AccelerateInterpolator())
-            .start()
-    }
-
     // Button Slide-Up and Fade-In Animation
-    fun slideUpAndFadeIn(view: View, duration: Long = 800) {
+    fun slideUpAndFadeIn(view: View, duration: Long = 1000, delay: Long = 1000) {
         view.translationY = 200f
         view.alpha = 0f
         view.animate()
+            .setStartDelay(delay)
             .translationY(0f)
             .alpha(1f)
             .setDuration(duration)
@@ -34,7 +23,7 @@ object WelcomePageAnimations {
     }
 
     // Text Typewriter Effect
-    fun typewriterEffect(textView: TextView, text: String, delayPerChar: Long = 50) {
+    fun typewriterEffect(textView: TextView, text: String, delayPerChar: Long = 20) {
         textView.text = ""
         for (i in text.indices) {
             textView.postDelayed({

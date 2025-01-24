@@ -29,7 +29,8 @@ class WelcomePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize Lottie Animation
-        val fallingLeavesAnimation = view.findViewById<LottieAnimationView>(R.id.fallingLeavesAnimation)
+        val fallingLeavesAnimation =
+            view.findViewById<LottieAnimationView>(R.id.fallingLeavesAnimation)
         fallingLeavesAnimation.setAnimation(R.raw.falling_leaves) // Optional if defined in XML
         fallingLeavesAnimation.playAnimation()
 
@@ -52,8 +53,11 @@ class WelcomePageFragment : Fragment() {
         ClickAnimation.applyTouchAnimation(getStartedBtn, requireContext())
 
         // Apply animations
-        WelcomePageAnimations.zoomIn(appLogo) // Logo animation
-        WelcomePageAnimations.typewriterEffect(descriptionText, "Comece a salvar florestas com apenas um clique de um botão.") // Typewriter effect
+
+        WelcomePageAnimations.typewriterEffect(
+            descriptionText,
+            "Comece a salvar florestas com apenas um clique de um botão."
+        ) // Typewriter effect
         WelcomePageAnimations.slideUpAndFadeIn(getStartedBtn) // Slide up button animation
 
 

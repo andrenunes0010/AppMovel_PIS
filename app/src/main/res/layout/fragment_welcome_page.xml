@@ -64,9 +64,9 @@
         android:fontFamily="@font/poppins_bold"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/green_background"
-        app:layout_constraintTop_toBottomOf="@+id/appName"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -81,9 +81,8 @@
         android:textAlignment="center"
         android:textSize="20dp"
         android:textColor="@color/black"
-        android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_medium"
-        app:layout_constraintTop_toBottomOf="@+id/GetStartedBtn"
+        app:layout_constraintTop_toBottomOf="@+id/appName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
