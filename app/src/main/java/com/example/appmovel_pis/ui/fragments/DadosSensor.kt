@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
 import com.google.android.gms.location.*
+import com.example.appmovel_pis.ui.menu.MenuPage
 
 
 class DadosSensorFragment : Fragment() {
@@ -42,6 +43,7 @@ class DadosSensorFragment : Fragment() {
         tvLatitude = view.findViewById(R.id.tvLatitude)
         tvLongitude = view.findViewById(R.id.tvLongitude)
         val btnObterCoordenadas = view.findViewById<Button>(R.id.btnObterCoordenadas)
+        val btnSubmeter = view.findViewById<Button>(R.id.btnSubmeter)
 
         // Inicializar o FusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -49,6 +51,10 @@ class DadosSensorFragment : Fragment() {
         // Configurar a ação do botão
         btnObterCoordenadas.setOnClickListener {
             checkLocationPermissionAndGetLocation()
+        }
+
+        btnSubmeter.setOnClickListener {
+            (activity as? MenuPage)?.onAdicionarSensorClicked()
         }
     }
 

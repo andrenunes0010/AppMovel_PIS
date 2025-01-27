@@ -94,8 +94,8 @@
         <ImageView
             android:id="@+id/iconSensorImageView"
             android:clickable="true"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="5dp"
             android:src="@drawable/ic_sensor"
@@ -111,6 +111,7 @@
             android:layout_marginEnd="35dp"
             android:layout_marginStart="35dp"
             android:layout_marginBottom="5dp"
+            android:visibility="gone"
             android:contentDescription="Grid" />
 
         <ImageView
