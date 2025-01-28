@@ -246,8 +246,45 @@ class MenuPage : AppCompatActivity() {
             .start()
     }
 
+    private var currentSensorNumber: Int = 1
+    private var remainingSensors: Int = 0
+
+    // Função para determinar quantos sensores são
+    fun onAdicionarAreaClicked(sensorCount: Int) {
+        // Define o número de sensores
+        remainingSensors = sensorCount
+        currentSensorNumber = 1 // Reinicia o contador de sensores
+
+        // Carrega a primeira instância para preencher
+        showDadosSensorFragment()
+    }
+
+    // Função para determinar se todos os sensores já foram preenchidos
+    fun onAdicionarSensorClicked() {
+        remainingSensors--
+
+        if (remainingSensors > 0) {
+            // Mostra os próximos fragmentos
+            currentSensorNumber++
+            showDadosSensorFragment()
+        } else {
+            // Todos os sensores foram adicionados
+            Toast.makeText(this, "Todos os sensores foram adicionados!", Toast.LENGTH_SHORT).show()
+            val dadosAreaFragment = DadosAreaFragment()
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+                .replace(R.id.menuFragmentContainer, dadosAreaFragment)
+                .commit()
+        }
+    }
+
     // Função para carregar o fragmento de DadosSensor
-    fun showDadosSensorFragment() {
+    private fun showDadosSensorFragment() {
         val fragment = DadosSensorFragment.newInstance(currentSensorNumber)
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(
@@ -259,42 +296,5 @@ class MenuPage : AppCompatActivity() {
             .replace(R.id.menuFragmentContainer, fragment)
             .addToBackStack(null)
             .commit()
-    }
-
-    private var currentSensorNumber: Int = 1
-    private var remainingSensors: Int = 0
-
-    // Função para determinar quantos sensores são
-    fun onAdicionarAreaClicked(sensorCount: Int) {
-        // numero de sensores
-        remainingSensors = sensorCount
-        currentSensorNumber = 1 // Reset the sensor counter
-
-        // carrega a primeira instância para preencher
-        showDadosSensorFragment()
-    }
-
-    // Função para determinar se todos os sensores ja foram preenchidos
-    fun onAdicionarSensorClicked() {
-        remainingSensors--
-
-        if (remainingSensors > 0) {
-            // Mostra os proximos fragmentos
-            currentSensorNumber++
-            showDadosSensorFragment()
-        } else {
-            // Todos os sensores foram adicionados
-            Toast.makeText(this, "All sensors added!", Toast.LENGTH_SHORT).show()
-            val dadosAreaFragmentFragment = DadosAreaFragment()
-            supportFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right,
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left
-                )
-                .replace(R.id.menuFragmentContainer, dadosAreaFragmentFragment)
-                .commit()
-        }
     }
 }
