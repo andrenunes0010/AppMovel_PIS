@@ -5,4 +5,6 @@
     <color name="grey">#D3D3D3</color>
     <color name="green_background">#42953f</color>
     <color name="green_welcome">#3b653b</color>
+    <color name="admin">#073B3A</color>
+    <color name="tecnico">#084D39</color>
 </resources>

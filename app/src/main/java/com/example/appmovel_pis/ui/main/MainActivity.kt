@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.fragments.WelcomePageFragment
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             .setMessage("Are you sure you want to close the app?")
             .setPositiveButton("Yes") { _, _ ->
                 // Exit the app
-                System.exit(0)
+                exitProcess(0)
             }
             .setNegativeButton("No") { dialog, _ ->
                 // Dismiss the dialog

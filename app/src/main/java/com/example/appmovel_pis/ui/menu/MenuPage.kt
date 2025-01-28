@@ -23,6 +23,7 @@ import com.example.appmovel_pis.ui.fragments.ProfileFragment
 import com.example.appmovel_pis.ui.fragments.SensorFragment
 import com.example.appmovel_pis.data.SessionManager
 import com.example.appmovel_pis.ui.fragments.CriarUtilizadorFragment
+import kotlin.system.exitProcess
 
 class MenuPage : AppCompatActivity() {
 
@@ -148,7 +149,7 @@ class MenuPage : AppCompatActivity() {
             .setMessage("Are you sure you want to close the app?")
             .setPositiveButton("Yes") { _, _ ->
                 // Exit the app
-                System.exit(0)
+                exitProcess(0)
             }
             .setNegativeButton("No") { dialog, _ ->
                 // Dismiss the dialog
