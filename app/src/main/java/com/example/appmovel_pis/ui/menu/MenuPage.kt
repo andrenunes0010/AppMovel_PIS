@@ -54,6 +54,11 @@ class MenuPage : AppCompatActivity() {
                 iconSensor.setImageResource(R.drawable.ic_adicionar)
 
                 iconInstall.visibility = View.VISIBLE
+
+            } else if (user.tipo == "Administrador") {
+                iconSensor.setImageResource(R.drawable.ic_adicionar)
+
+                iconInstall.visibility = View.VISIBLE
             }
         } ?: run {
             // Se estiver NULL esconde o ImageView
@@ -81,10 +86,12 @@ class MenuPage : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.menuFragmentContainer, adicionarFragment)
                         .commit()
-                } else {
+                } else if (user.tipo == "Administrador") {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.menuFragmentContainer, sensorFragment)
+                        .replace(R.id.menuFragmentContainer, adicionarFragment)
                         .commit()
+                } else {
+
                 }
             }
         }
@@ -99,6 +106,9 @@ class MenuPage : AppCompatActivity() {
                     // muda o fragmento
                     switchFragment(SensorFragment())
                 } else if (it.tipo == "Técnico") {
+                    switchFragment(CriarUtilizadorFragment())
+
+                } else if (it.tipo == "Administrador") {
                     switchFragment(CriarUtilizadorFragment())
                 }
 
