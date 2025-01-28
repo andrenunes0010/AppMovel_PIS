@@ -149,6 +149,7 @@ class BaseDadosManager(private var context: Context) {
                         return@withContext false
                     }
                 } else {
+                    Log.e("Autenticar", "Resposta do servidor: ${response.errorBody()?.string()}")
                     val errorMessage = when (response.code()) {
                         401 -> "Token inválido ou sessão expirada."
                         else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
@@ -157,6 +158,7 @@ class BaseDadosManager(private var context: Context) {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                     return@withContext false
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

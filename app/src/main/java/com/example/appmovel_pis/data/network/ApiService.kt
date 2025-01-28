@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 // Modelo para a requisição de login
 @Serializable
@@ -40,7 +41,7 @@ interface ApiService {
     @POST("/api/v1/login")
     suspend fun login(@Body request: EncryptedRequest): Response<ApiResponse>
 
-    @POST("/api/v1/perfil/password")
+    @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>
 
     //@POST("/api/v1/install")
