@@ -36,9 +36,12 @@ class SettingsFragment : Fragment() {
         ChangeFragment.setupImageViewClickListener(
             view = goBackButton,
             fragment = ProfileFragment(),
-            scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
+            fragmentManager = fragmentManager,
+            enterAnimation = R.anim.slide_in_left,
+            exitAnimation = R.anim.slide_out_right,
+            popEnterAnimation = R.anim.slide_in_right,
+            popExitAnimation = R.anim.slide_out_left
         )
 
         ClickAnimation.applyTouchAnimation(LayoutUno, requireContext())

@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.menu.MenuPage
+import com.example.appmovel_pis.ui.objects.ClickAnimation
 
 
 class DadosAreaFragment : Fragment() {
@@ -45,5 +46,13 @@ class DadosAreaFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val btnSubmeter = view.findViewById<Button>(R.id.btnSubmeter)
+
+        ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
     }
 }

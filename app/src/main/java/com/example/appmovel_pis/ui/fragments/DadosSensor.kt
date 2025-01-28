@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
 import com.google.android.gms.location.*
 import com.example.appmovel_pis.ui.menu.MenuPage
+import com.example.appmovel_pis.ui.objects.ClickAnimation
 
 
 class DadosSensorFragment : Fragment() {
@@ -23,8 +24,13 @@ class DadosSensorFragment : Fragment() {
     private lateinit var tvLongitude: TextView
     companion object {
         private const val REQUEST_CHECK_SETTINGS = 1001
-        fun newInstance(): DadosSensorFragment {
-            return DadosSensorFragment()
+        private const val SENSOR_NUMBER_KEY = "sensor_number"
+        fun newInstance(sensorNumber: Int): DadosSensorFragment {
+            val fragment = DadosSensorFragment()
+            val args = Bundle()
+            args.putInt(SENSOR_NUMBER_KEY, sensorNumber)
+            fragment.arguments = args
+            return fragment
         }
     }
 
@@ -33,8 +39,19 @@ class DadosSensorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate o layout para este fragment
-        return inflater.inflate(R.layout.fragment_dados_sensor, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_dados_sensor, container, false)
+
+        val sensorNumber = arguments?.getInt(SENSOR_NUMBER_KEY) ?: 1
+        val titleTextView = view.findViewById<TextView>(R.id.tvSensorDados)
+        titleTextView.text = "Dados do Sensor #$sensorNumber"
+
+        val addSensorButton = view.findViewById<Button>(R.id.btnSubmeter)
+        addSensorButton.setOnClickListener {
+            (activity as? MenuPage)?.onAdicionarSensorClicked()
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +73,9 @@ class DadosSensorFragment : Fragment() {
         btnSubmeter.setOnClickListener {
             (activity as? MenuPage)?.onAdicionarSensorClicked()
         }
+
+        ClickAnimation.applyTouchAnimation(btnObterCoordenadas, requireContext())
+        ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
     }
 
     private fun checkLocationPermissionAndGetLocation() {

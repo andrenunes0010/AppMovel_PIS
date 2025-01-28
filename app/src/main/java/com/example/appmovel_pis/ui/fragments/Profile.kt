@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.appmovel_pis.R
 import com.example.appmovel_pis.ui.objects.ChangeFragment
 import com.example.appmovel_pis.ui.objects.ClickAnimation
+import com.example.appmovel_pis.data.SessionManager
 
 class ProfileFragment : Fragment() {
 
@@ -36,25 +37,34 @@ class ProfileFragment : Fragment() {
         ChangeFragment.setupImageViewClickListener(
             view = LayoutSettings,
             fragment = SettingsFragment(),
-            scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
+            fragmentManager = fragmentManager,
+            enterAnimation = R.anim.slide_in_right,
+            exitAnimation = R.anim.slide_out_left,
+            popEnterAnimation = R.anim.slide_in_left,
+            popExitAnimation = R.anim.slide_out_right
         )
 
         ChangeFragment.setupImageViewClickListener(
             view = LayoutNotifications,
             fragment = NotificationsFragment(),
-            scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
+            fragmentManager = fragmentManager,
+            enterAnimation = R.anim.slide_in_right,
+            exitAnimation = R.anim.slide_out_left,
+            popEnterAnimation = R.anim.slide_in_left,
+            popExitAnimation = R.anim.slide_out_right
         )
 
         ChangeFragment.setupImageViewClickListener(
             view = LayoutChangePassword,
             fragment = ChangePasswordFragment(),
-            scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
+            fragmentManager = fragmentManager,
+            enterAnimation = R.anim.slide_in_right,
+            exitAnimation = R.anim.slide_out_left,
+            popEnterAnimation = R.anim.slide_in_left,
+            popExitAnimation = R.anim.slide_out_right
         )
 
         ClickAnimation.applyTouchAnimation(LayoutChangePassword, requireContext())

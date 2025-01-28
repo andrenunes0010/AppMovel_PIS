@@ -40,13 +40,15 @@ class WelcomePageFragment : Fragment() {
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
 
-        // Define a função do ScrollView para a aba de Definições
         ChangeFragment.setupImageViewClickListener(
             view = getStartedBtn,
             fragment = LoginFragment(),
-            scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
+            fragmentManager = fragmentManager,
+            enterAnimation = R.anim.slide_in_right,
+            exitAnimation = R.anim.slide_out_left,
+            popEnterAnimation = R.anim.slide_in_left,
+            popExitAnimation = R.anim.slide_out_right
         )
 
         ClickAnimation.applyTouchAnimation(getStartedBtn, requireContext())

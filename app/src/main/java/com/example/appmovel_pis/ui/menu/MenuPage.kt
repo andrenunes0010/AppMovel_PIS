@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -35,29 +36,28 @@ class MenuPage : AppCompatActivity() {
         val iconProfile = findViewById<ImageView>(R.id.iconProfileImageView)
         val iconInformation = findViewById<ImageView>(R.id.iconInformationImageView)
 
-        // Initialize SessionManager
+        // Busca o SessionManager e define-o
         val sessionManager = SessionManager(this)
 
-        // Retrieve the user data
+        // Pega os dados do utilizador
         val userData = sessionManager.getUser()
 
-        // Check 'tipo' and adjust visibility
+        // Verifica o tipo que está guardado nos dados
         userData?.let { user ->
             if (user.tipo == "utilizador") {
-                // Change the icon for iconSensor
+                // Muda o icon
                 iconSensor.setImageResource(R.drawable.ic_sensor)
 
-                // Hide the iconInstall ImageView
+                // Esconde o ImageView
                 iconInstall.visibility = View.GONE
             } else if (user.tipo == "Técnico") {
-                // Change the icon for iconSensor
                 iconSensor.setImageResource(R.drawable.ic_adicionar)
 
-                // Show the iconInstall ImageView
                 iconInstall.visibility = View.VISIBLE
             }
         } ?: run {
-            // Handle the case where user data is null (e.g., not logged in)
+            // Se estiver NULL esconde o ImageView
+            iconSensor.setImageResource(R.drawable.ic_sensor)
             iconInstall.visibility = View.GONE
         }
 
@@ -67,39 +67,41 @@ class MenuPage : AppCompatActivity() {
             val sensorFragment = SensorFragment()
             val adicionarFragment = CriarUtilizadorFragment()
             iconSensor.animate()
-                .scaleX(1.2f)
-                .scaleY(1.2f)
+                .scaleX(1.3f)
+                .scaleY(1.3f)
+                .start()
+
             userData?.let { user ->
                 if (user.tipo == "utilizador") {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.menuFragmentContainer, sensorFragment) // Use replace or add
+                        .replace(R.id.menuFragmentContainer, sensorFragment)
                         .commit()
 
                 } else if (user.tipo == "Técnico") {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.menuFragmentContainer, adicionarFragment) // Use replace or add
+                        .replace(R.id.menuFragmentContainer, adicionarFragment)
                         .commit()
                 } else {
-
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.menuFragmentContainer, sensorFragment)
+                        .commit()
                 }
             }
         }
 
         iconSensor.setOnClickListener {
-            // Retrieve the UserData from SessionManager
-            val user = sessionManager.getUser() // Retrieve user data from SharedPreferences
+            // Pega os dados guardados no SessionManager
+            val user = sessionManager.getUser()
 
-            // Check if user data is not null and handle the "tipo" property
+            // Verifica que tipo de utilizador é e muda o Fragmento de acordo com isso
             user?.let {
                 if (it.tipo == "utilizador") {
-                    // Switch to a fragment relevant for "utilizador"
+                    // muda o fragmento
                     switchFragment(SensorFragment())
                 } else if (it.tipo == "Técnico") {
-                    // Switch to a fragment relevant for "Técnico"
                     switchFragment(CriarUtilizadorFragment())
                 }
 
-                // Highlight the selected icon
                 highlightSelectedIcon(iconSensor)
             }
         }
@@ -159,14 +161,33 @@ class MenuPage : AppCompatActivity() {
             if (icon == selectedIcon) {
                 icon.isClickable = false
                 icon.animate()
-                    .scaleX(1.2f)
-                    .scaleY(1.2f)
+                    .scaleX(1.3f)
+                    .scaleY(1.3f)
                     .translationYBy(-20f) // Move up slightly
                     .setDuration(200)
                     .withEndAction {
+                        // Shake animation
                         icon.animate()
-                            .translationY(0f) // Bounce back
-                            .setDuration(200)
+                            .translationXBy(-10f) // Move left
+                            .setDuration(50)
+                            .withEndAction {
+                                icon.animate()
+                                    .translationXBy(20f) // Move right
+                                    .setDuration(100)
+                                    .withEndAction {
+                                        icon.animate()
+                                            .translationXBy(-10f) // Center back
+                                            .setDuration(50)
+                                            .withEndAction {
+                                                icon.animate()
+                                                    .translationY(0f) // Bounce back
+                                                    .setDuration(200)
+                                                    .start()
+                                            }
+                                            .start()
+                                    }
+                                    .start()
+                            }
                             .start()
                     }
                     .start()
@@ -198,47 +219,81 @@ class MenuPage : AppCompatActivity() {
             .start()
     } */
 
-    // Function to switch fragments
+    // Função para alterar fragmentos com animação
     private fun switchFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-        transaction.replace(R.id.menuFragmentContainer, fragment) // Replace the container ID with your fragment holder ID
-        transaction.commit()
+        val container = findViewById<ViewGroup>(R.id.menuFragmentContainer)
+
+        // Slide the current fragment out of view by moving it down (fade-out effect)
+        container.animate()
+            .translationY(container.height.toFloat())  // Slide out to the bottom
+            .alpha(0f)  // Fade out the current fragment
+            .setDuration(250)
+            .withEndAction {
+                // After the first fragment slides out, replace the fragment
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.menuFragmentContainer, fragment)
+                transaction.commit()
+
+                // Prepare the new fragment to slide in from the bottom (set translation to bottom)
+                container.translationY = container.height.toFloat()  // Start from the bottom
+                container.alpha = 0f  // Initially, make the fragment invisible
+                container.animate()
+                    .translationY(0f)  // Slide up to the original position
+                    .alpha(1f)  // Fade in the new fragment
+                    .setDuration(250)
+                    .start()
+            }
+            .start()
     }
 
-    var remainingSensors: Int = 0
-
-    // Function to load DadosSensorFragment
+    // Função para carregar o fragmento de DadosSensor
     fun showDadosSensorFragment() {
-        val fragment = DadosSensorFragment.newInstance()
+        val fragment = DadosSensorFragment.newInstance(currentSensorNumber)
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
             .replace(R.id.menuFragmentContainer, fragment)
             .addToBackStack(null)
             .commit()
     }
 
-    // Called by DadosAreaFragment when "Adicionar Area" is clicked
-    fun onAdicionarAreaClicked(sensorCount: Int) {
-        // Set the number of sensors to create
-        remainingSensors = sensorCount
+    private var currentSensorNumber: Int = 1
+    private var remainingSensors: Int = 0
 
-        // Load the first DadosSensorFragment
+    // Função para determinar quantos sensores são
+    fun onAdicionarAreaClicked(sensorCount: Int) {
+        // numero de sensores
+        remainingSensors = sensorCount
+        currentSensorNumber = 1 // Reset the sensor counter
+
+        // carrega a primeira instância para preencher
         showDadosSensorFragment()
     }
 
-    // Called by DadosSensorFragment when "Adicionar Sensor" is clicked
+    // Função para determinar se todos os sensores ja foram preenchidos
     fun onAdicionarSensorClicked() {
-
         remainingSensors--
+
         if (remainingSensors > 0) {
-            // Show the next DadosSensorFragment
+            // Mostra os proximos fragmentos
+            currentSensorNumber++
             showDadosSensorFragment()
         } else {
-            // All sensors added, go back or show a confirmation
+            // Todos os sensores foram adicionados
             Toast.makeText(this, "All sensors added!", Toast.LENGTH_SHORT).show()
             val dadosAreaFragmentFragment = DadosAreaFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.menuFragmentContainer, dadosAreaFragmentFragment) // Use replace or add
+                .setCustomAnimations(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right,
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+                )
+                .replace(R.id.menuFragmentContainer, dadosAreaFragmentFragment)
                 .commit()
         }
     }

@@ -54,18 +54,21 @@ class LoginFragment : Fragment() {
             }
         }
 
-        val goBackBTN = view.findViewById<LinearLayout>(R.id.goBackBTN)
+        val goBackButton = view.findViewById<LinearLayout>(R.id.goBackBTN)
         val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
         val forgot = view.findViewById<TextView>(R.id.forgot_password)
 
         // Define a função do ScrollView para a aba de Definições
         ChangeFragment.setupImageViewClickListener(
-            view = goBackBTN,
+            view = goBackButton,
             fragment = WelcomePageFragment(),
-            scrollView = scrollView,
             fragmentContainerId = R.id.menuFragmentContainer,
-            fragmentManager = fragmentManager
+            fragmentManager = fragmentManager,
+            enterAnimation = R.anim.slide_in_left,
+            exitAnimation = R.anim.slide_out_right,
+            popEnterAnimation = R.anim.slide_in_right,
+            popExitAnimation = R.anim.slide_out_left
         )
 
         forgot.setOnClickListener {
@@ -73,7 +76,7 @@ class LoginFragment : Fragment() {
             startActivity(intent)
         }
 
-        ClickAnimation.applyTouchAnimation(goBackBTN, requireContext())
+        ClickAnimation.applyTouchAnimation(goBackButton, requireContext())
 
         return view
     }

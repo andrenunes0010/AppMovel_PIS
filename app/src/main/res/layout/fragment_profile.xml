@@ -27,6 +27,7 @@
 
         <!-- Name -->
         <TextView
+            android:id="@+id/UserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="{Nome}"
@@ -37,6 +38,7 @@
             android:textColor="@color/black" />
 
         <ImageView
+            android:id="@+id/UserRole"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:src="@drawable/ic_install"
@@ -47,6 +49,7 @@
 
         <!-- Email -->
         <TextView
+            android:id="@+id/UserEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="{Email}"
