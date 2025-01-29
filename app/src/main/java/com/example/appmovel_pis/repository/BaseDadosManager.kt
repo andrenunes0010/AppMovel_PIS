@@ -10,12 +10,12 @@ import com.example.appmovel_pis.utils.EncryptionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.appmovel_pis.data.SessionManager
-import com.example.appmovel_pis.data.model.SensorData
 import com.example.appmovel_pis.data.network.EncryptedRequest
-import com.example.appmovel_pis.data.network.InstallRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import android.util.Base64
+import com.example.appmovel_pis.data.model.AreaData
+import com.example.appmovel_pis.data.network.InstallAreaRequest
 import com.example.appmovel_pis.data.network.mudarPassword
 
 class BaseDadosManager(private var context: Context) {
@@ -28,13 +28,14 @@ class BaseDadosManager(private var context: Context) {
         return withContext(Dispatchers.IO) {
             try {
                 // Encriptar os dados de login
-                val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(LoginRequest(email, senha)))
+                val encryptedData =
+                    encryptionUtils.encryptAES(Json.encodeToString(LoginRequest(email, senha)))
                 val encryptedRequest = EncryptedRequest(encryptedData)
 
                 Log.d("Autenticar", "Dados encriptados: $encryptedData")
 
                 // Enviar a requisição com dados encriptados
-                val response = RetrofitClient.apiService.login(encryptedRequest)
+                val response = RetrofitClient.apiService(context).login(encryptedRequest)
 
                 Log.d("Autenticar", "Resposta do servidor: ${response.body()}")
 
@@ -44,10 +45,16 @@ class BaseDadosManager(private var context: Context) {
                     if (apiResponse != null && apiResponse.success) {
                         // Validar os dados recebidos antes de tentar descriptografar
                         val encryptedResponseData = apiResponse.data?.toString() ?: ""
-                        Log.d("Autenticar", "Dados encriptados recebidos do servidor: $encryptedResponseData")
+                        Log.d(
+                            "Autenticar",
+                            "Dados encriptados recebidos do servidor: $encryptedResponseData"
+                        )
 
                         if (encryptedResponseData.isBlank() || !isBase64(encryptedResponseData)) {
-                            Log.e("Autenticar", "Os dados recebidos são inválidos para descriptografia!")
+                            Log.e(
+                                "Autenticar",
+                                "Os dados recebidos são inválidos para descriptografia!"
+                            )
                             return@withContext null
                         }
 
@@ -61,7 +68,8 @@ class BaseDadosManager(private var context: Context) {
                         // Validar e extrair o tipo do token JWT usando EncryptionUtils
                         if (userData.token != null && encryptionUtils.validateToken(userData.token)) {
                             val payload = encryptionUtils.extractPayload(userData.token)
-                            userData.tipo = payload["tipo"] // Atualiza o campo 'tipo' com o valor extraído do token
+                            userData.tipo =
+                                payload["tipo"] // Atualiza o campo 'tipo' com o valor extraído do token
                         } else {
                             Log.e("Autenticar", "Token inválido ou nulo!")
                         }
@@ -72,7 +80,11 @@ class BaseDadosManager(private var context: Context) {
                         return@withContext userData
                     } else {
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(context, apiResponse?.message ?: "Erro desconhecido", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                apiResponse?.message ?: "Erro desconhecido",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         return@withContext null
                     }
@@ -89,7 +101,8 @@ class BaseDadosManager(private var context: Context) {
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 return@withContext null
             }
@@ -112,30 +125,26 @@ class BaseDadosManager(private var context: Context) {
         return withContext(Dispatchers.IO) {
             try {
                 val user = sessionManager.getUser() // Recupera os dados do usuário logado
-                val token = user?.token
-
-                if (token == null) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "Erro: Token não encontrado.", Toast.LENGTH_SHORT).show()
-                    }
-                    return@withContext false
-                }
 
                 // Encriptar os dados para a API
                 val encryptedData = encryptionUtils.encryptAES(
-                    Json.encodeToString(mudarPassword(token, currentPassword, newPassword))
+                    Json.encodeToString(mudarPassword(currentPassword, newPassword))
                 )
                 val encryptedRequest = EncryptedRequest(encryptedData)
 
                 // Fazer a chamada à API
-                val response = RetrofitClient.apiService.mudarPassword(encryptedRequest)
+                val response = RetrofitClient.apiService(context).mudarPassword(encryptedRequest)
 
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if (apiResponse != null && apiResponse.success) {
                         // Password alterada com sucesso
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(context, "Password alterada com sucesso!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Password alterada com sucesso!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         return@withContext true
                     } else {
@@ -163,15 +172,93 @@ class BaseDadosManager(private var context: Context) {
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 return@withContext false
             }
         }
     }
 
+    suspend fun installArea(
+        nome: String,
+        tamanho: String,
+        email: String
+    ): AreaData? {
+        val sessionManager = SessionManager(context)
+        return withContext(Dispatchers.IO) {
+            try {
+                val user = sessionManager.getUser()
+                val token = user?.token
+                if (token == null) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Erro: Token não encontrado.", Toast.LENGTH_SHORT).show()
+                    }
+                    return@withContext null
+                }
 
-    /*suspend fun instal(
+                val response = RetrofitClient.apiService(context).installArea(
+                    InstallAreaRequest(
+                        nome = nome,
+                        tamanho = tamanho,
+                        email = email
+                    )
+                )
+
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+
+                    if (apiResponse != null && apiResponse.success) {
+                        val encryptedData = apiResponse.data?.toString() // Garante que seja uma String
+
+                        // Log para verificar os dados recebidos
+                        Log.d("installArea", "Resposta da API: $apiResponse")
+                        Log.d("installArea", "Dados encriptados recebidos: $encryptedData")
+
+                        // Verificar se o campo `data` não é nulo ou vazio
+                        if (encryptedData.isNullOrBlank()) {
+                            Log.e("installArea", "Os dados recebidos são inválidos para descriptografia!")
+                            return@withContext null
+                        }
+
+                        // Descriptografar os dados recebidos
+                        val decryptedData = encryptionUtils.decryptAES(encryptedData)
+
+                        // Criar objeto AreaData a partir dos dados descriptografados
+                        return@withContext Json.decodeFromString<AreaData>(decryptedData)
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                context,
+                                apiResponse?.message ?: "Erro ao instalar a área.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        return@withContext null
+                    }
+                } else {
+                    val errorMessage = when (response.code()) {
+                        401 -> "Token inválido ou não autorizado."
+                        else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
+                    }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                    return@withContext null
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                }
+                return@withContext null
+            }
+        }
+    }
+
+
+
+    /*suspend fun installSensor(
         email: String,
         Latitude: String,
         Longitude: String,

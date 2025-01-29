@@ -8,4 +8,3 @@ data class ApiResponse(
     val data: String,  // Aqui é uma string criptografada
     val datetime: String
 )
-

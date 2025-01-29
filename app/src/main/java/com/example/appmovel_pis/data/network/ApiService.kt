@@ -1,8 +1,6 @@
 package com.example.appmovel_pis.data.network
 
 import com.example.appmovel_pis.data.model.ApiResponse
-import com.example.appmovel_pis.data.model.SensorData
-import com.example.appmovel_pis.data.model.UserData
 import kotlinx.serialization.Serializable
 import retrofit2.Response
 import retrofit2.http.Body
@@ -18,9 +16,14 @@ data class LoginRequest(
 
 @Serializable
 data class mudarPassword(
-    val token: String,
-    val palavraPasseAntiga: String,
-    val palavraPasseNova: String
+    val password: String,
+    val password_now: String
+)
+
+data class InstallAreaRequest(
+    val nome: String,
+    val tamanho: String,
+    val email: String
 )
 
 data class InstallRequest(
@@ -43,6 +46,9 @@ interface ApiService {
 
     @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>
+
+    @POST("/api/v1/install")
+    suspend fun installArea(@Body request: InstallAreaRequest): Response<ApiResponse>
 
     //@POST("/api/v1/install")
     //suspend fun install(@Body request: InstallRequest): Response<ApiResponse<SensorData>>

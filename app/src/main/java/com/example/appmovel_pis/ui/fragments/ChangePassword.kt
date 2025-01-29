@@ -10,9 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.appmovel_pis.R
-import com.example.appmovel_pis.data.SessionManager
 import com.example.appmovel_pis.ui.objects.ChangeFragment
-import com.example.appmovel_pis.utils.EncryptionUtils
 import com.example.appmovel_pis.repository.BaseDadosManager
 
 import kotlinx.coroutines.launch
