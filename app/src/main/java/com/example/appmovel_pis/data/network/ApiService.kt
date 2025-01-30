@@ -32,12 +32,10 @@ data class InstallAreaRequest(
 )
 
 data class InstallConjuntoRequest(
-    val email: String,
     val Latitude: String,
     val Longitude: String,
     val DataInstalacao: String,
-    val Status: String,
-    val NomeSensor: String
+    val Status: String
 )
 
 data class EncryptedRequest(
@@ -52,7 +50,7 @@ interface ApiService {
     suspend fun installArea(@Body request: EncryptedRequest): Response<ApiResponse>
 
     @POST("/api/v1/conjuntos")
-    suspend fun installConjunto(@Body request: InstallConjuntoRequest): Response<ApiResponse>
+    suspend fun installConjunto(@Body request: EncryptedRequest): Response<ApiResponse>
 
     @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>

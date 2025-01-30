@@ -15,7 +15,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import android.util.Base64
 import com.example.appmovel_pis.data.model.AreaData
+import com.example.appmovel_pis.data.model.SensorData
 import com.example.appmovel_pis.data.network.InstallAreaRequest
+import com.example.appmovel_pis.data.network.InstallConjuntoRequest
 import com.example.appmovel_pis.data.network.mudarPassword
 
 class BaseDadosManager(private var context: Context) {
@@ -282,41 +284,26 @@ class BaseDadosManager(private var context: Context) {
 
 
 
-
-
-    /*suspend fun installSensor(
-        email: String,
+    suspend fun installConjunto(
         Latitude: String,
         Longitude: String,
         DataInstalacao: String,
-        Status: String,
-        NomeSensor: String,
-        token: String
-    ): SensorData? {
-        val sessionManager = SessionManager(context)
-
+        Status: String
+    ): String? {
         return withContext(Dispatchers.IO) {
             try {
-                val user = sessionManager.getUser()
-                val token = user?.token
-                if (token == null) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "Erro: Token não encontrado.", Toast.LENGTH_SHORT).show()
-                    }
-                    return@withContext null
-                }
 
-                val response = RetrofitClient.apiService.install(
-                    InstallRequest(
-                        email = email,
-                        Latitude = Latitude,
-                        Longitude = Longitude,
-                        DataInstalacao = DataInstalacao,
-                        Status = Status,
-                        NomeSensor = NomeSensor,
-                        token = token
-                    )
+                val requestData = InstallConjuntoRequest(
+                    Latitude = Latitude,
+                    Longitude = Longitude,
+                    DataInstalacao = DataInstalacao,
+                    Status = Status
                 )
+
+                val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(requestData))
+                val encryptedRequest = EncryptedRequest(encryptedData)
+
+                val response = RetrofitClient.apiService(context).installConjunto(encryptedRequest)
 
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
@@ -347,8 +334,8 @@ class BaseDadosManager(private var context: Context) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
-                null
+                return@withContext null
             }
         }
-    }*/
+    }
 }

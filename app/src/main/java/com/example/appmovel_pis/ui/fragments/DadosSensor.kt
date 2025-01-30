@@ -11,10 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.appmovel_pis.R
+import com.example.appmovel_pis.repository.BaseDadosManager
 import com.google.android.gms.location.*
 import com.example.appmovel_pis.ui.menu.MenuPage
 import com.example.appmovel_pis.ui.objects.ClickAnimation
+import kotlinx.coroutines.launch
 
 
 class DadosSensorFragment : Fragment() {
@@ -22,6 +25,8 @@ class DadosSensorFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var tvLatitude: TextView
     private lateinit var tvLongitude: TextView
+    private lateinit var etDataInstalacao: TextView
+    private lateinit var etStatus: TextView
     companion object {
         private const val REQUEST_CHECK_SETTINGS = 1001
         private const val SENSOR_NUMBER_KEY = "sensor_number"
@@ -42,15 +47,42 @@ class DadosSensorFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_dados_sensor, container, false)
 
+        etDataInstalacao = view.findViewById(R.id.etDataInstalação)
+        etStatus = view.findViewById(R.id.etStatus)
+
         val sensorNumber = arguments?.getInt(SENSOR_NUMBER_KEY) ?: 1
         val titleTextView = view.findViewById<TextView>(R.id.tvSensorDados)
         titleTextView.text = "Dados do Sensor #$sensorNumber"
 
         val addSensorButton = view.findViewById<Button>(R.id.btnSubmeter)
         addSensorButton.setOnClickListener {
-            (activity as? MenuPage)?.onAdicionarSensorClicked()
-        }
+            val dataInstalacao = etDataInstalacao.text.toString()
+            val status = etStatus.text.toString()
+            val latitude = tvLatitude.text.toString()
+            val longitude = tvLongitude.text.toString()
 
+            if (dataInstalacao.isBlank() || status.isBlank() || latitude.isBlank() || longitude.isBlank()) {
+                Toast.makeText(requireContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_SHORT).show()
+            } else {
+                val baseDadosManager = BaseDadosManager(requireContext())
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val sensorData = baseDadosManager.installConjunto(
+                        Latitude = latitude,
+                        Longitude = longitude,
+                        DataInstalacao = dataInstalacao,
+                        Status = status
+                    )
+                    if (sensorData != null){
+                        Toast.makeText(requireContext(), "Sensor adicionado com sucesso!", Toast.LENGTH_SHORT).show()
+                        (activity as? MenuPage)?.onAdicionarSensorClicked()
+                    } else {
+                        Toast.makeText(requireContext(), "Erro ao adicionar sensor.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
         return view
     }
 
@@ -59,6 +91,7 @@ class DadosSensorFragment : Fragment() {
 
         tvLatitude = view.findViewById(R.id.tvLatitude)
         tvLongitude = view.findViewById(R.id.tvLongitude)
+
         val btnObterCoordenadas = view.findViewById<Button>(R.id.btnObterCoordenadas)
         val btnSubmeter = view.findViewById<Button>(R.id.btnSubmeter)
 
