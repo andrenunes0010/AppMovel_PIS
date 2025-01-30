@@ -188,25 +188,16 @@ class BaseDadosManager(private var context: Context) {
         latitude: String,
         longitude: String
     ): AreaData? {
-        val sessionManager = SessionManager(context)
         return withContext(Dispatchers.IO) {
             try {
-                val user = sessionManager.getUser()
-
-                val response = RetrofitClient.apiService(context).installArea(
-                    InstallAreaRequest(
-                        nome = nome,
-                        tamanho = tamanho,
-                        email = email,
-                        quantidadeConjuntos = quantidadeConjuntos,
-                        latitude = latitude,
-                        longitude = longitude
-                    )
+                val encryptedData = encryptionUtils.encryptAES(
+                    Json.encodeToString(installArea(nome, tamanho, email, quantidadeConjuntos, latitude, longitude))
                 )
+                val encryptedRequest = EncryptedRequest(encryptedData)
+                val response = RetrofitClient.apiService(context).installArea(encryptedRequest)
 
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
-
                     if (apiResponse != null && apiResponse.success) {
                         val encryptedData = apiResponse.data?.toString() // Garante que seja uma String
 

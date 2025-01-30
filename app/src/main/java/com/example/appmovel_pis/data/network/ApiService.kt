@@ -4,6 +4,7 @@ import com.example.appmovel_pis.data.model.ApiResponse
 import kotlinx.serialization.Serializable
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -29,14 +30,13 @@ data class InstallAreaRequest(
     val longitude: String
 )
 
-data class InstallRequest(
+data class InstallConjuntoRequest(
     val email: String,
     val Latitude: String,
     val Longitude: String,
     val DataInstalacao: String,
     val Status: String,
-    val NomeSensor: String,
-    val token: String
+    val NomeSensor: String
 )
 
 data class EncryptedRequest(
@@ -47,11 +47,17 @@ interface ApiService {
     @POST("/api/v1/login")
     suspend fun login(@Body request: EncryptedRequest): Response<ApiResponse>
 
+    @POST("/api/v1/areas")
+    suspend fun installArea(@Body request: EncryptedRequest): Response<ApiResponse>
+
+    @POST("/api/v1/conjuntos")
+    suspend fun installConjunto(@Body request: InstallConjuntoRequest): Response<ApiResponse>
+
     @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>
 
-    @POST("/api/v1/areas")
-    suspend fun installArea(@Body request: InstallAreaRequest): Response<ApiResponse>
+    @GET("/api/v1/conjuntos")
+    suspend fun getAreas(): Response<ApiResponse>
 
     //@POST("/api/v1/install")
     //suspend fun install(@Body request: InstallRequest): Response<ApiResponse<SensorData>>
