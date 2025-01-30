@@ -190,29 +190,55 @@ class BaseDadosManager(private var context: Context) {
     ): AreaData? {
         return withContext(Dispatchers.IO) {
             try {
-                val encryptedData = encryptionUtils.encryptAES(
-                    Json.encodeToString(installArea(nome, tamanho, email, quantidadeConjuntos, latitude, longitude))
+                // Criar o objeto com os dados da requisição
+                val requestData = InstallAreaRequest(
+                    nome = nome,
+                    tamanho = tamanho,
+                    email = email,
+                    quantidadeConjuntos = quantidadeConjuntos,
+                    latitude = latitude,
+                    longitude = longitude
                 )
+
+                // Log dos dados antes da encriptação
+                Log.d("installArea", "🔹 Dados originais da requisição: $requestData")
+
+                // Encriptar os dados antes de enviar
+                val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(requestData))
                 val encryptedRequest = EncryptedRequest(encryptedData)
+
+                // Log dos dados encriptados antes de enviar
+                Log.d("installArea", "🔹 Dados encriptados enviados: $encryptedData")
+
+                // Enviar para o servidor
                 val response = RetrofitClient.apiService(context).installArea(encryptedRequest)
+
+                // Log do status da resposta HTTP
+                Log.d("installArea", "🔹 Código de resposta HTTP: ${response.code()}")
 
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
+
+                    // Log do corpo da resposta do servidor
+                    Log.d("installArea", "🔹 Corpo da resposta: $apiResponse")
+
                     if (apiResponse != null && apiResponse.success) {
-                        val encryptedData = apiResponse.data?.toString() // Garante que seja uma String
+                        val encryptedResponseData = apiResponse.data?.toString() // Garante que seja uma String
 
-                        // Log para verioficar s dados recebidos
-                        Log.d("installArea", "Resposta da API: $apiResponse")
-                        Log.d("installArea", "Dados encriptados recebidos: $encryptedData")
+                        // Log dos dados encriptados recebidos
+                        Log.d("installArea", "🔹 Dados encriptados recebidos: $encryptedResponseData")
 
-                        // Verificar se o campo `data` não é nulo ou vazio
-                        if (encryptedData.isNullOrBlank()) {
-                            Log.e("installArea", "Os dados recebidos são inválidos para descriptografia!")
+                        // Verificar se os dados recebidos são válidos
+                        if (encryptedResponseData.isNullOrBlank()) {
+                            Log.e("installArea", "⚠️ Erro: Dados encriptados vazios ou inválidos!")
                             return@withContext null
                         }
 
                         // Descriptografar os dados recebidos
-                        val decryptedData = encryptionUtils.decryptAES(encryptedData)
+                        val decryptedData = encryptionUtils.decryptAES(encryptedResponseData)
+
+                        // Log dos dados após descriptografar
+                        Log.d("installArea", "🔹 Dados descriptografados: $decryptedData")
 
                         // Criar objeto AreaData a partir dos dados descriptografados
                         return@withContext Json.decodeFromString<AreaData>(decryptedData)
@@ -228,9 +254,13 @@ class BaseDadosManager(private var context: Context) {
                     }
                 } else {
                     val errorMessage = when (response.code()) {
-                        401 -> "Token inválido ou não autorizado."
+                        401 -> "❌ Erro 401: Token inválido ou não autorizado."
                         else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
                     }
+
+                    // Log do erro do servidor
+                    Log.e("installArea", "⚠️ Erro na resposta: $errorMessage")
+
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
@@ -238,6 +268,10 @@ class BaseDadosManager(private var context: Context) {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+
+                // Log do erro inesperado
+                Log.e("installArea", "🚨 Erro inesperado: ${e.localizedMessage}")
+
                 withContext(Dispatchers.Main) {
                     Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
@@ -245,6 +279,8 @@ class BaseDadosManager(private var context: Context) {
             }
         }
     }
+
+
 
 
 

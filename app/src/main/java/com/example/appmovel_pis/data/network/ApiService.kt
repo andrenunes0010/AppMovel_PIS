@@ -21,6 +21,7 @@ data class mudarPassword(
     val password_now: String
 )
 
+@Serializable
 data class InstallAreaRequest(
     val nome: String,
     val tamanho: String,
