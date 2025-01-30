@@ -183,10 +183,7 @@ class BaseDadosManager(private var context: Context) {
     suspend fun installArea(
         nome: String,
         tamanho: String,
-        email: String,
-        quantidadeConjuntos: Int,
-        latitude: String,
-        longitude: String
+        email: String
     ): AreaData? {
         val sessionManager = SessionManager(context)
         return withContext(Dispatchers.IO) {
@@ -204,10 +201,7 @@ class BaseDadosManager(private var context: Context) {
                     InstallAreaRequest(
                         nome = nome,
                         tamanho = tamanho,
-                        email = email,
-                        quantidadeConjuntos = quantidadeConjuntos,
-                        latitude = latitude,
-                        longitude = longitude
+                        email = email
                     )
                 )
 

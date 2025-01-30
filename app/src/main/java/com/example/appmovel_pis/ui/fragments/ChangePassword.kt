@@ -63,31 +63,23 @@ class ChangePasswordFragment : Fragment() {
         val baseDadosManager = BaseDadosManager(requireContext())
 
         btnSubmeter.setOnClickListener {
-            val currentPassword = etCurrentPassword.text.toString()
-            val newPassword = etNewPassword.text.toString()
-            val confirmPassword = etConfirmPassword.text.toString()
-
-            if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            if (etCurrentPassword.text.toString().isEmpty() || etNewPassword.text.toString().isEmpty() || etConfirmPassword.text.toString().isEmpty()) {
                 Toast.makeText(requireContext(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
-            } else if (!isValidPassword(newPassword)) {
-                Toast.makeText(requireContext(), "A senha deve ter pelo menos 6 caracteres e um caractere especial!", Toast.LENGTH_LONG).show()
-            } else if (newPassword == confirmPassword) {
+            } else if (etNewPassword.text.toString() == etConfirmPassword.text.toString()) {
                 // Lançar a coroutine
                 viewLifecycleOwner.lifecycleScope.launch {
                     val success = baseDadosManager.alterarPassword(
-                        currentPassword = currentPassword,
-                        newPassword = newPassword
+                        currentPassword = etCurrentPassword.text.toString(),
+                        newPassword = etNewPassword.text.toString()
                     )
 
+                    if (!success) {
+                        // Mensagens de erro já são tratadas no BaseDadosManager
+                    }
                 }
             } else {
                 Toast.makeText(requireContext(), "As passwords não coincidem!", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    fun isValidPassword(password: String): Boolean {
-        val specialCharPattern = Regex(".*[!@#\$%^&*(),.?\":{}|<>].*")
-        return password.length >= 6 && specialCharPattern.containsMatchIn(password)
     }
 }

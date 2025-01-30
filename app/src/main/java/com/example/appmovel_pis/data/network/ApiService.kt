@@ -23,10 +23,7 @@ data class mudarPassword(
 data class InstallAreaRequest(
     val nome: String,
     val tamanho: String,
-    val email: String,
-    var quantidadeConjuntos: Int,
-    val latitude: String,
-    val longitude: String
+    val email: String
 )
 
 data class InstallRequest(
@@ -50,7 +47,7 @@ interface ApiService {
     @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>
 
-    @POST("/api/v1/areas")
+    @POST("/api/v1/install")
     suspend fun installArea(@Body request: InstallAreaRequest): Response<ApiResponse>
 
     //@POST("/api/v1/install")
