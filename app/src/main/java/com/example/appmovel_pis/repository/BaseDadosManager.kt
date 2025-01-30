@@ -192,13 +192,6 @@ class BaseDadosManager(private var context: Context) {
         return withContext(Dispatchers.IO) {
             try {
                 val user = sessionManager.getUser()
-                val token = user?.token
-                if (token == null) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "Erro: Token não encontrado.", Toast.LENGTH_SHORT).show()
-                    }
-                    return@withContext null
-                }
 
                 val response = RetrofitClient.apiService(context).installArea(
                     InstallAreaRequest(
@@ -217,7 +210,7 @@ class BaseDadosManager(private var context: Context) {
                     if (apiResponse != null && apiResponse.success) {
                         val encryptedData = apiResponse.data?.toString() // Garante que seja uma String
 
-                        // Log para verificar os dados recebidos
+                        // Log para verioficar s dados recebidos
                         Log.d("installArea", "Resposta da API: $apiResponse")
                         Log.d("installArea", "Dados encriptados recebidos: $encryptedData")
 

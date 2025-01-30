@@ -61,44 +61,40 @@ class DadosAreaFragment : Fragment() {
             val latitude = tvLatitude.text.toString()
             val longitude = tvLongitude.text.toString()
             val inputText = editTextQuantidade.text.toString()
+            val sensorCount = inputText.toIntOrNull()
 
             // Verifica se todos os campos estão preenchidos
             if (nomeArea.isBlank() || tamanhoArea.isBlank() || emailPessoalArea.isBlank() ||
                 latitude.isBlank() || longitude.isBlank() || inputText.isBlank()) {
                 Toast.makeText(requireContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            }
-
-            val sensorCount = inputText.toIntOrNull()
-            if (sensorCount == null || sensorCount <= 0) {
+            } else if (sensorCount == null || sensorCount <= 0){
                 Toast.makeText(requireContext(), "Por favor, insira um número válido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            }
+            }else{
+                // Criar uma instância de BaseDadosManager
+                val baseDadosManager = BaseDadosManager(requireContext())
 
-            // Criar uma instância de BaseDadosManager
-            val baseDadosManager = BaseDadosManager(requireContext())
+                // Lançar coroutine para instalar a área
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val areaData = baseDadosManager.installArea(
+                        nome = nomeArea,
+                        tamanho = tamanhoArea,
+                        email = emailPessoalArea,
+                        quantidadeConjuntos = sensorCount,
+                        latitude = latitude,
+                        longitude = longitude
+                    )
 
-            // Lançar coroutine para instalar a área
-            viewLifecycleOwner.lifecycleScope.launch {
-                val areaData = baseDadosManager.installArea(
-                    nome = nomeArea,
-                    tamanho = tamanhoArea,
-                    email = emailPessoalArea,
-                    quantidadeConjuntos = sensorCount,
-                    latitude = latitude,
-                    longitude = longitude
-                )
-
-                if (areaData != null) {
-                    Toast.makeText(requireContext(), "Área instalada com sucesso!", Toast.LENGTH_SHORT).show()
-                    (activity as? MenuPage)?.onAdicionarAreaClicked(sensorCount)
-                } else {
-                    Toast.makeText(requireContext(), "Erro ao instalar a área.", Toast.LENGTH_SHORT).show()
+                    if (areaData != null) {
+                        Toast.makeText(requireContext(), "Área instalada com sucesso!", Toast.LENGTH_SHORT).show()
+                        (activity as? MenuPage)?.onAdicionarAreaClicked(sensorCount)
+                    } else {
+                        Toast.makeText(requireContext(), "Erro ao instalar a área.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
-
-
         return view
     }
 
@@ -117,15 +113,7 @@ class DadosAreaFragment : Fragment() {
             checkLocationPermissionAndGetLocation()
         }
 
-        btnSubmeter.setOnClickListener {
-            (activity as? MenuPage)?.onAdicionarSensorClicked()
-        }
-
         ClickAnimation.applyTouchAnimation(btnObterCoordenadas, requireContext())
-        ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
-
-
-        ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
     }
 
     private fun checkLocationPermissionAndGetLocation() {
