@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     kotlin("plugin.serialization") version "1.9.10"
-    id("com.google.gms.google-services") // Aplicar apenas aqui, sem 'apply false'
+    id("com.google.gms.google-services") version "4.4.0"
 }
 
 android {
