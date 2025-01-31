@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "87398552308",
+    "project_id": "appmovelpis",
+    "storage_bucket": "appmovelpis.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87398552308:android:b77aa38523e80cff6684a1",
+        "android_client_info": {
+          "package_name": "com.example.appmovel_pis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn7G3E0XWZhUGEcN1ypAY5Qsa2CrLQHko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

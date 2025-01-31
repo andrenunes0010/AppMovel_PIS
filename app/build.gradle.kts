@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     kotlin("plugin.serialization") version "1.9.10"
+    id("com.google.gms.google-services") // Aplicar apenas aqui, sem 'apply false'
 }
 
 android {
@@ -37,6 +38,12 @@ android {
 }
 
 dependencies {
+    // Firebase BoM (Bill of Materials)
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+    implementation("com.google.firebase:firebase-analytics") // Firebase Analytics
+    implementation("com.google.firebase:firebase-messaging-ktx") // FCM para notificações push
+
+    // Outras dependências
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.auth0:java-jwt:3.18.2")
