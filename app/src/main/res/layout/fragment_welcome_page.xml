@@ -33,9 +33,13 @@
         android:src="@mipmap/logo_sylvanus_foreground"
         android:layout_width="150dp"
         android:layout_height="150dp"
+<<<<<<< HEAD:app/src/main/res/layout/fragment_welcome_page.xml
         android:layout_marginTop="100dp"
         app:layout_constraintBottom_toTopOf="@+id/appName"
         app:layout_constraintTop_toTopOf="parent"
+=======
+        app:layout_constraintBottom_toTopOf="@+id/appName"
+>>>>>>> parent of ecdce6e (Revert "."):app/src/main/res/layout/activity_welcome_page.xml
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -64,9 +68,15 @@
         android:fontFamily="@font/poppins_bold"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
+<<<<<<< HEAD:app/src/main/res/layout/fragment_welcome_page.xml
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/green_background"
         app:layout_constraintTop_toBottomOf="@+id/DescriptionText"
+=======
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/verde3"
+        app:layout_constraintTop_toBottomOf="@+id/appName"
+>>>>>>> parent of ecdce6e (Revert "."):app/src/main/res/layout/activity_welcome_page.xml
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -87,7 +97,20 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+<<<<<<< HEAD:app/src/main/res/layout/fragment_welcome_page.xml
 
+=======
+    <ImageView
+        android:src="@drawable/welcome_page_img"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="1.00"
+        app:layout_constraintWidth_percent="1.50"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/verde3"/>
+>>>>>>> parent of ecdce6e (Revert "."):app/src/main/res/layout/activity_welcome_page.xml
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

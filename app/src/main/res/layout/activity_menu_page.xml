@@ -61,12 +61,123 @@
         android:padding="10dp"
         android:background="@drawable/fragment_background">
 
+<<<<<<< HEAD
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/menuFragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </ScrollView>
+        <!-- First Button: Sensores -->
+        <LinearLayout
+            android:clickable="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_button_verde3"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_sensor"
+                android:contentDescription="Sensors" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sensores"
+                android:textSize="17dp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Second Button: Manual de Uso -->
+        <LinearLayout
+            android:clickable="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_button_verde3"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_manual"
+                android:contentDescription="Manual de Uso" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manual"
+                android:textSize="17dp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Third Button: Definições -->
+        <LinearLayout
+            android:clickable="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_button_verde3"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_settings"
+                android:contentDescription="Definições" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Definições"
+                android:textSize="17dp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Fourth Button: Sistema -->
+        <LinearLayout
+            android:clickable="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_button_verde3"
+            android:gravity="center">
+
+            <ImageView
+                android:clickable="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_system"
+                android:contentDescription="Sistema" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sistema"
+                android:textSize="17dp"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center" />
+        </LinearLayout>
+
+    </GridLayout>
 
     <!-- Footer Divider -->
     <View
@@ -96,6 +207,9 @@
             android:clickable="false"
             android:layout_width="33dp"
             android:layout_height="33dp"
+            android:clickable="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="5dp"
             android:src="@drawable/ic_sensor"
@@ -108,6 +222,10 @@
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:src="@drawable/ic_install"
+            android:clickable="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_icons"
             android:layout_marginEnd="35dp"
             android:layout_marginStart="35dp"
             android:layout_marginBottom="5dp"
@@ -119,6 +237,11 @@
             android:clickable="true"
             android:layout_width="33dp"
             android:layout_height="33dp"
+=======
+            android:clickable="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+>>>>>>> parent of ecdce6e (Revert ".")
             android:src="@drawable/ic_profile"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
@@ -126,11 +249,18 @@
             android:contentDescription="User" />
 
         <ImageView
+<<<<<<< HEAD
             android:id="@+id/iconInformationImageView"
             android:clickable="true"
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:src="@drawable/ic_info"
+=======
+            android:clickable="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_help"
+>>>>>>> parent of ecdce6e (Revert ".")
             android:layout_marginStart="30dp"
             android:layout_marginBottom="5dp"
             android:contentDescription="Menu" />
