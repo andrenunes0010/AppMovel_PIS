@@ -1,4 +1,4 @@
-package com.example.appmovel_pis.utils
+/*package com.example.appmovel_pis.utils
 
 import android.app.NotificationManager
 import android.content.Context
@@ -25,4 +25,4 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(1, notification)
     }
-}
+}*/
