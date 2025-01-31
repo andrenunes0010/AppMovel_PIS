@@ -24,18 +24,27 @@ data class mudarPassword(
 @Serializable
 data class InstallAreaRequest(
     val nome: String,
-    val tamanho: String,
+    val tamanho_hectares: String,
     val email: String,
-    var quantidadeConjuntos: Int,
+    var Quantidades_conjuntos: Int,
     val latitude: String,
     val longitude: String
 )
 
+@Serializable
 data class InstallConjuntoRequest(
     val Latitude: String,
     val Longitude: String,
     val DataInstalacao: String,
     val Status: String
+)
+
+@Serializable
+data class criarUtilizadorRequest(
+    val nome: String,
+    val email: String,
+    val password: String,
+    val tipo: String
 )
 
 data class EncryptedRequest(
@@ -52,12 +61,12 @@ interface ApiService {
     @POST("/api/v1/conjuntos")
     suspend fun installConjunto(@Body request: EncryptedRequest): Response<ApiResponse>
 
+    @POST("/api/v1/users")
+    suspend fun criarUtilizador(@Body request: EncryptedRequest): Response<ApiResponse>
+
     @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>
 
     @GET("/api/v1/conjuntos")
-    suspend fun getAreas(): Response<ApiResponse>
-
-    //@POST("/api/v1/install")
-    //suspend fun install(@Body request: InstallRequest): Response<ApiResponse<SensorData>>
+    suspend fun getAreas(): Response<List<ApiResponse>>
 }

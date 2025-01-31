@@ -104,7 +104,29 @@ class DadosSensorFragment : Fragment() {
         }
 
         btnSubmeter.setOnClickListener {
-            (activity as? MenuPage)?.onAdicionarSensorClicked()
+            val dataInstalacao = etDataInstalacao.text.toString()
+            val status = etStatus.text.toString()
+            val latitude = tvLatitude.text.toString()
+            val longitude = tvLongitude.text.toString()
+            if (dataInstalacao.isBlank() || status.isBlank() || latitude.isBlank() || longitude.isBlank()) {
+                Toast.makeText(requireContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_SHORT).show()
+            } else {
+                val baseDadosManager = BaseDadosManager(requireContext())
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val sensorData = baseDadosManager.installConjunto(
+                        Latitude = latitude,
+                        Longitude = longitude,
+                        DataInstalacao = dataInstalacao,
+                        Status = status
+                    )
+                    if (sensorData != null){
+                        Toast.makeText(requireContext(), "Sensor adicionado com sucesso!", Toast.LENGTH_SHORT).show()
+                        (activity as? MenuPage)?.onAdicionarSensorClicked()
+                    } else {
+                        Toast.makeText(requireContext(), "Erro ao adicionar sensor.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
 
         ClickAnimation.applyTouchAnimation(btnObterCoordenadas, requireContext())

@@ -14,10 +14,12 @@ import com.example.appmovel_pis.data.network.EncryptedRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import android.util.Base64
+import com.example.appmovel_pis.data.model.ApiResponse
 import com.example.appmovel_pis.data.model.AreaData
 import com.example.appmovel_pis.data.model.SensorData
 import com.example.appmovel_pis.data.network.InstallAreaRequest
 import com.example.appmovel_pis.data.network.InstallConjuntoRequest
+import com.example.appmovel_pis.data.network.criarUtilizadorRequest
 import com.example.appmovel_pis.data.network.mudarPassword
 
 class BaseDadosManager(private var context: Context) {
@@ -111,16 +113,6 @@ class BaseDadosManager(private var context: Context) {
         }
     }
 
-    // Função para validar se uma string está em Base64
-    private fun isBase64(data: String): Boolean {
-        return try {
-            Base64.decode(data, Base64.DEFAULT)
-            true
-        } catch (e: IllegalArgumentException) {
-            false
-        }
-    }
-
     suspend fun alterarPassword(currentPassword: String, newPassword: String): Boolean {
         val sessionManager = SessionManager(context)
 
@@ -182,22 +174,15 @@ class BaseDadosManager(private var context: Context) {
         }
     }
 
-    suspend fun installArea(
-        nome: String,
-        tamanho: String,
-        email: String,
-        quantidadeConjuntos: Int,
-        latitude: String,
-        longitude: String
-    ): AreaData? {
+    suspend fun installArea(nome: String, tamanho: String, email: String, quantidadeConjuntos: Int, latitude: String, longitude: String): AreaData? {
         return withContext(Dispatchers.IO) {
             try {
                 // Criar o objeto com os dados da requisição
                 val requestData = InstallAreaRequest(
                     nome = nome,
-                    tamanho = tamanho,
+                    tamanho_hectares = tamanho,
                     email = email,
-                    quantidadeConjuntos = quantidadeConjuntos,
+                    Quantidades_conjuntos = quantidadeConjuntos,
                     latitude = latitude,
                     longitude = longitude
                 )
@@ -225,10 +210,14 @@ class BaseDadosManager(private var context: Context) {
                     Log.d("installArea", "🔹 Corpo da resposta: $apiResponse")
 
                     if (apiResponse != null && apiResponse.success) {
-                        val encryptedResponseData = apiResponse.data?.toString() // Garante que seja uma String
+                        val encryptedResponseData =
+                            apiResponse.data?.toString() // Garante que seja uma String
 
                         // Log dos dados encriptados recebidos
-                        Log.d("installArea", "🔹 Dados encriptados recebidos: $encryptedResponseData")
+                        Log.d(
+                            "installArea",
+                            "🔹 Dados encriptados recebidos: $encryptedResponseData"
+                        )
 
                         // Verificar se os dados recebidos são válidos
                         if (encryptedResponseData.isNullOrBlank()) {
@@ -275,24 +264,17 @@ class BaseDadosManager(private var context: Context) {
                 Log.e("installArea", "🚨 Erro inesperado: ${e.localizedMessage}")
 
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 return@withContext null
             }
         }
     }
 
-
-
-    suspend fun installConjunto(
-        Latitude: String,
-        Longitude: String,
-        DataInstalacao: String,
-        Status: String
-    ): String? {
+    suspend fun installConjunto(Latitude: String, Longitude: String, DataInstalacao: String, Status: String): SensorData? {
         return withContext(Dispatchers.IO) {
             try {
-
                 val requestData = InstallConjuntoRequest(
                     Latitude = Latitude,
                     Longitude = Longitude,
@@ -308,7 +290,26 @@ class BaseDadosManager(private var context: Context) {
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
                     if (apiResponse != null && apiResponse.success) {
-                        return@withContext apiResponse.data
+                        val encryptedSensorData =
+                            apiResponse.data?.toString() // Garante que seja uma String
+
+                        Log.d(
+                            "installConjunto",
+                            "Dados encriptados recebidos: $encryptedSensorData"
+                        )
+
+                        // Verifica se os dados não são nulos ou vazios
+                        if (encryptedSensorData.isNullOrBlank()) {
+                            Log.e(
+                                "installConjunto",
+                                "Os dados recebidos são inválidos para descriptografia!"
+                            )
+                            return@withContext null
+                        }
+
+                        // Descriptografar os dados e convertê-los para SensorData
+                        val decryptedData = encryptionUtils.decryptAES(encryptedSensorData)
+                        return@withContext Json.decodeFromString<SensorData>(decryptedData)
                     } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(
@@ -332,10 +333,125 @@ class BaseDadosManager(private var context: Context) {
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                null
+            }
+        }
+    }
+
+    suspend fun criarUtilizador(nome: String, email: String, password: String, tipo: String): ApiResponse? {
+        return withContext(Dispatchers.IO) {
+            try {
+                // Criar o objeto de requisição
+                val requestData = criarUtilizadorRequest(nome, email, password, tipo)
+
+                // Criptografar os dados antes de enviar
+                val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(requestData))
+                val encryptedRequest = EncryptedRequest(encryptedData)
+
+                // Fazer a requisição à API
+                val response = RetrofitClient.apiService(context).criarUtilizador(encryptedRequest)
+
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse != null && apiResponse.success) {
+                        val encryptedResponseData = apiResponse.data?.toString()
+
+                        if (encryptedResponseData.isNullOrBlank()) {
+                            Log.e(
+                                "criarUtilizador",
+                                "Os dados recebidos são inválidos para descriptografia!"
+                            )
+                            return@withContext null
+                        }
+
+                        // Descriptografar os dados recebidos
+                        val decryptedData = encryptionUtils.decryptAES(encryptedResponseData)
+                        return@withContext Json.decodeFromString<ApiResponse>(decryptedData)
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                context,
+                                apiResponse?.message ?: "Erro ao criar o utilizador.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        return@withContext null
+                    }
+                } else {
+                    val errorMessage = when (response.code()) {
+                        401 -> "Token inválido ou não autorizado."
+                        else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
+                    }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                    return@withContext null
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 return@withContext null
             }
+        }
+    }
+
+    suspend fun getAreas(): List<AreaData>? {
+        return withContext(Dispatchers.IO) {
+            try {
+                // Realizando a requisição para obter as áreas
+                val response = RetrofitClient.apiService(context).getAreas()
+
+                // Verificando se a resposta foi bem-sucedida
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+
+                    // Verificando se a resposta da API está vazia ou nula
+                    if (apiResponse.isNullOrEmpty()) {
+                        Log.e("getAreas", "Nenhuma área encontrada")
+                        return@withContext null
+                    }
+
+                    // Pegando os dados encriptados do primeiro item (supondo que seja uma lista)
+                    val encryptedData = apiResponse[0].data?.toString()
+
+                    // Verificando se os dados encriptados são válidos
+                    if (encryptedData.isNullOrBlank()) {
+                        Log.e("getAreas", "Os dados recebidos são inválidos para descriptografia!")
+                        return@withContext null
+                    }
+
+                    // Descriptografando os dados recebidos
+                    val decryptedData = encryptionUtils.decryptAES(encryptedData)
+
+                    // Log dos dados descriptografados (para fins de depuração)
+                    Log.d("getAreas", "🔹 Dados descriptografados: $decryptedData")
+
+                    // Convertendo os dados descriptografados de JSON para Lista de AreaData
+                    return@withContext Json.decodeFromString<List<AreaData>>(decryptedData)
+                } else {
+                    Log.e("getAreas", "Erro: ${response.errorBody()?.string()}")
+                    return@withContext null
+                }
+            } catch (e: Exception) {
+                Log.e("getAreas", "Erro ao buscar áreas: ${e.localizedMessage}")
+                return@withContext null
+            }
+        }
+    }
+
+    // Função para validar se uma string está em Base64
+    private fun isBase64(data: String): Boolean {
+        return try {
+            Base64.decode(data, Base64.DEFAULT)
+            true
+        } catch (e: IllegalArgumentException) {
+            false
         }
     }
 }
