@@ -59,7 +59,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/etDataInstalação"
+            android:id="@+id/etNome"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/login_background"
@@ -72,7 +72,7 @@
             android:layout_marginTop="10dp" />
 
         <EditText
-            android:id="@+id/etStatus"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:background="@drawable/login_background"

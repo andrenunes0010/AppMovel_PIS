@@ -33,6 +33,7 @@ class DadosAreaFragment : Fragment() {
     private lateinit var etNome: EditText
     private lateinit var etTamanho: EditText
     private lateinit var etEmail: EditText
+    private lateinit var etTipoArea: EditText
 
     companion object {
         private const val REQUEST_CHECK_SETTINGS = 1001
@@ -51,11 +52,13 @@ class DadosAreaFragment : Fragment() {
         etNome = view.findViewById<EditText>(R.id.etNome)
         etTamanho = view.findViewById<EditText>(R.id.etTamanho)
         etEmail = view.findViewById<EditText>(R.id.etEmail)
+        etTipoArea = view.findViewById<EditText>(R.id.etTipoArea)
         val editTextQuantidade = view.findViewById<EditText>(R.id.etConjuntos)
         val addButton = view.findViewById<Button>(R.id.btnSubmeter)
 
         addButton.setOnClickListener {
             val nomeArea = etNome.text.toString()
+            val tipoArea = etTipoArea.text.toString()
             val tamanhoArea = etTamanho.text.toString()
             val emailPessoalArea = etEmail.text.toString()
             val latitude = tvLatitude.text.toString()
@@ -65,7 +68,7 @@ class DadosAreaFragment : Fragment() {
 
             // Verifica se todos os campos estão preenchidos
             if (nomeArea.isBlank() || tamanhoArea.isBlank() || emailPessoalArea.isBlank() ||
-                latitude.isBlank() || longitude.isBlank() || inputText.isBlank()) {
+                latitude.isBlank() || longitude.isBlank() || inputText.isBlank() || tipoArea.isBlank()) {
                 Toast.makeText(requireContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else if (sensorCount == null || sensorCount <= 0){
@@ -80,6 +83,7 @@ class DadosAreaFragment : Fragment() {
                     val areaData = baseDadosManager.installArea(
                         nome = nomeArea,
                         tamanho = tamanhoArea,
+                        tipo_area = tipoArea,
                         email = emailPessoalArea,
                         quantidadeConjuntos = sensorCount,
                         latitude = latitude,

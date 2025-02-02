@@ -25,18 +25,18 @@ data class mudarPassword(
 data class InstallAreaRequest(
     val nome: String,
     val tamanho_hectares: String,
-    val email: String,
-    var Quantidades_conjuntos: Int,
+    val tipo_area: String,
+    val responsavel: String,
+    var quantidades_conjuntos: Int,
     val latitude: String,
     val longitude: String
 )
 
 @Serializable
 data class InstallConjuntoRequest(
-    val Latitude: String,
-    val Longitude: String,
-    val DataInstalacao: String,
-    val Status: String
+    val area_id: Int,
+    val latitude: String,
+    val longitude: String
 )
 
 @Serializable

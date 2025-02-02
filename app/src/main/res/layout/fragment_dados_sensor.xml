@@ -67,32 +67,6 @@
             android:layout_marginEnd="80dp"
             android:layout_marginStart="80dp"/>
 
-        <EditText
-            android:id="@+id/etDataInstalação"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/login_background"
-            android:hint="Data da Instalação"
-            android:paddingHorizontal="16dp"
-            android:textColor="@android:color/black"
-            android:textColorHint="#686767"
-            android:inputType="textEmailAddress"
-            android:fontFamily="@font/poppins_medium"
-            android:layout_marginTop="10dp" />
-
-        <EditText
-            android:id="@+id/etStatus"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/login_background"
-            android:hint="Status"
-            android:paddingHorizontal="16dp"
-            android:textColor="@android:color/black"
-            android:textColorHint="#686767"
-            android:inputType="textEmailAddress"
-            android:fontFamily="@font/poppins_medium"
-            android:layout_marginTop="10dp"/>
-
         <!-- Botão de Submissão -->
         <Button
             android:id="@+id/btnSubmeter"

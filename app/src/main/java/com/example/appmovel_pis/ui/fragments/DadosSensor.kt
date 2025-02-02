@@ -25,8 +25,6 @@ class DadosSensorFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var tvLatitude: TextView
     private lateinit var tvLongitude: TextView
-    private lateinit var etDataInstalacao: TextView
-    private lateinit var etStatus: TextView
     companion object {
         private const val REQUEST_CHECK_SETTINGS = 1001
         private const val SENSOR_NUMBER_KEY = "sensor_number"
@@ -47,21 +45,16 @@ class DadosSensorFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_dados_sensor, container, false)
 
-        etDataInstalacao = view.findViewById(R.id.etDataInstalação)
-        etStatus = view.findViewById(R.id.etStatus)
-
         val sensorNumber = arguments?.getInt(SENSOR_NUMBER_KEY) ?: 1
         val titleTextView = view.findViewById<TextView>(R.id.tvSensorDados)
         titleTextView.text = "Dados do Sensor #$sensorNumber"
 
         val addSensorButton = view.findViewById<Button>(R.id.btnSubmeter)
         addSensorButton.setOnClickListener {
-            val dataInstalacao = etDataInstalacao.text.toString()
-            val status = etStatus.text.toString()
             val latitude = tvLatitude.text.toString()
             val longitude = tvLongitude.text.toString()
 
-            if (dataInstalacao.isBlank() || status.isBlank() || latitude.isBlank() || longitude.isBlank()) {
+            if (latitude.isBlank() || longitude.isBlank()) {
                 Toast.makeText(requireContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_SHORT).show()
             } else {
                 val baseDadosManager = BaseDadosManager(requireContext())
@@ -69,9 +62,7 @@ class DadosSensorFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     val sensorData = baseDadosManager.installConjunto(
                         Latitude = latitude,
-                        Longitude = longitude,
-                        DataInstalacao = dataInstalacao,
-                        Status = status
+                        Longitude = longitude
                     )
                     if (sensorData != null){
                         Toast.makeText(requireContext(), "Sensor adicionado com sucesso!", Toast.LENGTH_SHORT).show()
@@ -104,20 +95,16 @@ class DadosSensorFragment : Fragment() {
         }
 
         btnSubmeter.setOnClickListener {
-            val dataInstalacao = etDataInstalacao.text.toString()
-            val status = etStatus.text.toString()
             val latitude = tvLatitude.text.toString()
             val longitude = tvLongitude.text.toString()
-            if (dataInstalacao.isBlank() || status.isBlank() || latitude.isBlank() || longitude.isBlank()) {
+            if (latitude.isBlank() || longitude.isBlank()) {
                 Toast.makeText(requireContext(), "Todos os campos devem ser preenchidos", Toast.LENGTH_SHORT).show()
             } else {
                 val baseDadosManager = BaseDadosManager(requireContext())
                 viewLifecycleOwner.lifecycleScope.launch {
                     val sensorData = baseDadosManager.installConjunto(
                         Latitude = latitude,
-                        Longitude = longitude,
-                        DataInstalacao = dataInstalacao,
-                        Status = status
+                        Longitude = longitude
                     )
                     if (sensorData != null){
                         Toast.makeText(requireContext(), "Sensor adicionado com sucesso!", Toast.LENGTH_SHORT).show()

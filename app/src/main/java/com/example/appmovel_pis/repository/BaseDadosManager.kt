@@ -174,112 +174,99 @@ class BaseDadosManager(private var context: Context) {
         }
     }
 
-    suspend fun installArea(nome: String, tamanho: String, email: String, quantidadeConjuntos: Int, latitude: String, longitude: String): AreaData? {
+    suspend fun installArea(nome: String, tamanho: String, tipo_area: String , email: String, quantidadeConjuntos: Int, latitude: String, longitude: String): AreaData? {
         return withContext(Dispatchers.IO) {
             try {
-                // Criar o objeto com os dados da requisição
                 val requestData = InstallAreaRequest(
                     nome = nome,
                     tamanho_hectares = tamanho,
-                    email = email,
-                    Quantidades_conjuntos = quantidadeConjuntos,
+                    tipo_area = tipo_area,
+                    responsavel = email,
+                    quantidades_conjuntos = quantidadeConjuntos,
                     latitude = latitude,
                     longitude = longitude
                 )
 
-                // Log dos dados antes da encriptação
                 Log.d("installArea", "🔹 Dados originais da requisição: $requestData")
 
-                // Encriptar os dados antes de enviar
                 val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(requestData))
                 val encryptedRequest = EncryptedRequest(encryptedData)
 
-                // Log dos dados encriptados antes de enviar
                 Log.d("installArea", "🔹 Dados encriptados enviados: $encryptedData")
 
-                // Enviar para o servidor
                 val response = RetrofitClient.apiService(context).installArea(encryptedRequest)
 
-                // Log do status da resposta HTTP
                 Log.d("installArea", "🔹 Código de resposta HTTP: ${response.code()}")
 
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-
-                    // Log do corpo da resposta do servidor
-                    Log.d("installArea", "🔹 Corpo da resposta: $apiResponse")
-
-                    if (apiResponse != null && apiResponse.success) {
-                        val encryptedResponseData =
-                            apiResponse.data?.toString() // Garante que seja uma String
-
-                        // Log dos dados encriptados recebidos
-                        Log.d(
-                            "installArea",
-                            "🔹 Dados encriptados recebidos: $encryptedResponseData"
-                        )
-
-                        // Verificar se os dados recebidos são válidos
-                        if (encryptedResponseData.isNullOrBlank()) {
-                            Log.e("installArea", "⚠️ Erro: Dados encriptados vazios ou inválidos!")
-                            return@withContext null
-                        }
-
-                        // Descriptografar os dados recebidos
-                        val decryptedData = encryptionUtils.decryptAES(encryptedResponseData)
-
-                        // Log dos dados após descriptografar
-                        Log.d("installArea", "🔹 Dados descriptografados: $decryptedData")
-
-                        // Criar objeto AreaData a partir dos dados descriptografados
-                        return@withContext Json.decodeFromString<AreaData>(decryptedData)
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                context,
-                                apiResponse?.message ?: "Erro ao instalar a área.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        return@withContext null
-                    }
-                } else {
-                    val errorMessage = when (response.code()) {
-                        401 -> "❌ Erro 401: Token inválido ou não autorizado."
-                        else -> response.errorBody()?.string() ?: "Erro desconhecido do servidor."
-                    }
-
-                    // Log do erro do servidor
-                    Log.e("installArea", "⚠️ Erro na resposta: $errorMessage")
-
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                    }
+                if (!response.isSuccessful) {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("installArea", "⚠️ Erro HTTP ${response.code()}: $errorBody")
                     return@withContext null
                 }
+
+                val apiResponse = response.body()
+                Log.d("installArea", "🔹 Corpo da resposta: $apiResponse")
+
+                if (apiResponse == null || !apiResponse.success) {
+                    Log.e("installArea", "⚠️ Erro: ${apiResponse?.message ?: "Erro ao instalar a área."}")
+                    return@withContext null
+                }
+
+                val encryptedResponseData = apiResponse.data?.toString()
+                Log.d("installArea", "🔹 Dados encriptados recebidos: $encryptedResponseData")
+
+                if (encryptedResponseData.isNullOrBlank()) {
+                    Log.e("installArea", "⚠️ Erro: Dados encriptados vazios ou inválidos!")
+                    return@withContext null
+                }
+
+                val decryptedData = encryptionUtils.decryptAES(encryptedResponseData)
+                Log.d("installArea", "🔹 Dados descriptografados: $decryptedData")
+
+                return@withContext if (decryptedData.toIntOrNull() != null) {
+                    val id = decryptedData.toInt()
+                    Log.d("installArea", "⚠️ Resposta contém apenas um ID: $id")
+
+                    // Criar um objeto AreaData com valores padrão
+                    AreaManager.AreaCriada = AreaData(
+                        id = id,
+                        nome = "Desconhecido",
+                        tamanho = "0",
+                        email = "desconhecido@email.com",
+                        status = "Desconhecido",
+                        latitude = 0.0,
+                        longitude = 0.0
+                    )
+
+                    AreaManager.AreaCriada
+                } else {
+                    // 🔹 Se for um JSON, desserializa normalmente
+                    val areaData = Json.decodeFromString<AreaData>(decryptedData)
+                    AreaManager.AreaCriada = areaData
+                    areaData
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
-
-                // Log do erro inesperado
                 Log.e("installArea", "🚨 Erro inesperado: ${e.localizedMessage}")
-
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
-                        .show()
-                }
                 return@withContext null
             }
         }
     }
 
-    suspend fun installConjunto(Latitude: String, Longitude: String, DataInstalacao: String, Status: String): SensorData? {
+    suspend fun installConjunto(Latitude: String, Longitude: String): Boolean {
         return withContext(Dispatchers.IO) {
             try {
+                val areaData = AreaManager.AreaCriada
+                if (areaData == null) {
+                    Log.e("installConjunto", "⚠️ Nenhuma área foi encontrada!")
+                    return@withContext false
+                }
+
                 val requestData = InstallConjuntoRequest(
-                    Latitude = Latitude,
-                    Longitude = Longitude,
-                    DataInstalacao = DataInstalacao,
-                    Status = Status
+                    area_id = areaData.id,
+                    latitude = Latitude,
+                    longitude = Longitude
                 )
 
                 val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(requestData))
@@ -289,27 +276,10 @@ class BaseDadosManager(private var context: Context) {
 
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
+
                     if (apiResponse != null && apiResponse.success) {
-                        val encryptedSensorData =
-                            apiResponse.data?.toString() // Garante que seja uma String
-
-                        Log.d(
-                            "installConjunto",
-                            "Dados encriptados recebidos: $encryptedSensorData"
-                        )
-
-                        // Verifica se os dados não são nulos ou vazios
-                        if (encryptedSensorData.isNullOrBlank()) {
-                            Log.e(
-                                "installConjunto",
-                                "Os dados recebidos são inválidos para descriptografia!"
-                            )
-                            return@withContext null
-                        }
-
-                        // Descriptografar os dados e convertê-los para SensorData
-                        val decryptedData = encryptionUtils.decryptAES(encryptedSensorData)
-                        return@withContext Json.decodeFromString<SensorData>(decryptedData)
+                        Log.d("installConjunto", "✅ Conjunto instalado com sucesso!")
+                        return@withContext true
                     } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(
@@ -318,7 +288,7 @@ class BaseDadosManager(private var context: Context) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        null
+                        return@withContext false
                     }
                 } else {
                     val errorMessage = when (response.code()) {
@@ -328,15 +298,14 @@ class BaseDadosManager(private var context: Context) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                     }
-                    null
+                    return@withContext false
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, "Erro: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
-                null
+                return@withContext false
             }
         }
     }
@@ -454,4 +423,9 @@ class BaseDadosManager(private var context: Context) {
             false
         }
     }
+
+    object AreaManager {
+        var AreaCriada: AreaData? = null
+    }
+
 }

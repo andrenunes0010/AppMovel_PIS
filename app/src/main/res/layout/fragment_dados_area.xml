@@ -81,6 +81,19 @@
             android:fontFamily="@font/poppins_medium"/>
 
         <EditText
+            android:id="@+id/etTipoArea"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/login_background"
+            android:hint="Tipo de area"
+            android:paddingHorizontal="16dp"
+            android:layout_marginTop="13dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#686767"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_medium"/>
+
+        <EditText
             android:id="@+id/etTamanho"
             android:layout_width="match_parent"
             android:layout_height="55dp"
