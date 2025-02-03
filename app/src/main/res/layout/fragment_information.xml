@@ -14,91 +14,81 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center"
             android:padding="16dp">
 
-            <!-- Drone Header -->
             <TextView
                 android:id="@+id/droneHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Sensor Sylvanus"
+                android:text="Informação"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="26sp"
                 android:textStyle="bold" />
 
-            <!-- Drone Image -->
-            <ImageView
-                android:id="@+id/droneImage"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/forest" />
+                android:layout_height="3dp"
+                android:background="@color/black"
+                android:layout_marginBottom="5dp"/>
 
-            <!-- Drone Title -->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/logo_sylvanus_foreground"
+                android:layout_marginBottom="5dp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/black"
+                android:layout_marginBottom="5dp"/>
+
             <TextView
                 android:id="@+id/droneTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Fauget T40X"
+                android:text="Contactos"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"/>
+
+            <!-- Drone Description -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Telemóvel: 935 468 878"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Drone Description -->
             <TextView
-                android:id="@+id/SystemDescription1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:gravity="center"
+                android:text="Email: Sylvanusajuda@email.com"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <!-- Thumbnails -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/thumbImage1"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="60dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/teste2" />
-
-                <ImageView
-                    android:id="@+id/thumbImage2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/teste3" />
-            </LinearLayout>
 
             <TextView
-                android:id="@+id/SystemDescription2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:gravity="center"
+                android:text="Endereço: Campus do IPS - Estefanilha, 2910-761 Setúbal"
+                android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/SystemDescription3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                android:textColor="@color/black"
-                android:textSize="14sp" />
 
         </LinearLayout>
     </ScrollView>
