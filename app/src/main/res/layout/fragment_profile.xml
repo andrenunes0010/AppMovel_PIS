@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
     <LinearLayout
@@ -16,7 +17,8 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/ic_profile_picture"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            app:tint="@color/black" />
 
 
         <LinearLayout
@@ -55,7 +57,7 @@
             android:text="{Email}"
             android:fontFamily="@font/poppins_medium"
             android:textSize="14sp"
-            android:textColor="#757575"
+            android:textColor="@color/grey"
             android:textStyle="bold"
             android:layout_marginBottom="10dp" />
 
@@ -92,7 +94,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_password"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -101,12 +104,13 @@
                 android:text="Mudar Palavra-passe"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right"/>
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/black"/>
         </LinearLayout>
 
         <!-- Notifications Option -->
@@ -127,21 +131,23 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_notification"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Notificações"
+                android:text="Notificações (Demonstração)"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/black"/>
         </LinearLayout>
 
         <!-- Settings Option -->
@@ -163,7 +169,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_settings"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -172,12 +179,13 @@
                 android:text="Definições"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/black"/>
         </LinearLayout>
     </LinearLayout>
 

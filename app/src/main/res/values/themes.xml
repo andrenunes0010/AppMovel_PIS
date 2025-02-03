@@ -1,9 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AppMovel_PIS" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+<resources>
+    <style name="Theme.AppMovel_PIS" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Status Bar Color -->
+        <item name="android:statusBarColor">@color/green_navbar</item>
 
-    <style name="Theme.AppMovel_PIS" parent="Base.Theme.AppMovel_PIS" />
+        <!-- Navigation Bar Color -->
+        <item name="android:navigationBarColor">#FF000000</item>
+    </style>
 </resources>

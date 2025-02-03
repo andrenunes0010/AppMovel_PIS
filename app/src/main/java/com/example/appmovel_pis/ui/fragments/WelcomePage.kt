@@ -37,7 +37,6 @@ class WelcomePageFragment : Fragment() {
         // Pega os componentes desejados pelo seus IDS
         val descriptionText = view.findViewById<TextView>(R.id.DescriptionText)
         val getStartedBtn = view.findViewById<Button>(R.id.GetStartedBtn)
-        val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
 
         ChangeFragment.setupImageViewClickListener(

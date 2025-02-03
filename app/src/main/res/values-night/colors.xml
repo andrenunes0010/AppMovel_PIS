@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#474747</color>  <!-- #1e1e1e -->
+    <color name="grey">#6D6B6B</color>
+    <color name="drawable_background">#1e1e1e</color>
+    <color name="writing">#b0b0b0</color>
+    <color name="button_text">#FF000000</color>
+    <color name="green_background">#4E734E</color>
+    <color name="green_navbar">#213321</color>
+</resources>

@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="10dp">
@@ -26,7 +27,8 @@
                 android:layout_height="14dp"
                 android:layout_marginEnd="7dp"
                 android:scaleX="-1"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,7 +56,6 @@
         android:layout_marginTop="80dp">
 
         <LinearLayout
-            android:id="@+id/LayoutUno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -67,7 +68,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_warning"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -76,17 +78,17 @@
                 android:text="Alerta no Sensor Delta-435343"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:visibility="visible"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_exclamation" />
+                android:src="@drawable/ic_exclamation"
+                app:tint="@color/black"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LayoutDos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -100,7 +102,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_sucess"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -109,7 +112,7 @@
                 android:text="Sensor Delta-435343 instalado"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:visibility="invisible"
@@ -119,7 +122,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LayoutDos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -133,7 +135,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_deactivated"
-                android:layout_marginEnd="16dp" />
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -142,7 +145,7 @@
                 android:text="Sensor Delta-435343 desativado"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:visibility="invisible"

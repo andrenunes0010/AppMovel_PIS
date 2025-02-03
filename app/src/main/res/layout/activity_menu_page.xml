@@ -86,7 +86,7 @@
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="@color/green_background"
+        android:background="@color/green_navbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -99,7 +99,8 @@
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="5dp"
             android:src="@drawable/ic_sensor"
-            android:contentDescription="Home" />
+            android:contentDescription="Home"
+            app:tint="@color/black"/>
 
 
         <ImageView
@@ -112,7 +113,8 @@
             android:layout_marginStart="35dp"
             android:layout_marginBottom="5dp"
             android:visibility="gone"
-            android:contentDescription="Grid" />
+            android:contentDescription="Grid"
+            app:tint="@color/black"/>
 
         <ImageView
             android:id="@+id/iconProfileImageView"
@@ -123,7 +125,8 @@
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="5dp"
-            android:contentDescription="User" />
+            android:contentDescription="User"
+            app:tint="@color/black"/>
 
         <ImageView
             android:id="@+id/iconInformationImageView"
@@ -133,7 +136,8 @@
             android:src="@drawable/ic_info"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="5dp"
-            android:contentDescription="Menu" />
+            android:contentDescription="Menu"
+            app:tint="@color/black"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

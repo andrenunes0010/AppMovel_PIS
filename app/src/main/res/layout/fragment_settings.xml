@@ -24,7 +24,8 @@
                 android:layout_height="14dp"
                 android:layout_marginEnd="7dp"
                 android:scaleX="-1"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,76 +54,6 @@
 
         <!-- Settings Option -->
         <LinearLayout
-            android:id="@+id/LayoutUno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/fragment_background_thin"
-            android:elevation="4dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="15dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_info"
-                android:layout_marginEnd="16dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Uno"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="#000000" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
-        </LinearLayout>
-
-        <!-- Settings Option -->
-        <LinearLayout
-            android:id="@+id/LayoutDos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/fragment_background_thin"
-            android:elevation="4dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="15dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_sensor"
-                android:layout_marginEnd="16dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Dos"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="#000000" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
-        </LinearLayout>
-
-        <!-- Settings Option -->
-        <LinearLayout
             android:id="@+id/LayoutTres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,22 +69,25 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_password"
-                android:layout_marginEnd="16dp" />
+                android:src="@drawable/ic_dark_mode"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tres"
+                android:text="Dark Mode"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="16sp"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_right" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/ModeSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:thumbTint="@drawable/switch_thumb_color"
+                app:trackTint="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>

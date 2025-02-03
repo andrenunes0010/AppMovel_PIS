@@ -29,7 +29,6 @@ class NotificationsFragment : Fragment() {
 
         // Pega os componentes desejados pelo seus IDS
         val goBackButton: View = view.findViewById(R.id.goBackBTN)
-        val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de voltar para o Perfil

@@ -46,7 +46,6 @@ class ChangePasswordFragment : Fragment() {
         etConfirmPassword = view.findViewById(R.id.et_confirm_password)
 
         val goBackButton: View = view.findViewById(R.id.goBackBTN)
-        val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
 
         ChangeFragment.setupImageViewClickListener(

@@ -35,7 +35,6 @@ class ProfileFragment : Fragment() {
         val LayoutChangePassword = view.findViewById<LinearLayout>(R.id.LayoutPassword)
         val LayoutNotifications = view.findViewById<LinearLayout>(R.id.LayoutNotifications)
         val LayoutSettings = view.findViewById<LinearLayout>(R.id.LayoutSettings)
-        val scrollView = requireActivity().findViewById<View>(R.id.scrollView)
         val fragmentManager = requireActivity().supportFragmentManager
 
         // Define a função do ScrollView para a aba de Definições
@@ -98,12 +97,10 @@ class ProfileFragment : Fragment() {
 
             } else if (user.tipo == "Técnico") {
                 Userrole.setImageResource(R.drawable.ic_install)
-                Userrole.setColorFilter(ContextCompat.getColor(requireContext(), R.color.tecnico))
                 Userrole.visibility = View.VISIBLE
 
             } else if (user.tipo == "Administrador") {
                 Userrole.setImageResource(R.drawable.ic_admin)
-                Userrole.setColorFilter(ContextCompat.getColor(requireContext(), R.color.admin))
                 Userrole.visibility = View.VISIBLE
             }
         } ?: run {

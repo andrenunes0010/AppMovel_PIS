@@ -1,5 +1,7 @@
 package com.example.appmovel_pis.ui.fragments
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.Gravity
@@ -26,8 +28,6 @@ class SensorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_sensores, container, false)
     }
 
@@ -38,14 +38,13 @@ class SensorFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             val baseDadosManager = BaseDadosManager(requireContext())
-
             val areas = baseDadosManager.getAreas()
 
             if (areas != null) {
                 for (area in areas) {
                     val tableRow = TableRow(requireContext())
 
-                    // Criar TextView para o Nome da Área
+                    // Create TextView for Sensor Name
                     val nomeTextView = TextView(requireContext()).apply {
                         text = area.nome
                         setPadding(8, 8, 8, 8)
@@ -53,21 +52,17 @@ class SensorFragment : Fragment() {
                         setTypeface(ResourcesCompat.getFont(requireContext(), R.font.poppins_medium))
                     }
 
-                    // Criar TextView para o Status (indicador visual)
+                    // Create TextView for Status (Visual Indicator)
                     val statusTextView = TextView(requireContext()).apply {
                         text = if (area.status == "Ativo") "🟢" else "🔴"
                         setPadding(8, 8, 8, 8)
                         gravity = Gravity.CENTER
                     }
 
-                    // Aqui, pegamos a latitude e longitude da área
-                    val latitude = area.latitude // Supondo que 'latitude' seja um campo da sua classe AreaData
-                    val longitude = area.longitude // Supondo que 'longitude' seja um campo da sua classe AreaData
+                    // Get location name from latitude & longitude
+                    val localizacao = getNomeCidade(area.latitude, area.longitude)
 
-                    // Obter o nome da cidade com base nas coordenadas
-                    val localizacao = getNomeCidade(latitude, longitude)
-
-                    // Criar TextView para a Localização
+                    // Create TextView for Location
                     val localizacaoTextView = TextView(requireContext()).apply {
                         text = localizacao
                         setPadding(8, 8, 8, 8)
@@ -76,12 +71,17 @@ class SensorFragment : Fragment() {
                         gravity = Gravity.CENTER
                     }
 
-                    // Adicionar os TextViews à TableRow
+                    // Add views to TableRow
                     tableRow.addView(nomeTextView)
                     tableRow.addView(statusTextView)
                     tableRow.addView(localizacaoTextView)
 
-                    // Adicionar TableRow ao TableLayout
+                    // Make row clickable
+                    tableRow.setOnClickListener {
+                        showSensorPopup(area.nome, area.status, localizacao)
+                    }
+
+                    // Add TableRow to TableLayout
                     tableLayout.addView(tableRow)
                 }
             } else {
@@ -90,17 +90,27 @@ class SensorFragment : Fragment() {
         }
     }
 
-    // Função para obter o nome da cidade a partir de latitude e longitude
-    fun getNomeCidade(latitude: Double, longitude: Double): String {
+    // Function to show popup dialog
+    @SuppressLint("MissingInflatedId")
+    private fun showSensorPopup(nome: String, status: String, localizacao: String) {
+        val dialog = Dialog(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.popup_sensor_info, null)
+
+        view.findViewById<TextView>(R.id.sensorIdText).text = "ID: $nome"
+        view.findViewById<TextView>(R.id.sensorStateText).text = "Estado: $status"
+        view.findViewById<TextView>(R.id.sensorLocationText).text = "Localização: $localizacao"
+
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
+    // Function to get city name from latitude & longitude
+    private fun getNomeCidade(latitude: Double, longitude: Double): String {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
-            // Realiza a busca reversa para obter o endereço
             val addresses: MutableList<Address>? = geocoder.getFromLocation(latitude, longitude, 1)
-
-            if (addresses != null && addresses.isNotEmpty()) {
-                val address = addresses[0]
-                // Aqui você pode retornar o nome da cidade
-                return address.locality ?: "Localização desconhecida"
+            if (!addresses.isNullOrEmpty()) {
+                return addresses[0].locality ?: "Localização desconhecida"
             }
         } catch (e: Exception) {
             e.printStackTrace()
