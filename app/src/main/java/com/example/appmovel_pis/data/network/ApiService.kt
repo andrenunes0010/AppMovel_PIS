@@ -47,7 +47,8 @@ data class criarUtilizadorRequest(
     val nome: String,
     val email: String,
     val password: String,
-    val tipo: String
+    val tipo: String,
+    val telemovel: String
 )
 
 @Serializable
@@ -69,7 +70,7 @@ interface ApiService {
     @POST("/api/v1/conjuntos")
     suspend fun installConjunto(@Body request: EncryptedRequest): Response<ApiResponse>
 
-    @POST("/api/v1/users")
+    @POST("/api/v1/perfil/create")
     suspend fun criarUtilizador(@Body request: EncryptedRequest): Response<ApiResponse>
 
     @PUT("/api/v1/perfil/password")

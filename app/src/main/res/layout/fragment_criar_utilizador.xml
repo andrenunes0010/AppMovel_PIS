@@ -85,6 +85,19 @@
             android:layout_marginTop="10dp"/>
 
         <EditText
+            android:id="@+id/etTelemovel"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/login_background"
+            android:hint="Número de telemóvel"
+            android:paddingHorizontal="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#686767"
+            android:inputType="textEmailAddress"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="55dp"

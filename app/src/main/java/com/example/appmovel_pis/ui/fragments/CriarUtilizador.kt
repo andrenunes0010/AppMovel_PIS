@@ -24,6 +24,7 @@ class CriarUtilizadorFragment : Fragment() {
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var etConfirmarPassword: EditText
+    private lateinit var etTelemovel: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +41,7 @@ class CriarUtilizadorFragment : Fragment() {
         etEmail = view.findViewById(R.id.etEmail)
         etPassword = view.findViewById(R.id.etPassword)
         etConfirmarPassword = view.findViewById(R.id.etConfirmarPassword)
+        etTelemovel = view.findViewById(R.id.etTelemovel)
         val btnSubmeter = view.findViewById<Button>(R.id.btnSubmeter)
         ClickAnimation.applyTouchAnimation(btnSubmeter, requireContext())
         var itemSelecionado = ""
@@ -61,30 +63,44 @@ class CriarUtilizadorFragment : Fragment() {
             }
         }
 
-        btnSubmeter.setOnClickListener{
+        btnSubmeter.setOnClickListener {
             val nome = etNome.text.toString()
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
             val confirmarPassword = etConfirmarPassword.text.toString()
-            if (nome.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarPassword.isEmpty() || itemSelecionado.isEmpty()) {
-                Toast.makeText(requireContext(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
-            } else {
-                if (password != confirmarPassword) {
-                    Toast.makeText(requireContext(), "As passwords não coincidem!", Toast.LENGTH_SHORT).show()
-                } else {
-                    val baseDadosManager = BaseDadosManager(requireContext())
+            val telemovel = etTelemovel.text.toString()
 
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        val result = baseDadosManager.criarUtilizador(nome, email, password, itemSelecionado)
-                        if (result != null) {
-                            Toast.makeText(requireContext(), "Utilizador criado com sucesso!", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(requireContext(), "Erro ao criar utilizador!", Toast.LENGTH_SHORT).show()
-                        }
+            if (nome.isEmpty() || email.isEmpty() || password.isEmpty() || confirmarPassword.isEmpty() || itemSelecionado.isEmpty() || telemovel.isEmpty()) {
+                Toast.makeText(requireContext(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+            } else if (!isValidPassword(password)) {
+                Toast.makeText(requireContext(), "A senha deve ter pelo menos 6 caracteres e um caractere especial!", Toast.LENGTH_SHORT).show()
+            } else if (!isValidPhoneNumber(telemovel)) {
+                Toast.makeText(requireContext(), "Número de telemóvel inválido!", Toast.LENGTH_SHORT).show()
+            } else if (password == confirmarPassword) {
+                val baseDadosManager = BaseDadosManager(requireContext())
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val result = baseDadosManager.criarUtilizador(nome, email, password, itemSelecionado, telemovel)
+                    if (result == null) {
+                        Toast.makeText(requireContext(), "Utilizador criado com sucesso!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Erro ao criar utilizador!", Toast.LENGTH_SHORT).show()
                     }
                 }
+            } else {
+                Toast.makeText(requireContext(), "As passwords não coincidem!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    fun isValidPassword(password: String): Boolean {
+        val specialCharPattern = Regex(".*[!@#\$%^&*(),.?\":{}|<>].*")
+        return password.length >= 6 && specialCharPattern.containsMatchIn(password)
+    }
+
+    fun isValidPhoneNumber(phoneNumber: String): Boolean {
+        // Expressão regular para validar um número de telefone com 9 dígitos
+        val phonePattern = Regex("^[9][0-9]{8}$")
+        return phonePattern.matches(phoneNumber)
+    }
 }

@@ -294,11 +294,11 @@ class BaseDadosManager(private var context: Context) {
         }
     }
 
-    suspend fun criarUtilizador(nome: String, email: String, password: String, tipo: String): ApiResponse? {
+    suspend fun criarUtilizador(nome: String, email: String, password: String, tipo: String, telemovel: String): ApiResponse? {
         return withContext(Dispatchers.IO) {
             try {
                 // Criar o objeto de requisição
-                val requestData = criarUtilizadorRequest(nome, email, password, tipo)
+                val requestData = criarUtilizadorRequest(nome, email, password, tipo, telemovel)
 
                 // Criptografar os dados antes de enviar
                 val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(requestData))
