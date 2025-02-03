@@ -1,14 +1,15 @@
 package com.example.appmovel_pis.data.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class AreaData(
-    val id: Int,
-    val nome: String,
-    val tamanho: String,
-    val email: String,
+    @SerialName("conjunto_id") val id: Int,
     val status: String,
+    val tamanho: String? = null,  // Tornar opcional
+    val email: String? = null,     // Tornar opcional
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    @SerialName("area_nome") val nome: String
 )

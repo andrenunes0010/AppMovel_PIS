@@ -1,12 +1,15 @@
 package com.example.appmovel_pis.data.network
 
 import com.example.appmovel_pis.data.model.ApiResponse
+import com.example.appmovel_pis.data.model.AreaData
 import kotlinx.serialization.Serializable
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 // Modelo para a requisição de login
 @Serializable
@@ -47,6 +50,11 @@ data class criarUtilizadorRequest(
     val tipo: String
 )
 
+@Serializable
+data class AreasResponse(
+    val conjuntosResults: List<AreaData>
+)
+
 data class EncryptedRequest(
     val data: String
 )
@@ -67,6 +75,7 @@ interface ApiService {
     @PUT("/api/v1/perfil/password")
     suspend fun mudarPassword(@Body request: EncryptedRequest): Response<ApiResponse>
 
-    @GET("/api/v1/conjuntos")
-    suspend fun getAreas(): Response<List<ApiResponse>>
+    @GET("/api/v1/conjuntos/{userId}")
+    suspend fun getAreas(@Path("userId") userId: Int): Response<ApiResponse>
+
 }

@@ -17,10 +17,12 @@ import android.util.Base64
 import com.example.appmovel_pis.data.model.ApiResponse
 import com.example.appmovel_pis.data.model.AreaData
 import com.example.appmovel_pis.data.model.SensorData
+import com.example.appmovel_pis.data.network.AreasResponse
 import com.example.appmovel_pis.data.network.InstallAreaRequest
 import com.example.appmovel_pis.data.network.InstallConjuntoRequest
 import com.example.appmovel_pis.data.network.criarUtilizadorRequest
 import com.example.appmovel_pis.data.network.mudarPassword
+import kotlinx.serialization.SerializationException
 
 class BaseDadosManager(private var context: Context) {
 
@@ -32,16 +34,11 @@ class BaseDadosManager(private var context: Context) {
         return withContext(Dispatchers.IO) {
             try {
                 // Encriptar os dados de login
-                val encryptedData =
-                    encryptionUtils.encryptAES(Json.encodeToString(LoginRequest(email, senha)))
+                val encryptedData = encryptionUtils.encryptAES(Json.encodeToString(LoginRequest(email, senha)))
                 val encryptedRequest = EncryptedRequest(encryptedData)
-
-                Log.d("Autenticar", "Dados encriptados: $encryptedData")
 
                 // Enviar a requisição com dados encriptados
                 val response = RetrofitClient.apiService(context).login(encryptedRequest)
-
-                Log.d("Autenticar", "Resposta do servidor: ${response.body()}")
 
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
@@ -49,22 +46,13 @@ class BaseDadosManager(private var context: Context) {
                     if (apiResponse != null && apiResponse.success) {
                         // Validar os dados recebidos antes de tentar descriptografar
                         val encryptedResponseData = apiResponse.data?.toString() ?: ""
-                        Log.d(
-                            "Autenticar",
-                            "Dados encriptados recebidos do servidor: $encryptedResponseData"
-                        )
 
                         if (encryptedResponseData.isBlank() || !isBase64(encryptedResponseData)) {
-                            Log.e(
-                                "Autenticar",
-                                "Os dados recebidos são inválidos para descriptografia!"
-                            )
                             return@withContext null
                         }
 
                         // Descriptografar os dados recebidos
                         val decryptedData = encryptionUtils.decryptAES(encryptedResponseData)
-                        Log.d("Autenticar", "Dados descriptografados: $decryptedData")
 
                         // Criar objeto UserData
                         val userData = Json.decodeFromString<UserData>(decryptedData)
@@ -114,12 +102,8 @@ class BaseDadosManager(private var context: Context) {
     }
 
     suspend fun alterarPassword(currentPassword: String, newPassword: String): Boolean {
-        val sessionManager = SessionManager(context)
-
         return withContext(Dispatchers.IO) {
             try {
-                val user = sessionManager.getUser() // Recupera os dados do usuário logado
-
                 // Encriptar os dados para a API
                 val encryptedData = encryptionUtils.encryptAES(
                     Json.encodeToString(mudarPassword(currentPassword, newPassword))
@@ -372,44 +356,58 @@ class BaseDadosManager(private var context: Context) {
 
     suspend fun getAreas(): List<AreaData>? {
         return withContext(Dispatchers.IO) {
+            var decryptedData = ""
             try {
-                // Realizando a requisição para obter as áreas
-                val response = RetrofitClient.apiService(context).getAreas()
+                val sessionManager = SessionManager(context)
+                val user = sessionManager.getUser()
+                val userId = user?.id ?: return@withContext null
 
-                // Verificando se a resposta foi bem-sucedida
+                Log.d("getAreas", "📡 Buscando áreas para o usuário ID: $userId")
+
+                val response = RetrofitClient.apiService(context).getAreas(userId)
+
                 if (response.isSuccessful) {
                     val apiResponse = response.body()
 
-                    // Verificando se a resposta da API está vazia ou nula
-                    if (apiResponse.isNullOrEmpty()) {
-                        Log.e("getAreas", "Nenhuma área encontrada")
+                    // Verificando o corpo da resposta
+                    Log.d("getAreas", "🔵 Corpo da resposta (apiResponse): $apiResponse")
+
+                    if (apiResponse != null && apiResponse.success) {
+                        val encryptedData = apiResponse.data?.toString() ?: ""
+                        Log.d("getAreas", "🔹 Dados criptografados: $encryptedData")
+
+                        if (encryptedData.isBlank() || !isBase64(encryptedData)) {
+                            Log.e("getAreas", "⚠️ Dados criptografados inválidos ou ausentes!")
+                            return@withContext null
+                        }
+
+                        decryptedData = encryptionUtils.decryptAES(encryptedData)
+                        Log.d("getAreas", "🔹 Dados descriptografados: $decryptedData")
+                    } else {
+                        Log.e("getAreas", "⚠️ Erro na resposta da API: ${apiResponse?.message}")
                         return@withContext null
                     }
-
-                    // Pegando os dados encriptados do primeiro item (supondo que seja uma lista)
-                    val encryptedData = apiResponse[0].data?.toString()
-
-                    // Verificando se os dados encriptados são válidos
-                    if (encryptedData.isNullOrBlank()) {
-                        Log.e("getAreas", "Os dados recebidos são inválidos para descriptografia!")
-                        return@withContext null
-                    }
-
-                    // Descriptografando os dados recebidos
-                    val decryptedData = encryptionUtils.decryptAES(encryptedData)
-
-                    // Log dos dados descriptografados (para fins de depuração)
-                    Log.d("getAreas", "🔹 Dados descriptografados: $decryptedData")
-
-                    // Convertendo os dados descriptografados de JSON para Lista de AreaData
-                    return@withContext Json.decodeFromString<List<AreaData>>(decryptedData)
                 } else {
-                    Log.e("getAreas", "Erro: ${response.errorBody()?.string()}")
+                    Log.e("getAreas", "⚠️ Erro na resposta HTTP: ${response.code()}")
                     return@withContext null
                 }
+
+                // Agora, esperamos uma lista de objetos
+                return@withContext try {
+                    val areasList = Json.decodeFromString<List<AreaData>>(decryptedData)
+                    areasList
+                } catch (e: SerializationException) {
+                    Log.e("getAreas", "Erro de serialização ao decodificar JSON: ${e.localizedMessage}")
+                    null
+                } catch (e: Exception) {
+                    Log.e("getAreas", "Erro ao decodificar JSON: ${e.localizedMessage}")
+                    null
+                }
+
             } catch (e: Exception) {
-                Log.e("getAreas", "Erro ao buscar áreas: ${e.localizedMessage}")
-                return@withContext null
+                Log.e("getAreas", "🚨 Erro ao buscar áreas: ${e.localizedMessage}")
+                Log.e("getAreas", "📌 JSON recebido: $decryptedData")
+                null
             }
         }
     }
@@ -427,5 +425,4 @@ class BaseDadosManager(private var context: Context) {
     object AreaManager {
         var AreaCriada: AreaData? = null
     }
-
 }
