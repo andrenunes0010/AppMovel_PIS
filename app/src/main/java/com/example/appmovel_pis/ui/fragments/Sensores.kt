@@ -78,7 +78,7 @@ class SensorFragment : Fragment() {
 
                     // Make row clickable
                     tableRow.setOnClickListener {
-                        showSensorPopup(area.nome, area.status, localizacao)
+                        showSensorPopup(area.nome, area.status, localizacao, area.latitude, area.longitude, area.tamanho)
                     }
 
                     // Add TableRow to TableLayout
@@ -92,13 +92,17 @@ class SensorFragment : Fragment() {
 
     // Function to show popup dialog
     @SuppressLint("MissingInflatedId")
-    private fun showSensorPopup(nome: String, status: String, localizacao: String) {
+    private fun showSensorPopup(nome: String, status: String, localizacao: String, latitude: Double, longitude: Double, tamanho: String?) {
         val dialog = Dialog(requireContext())
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.popup_sensor_info, null)
 
         view.findViewById<TextView>(R.id.sensorIdText).text = "ID: $nome"
         view.findViewById<TextView>(R.id.sensorStateText).text = "Estado: $status"
         view.findViewById<TextView>(R.id.sensorLocationText).text = "Localização: $localizacao"
+        view.findViewById<TextView>(R.id.sensorLatitudeText).text = "Latitude: $latitude"
+        view.findViewById<TextView>(R.id.sensorLongitudeText).text = "Longitude: $longitude"
+        view.findViewById<TextView>(R.id.sensorTamanhoText).text = "Tamanho: $tamanho"
+
 
         dialog.setContentView(view)
         dialog.show()

@@ -42,7 +42,37 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:fontFamily="@font/poppins_medium"
-            android:text="Location"/>
+            android:text="Location"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/sensorLatitudeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Latitude"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/sensorLongitudeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Longitude"
+            android:paddingBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/sensorTamanhoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Tamanho"/>
 
     </LinearLayout>
 
